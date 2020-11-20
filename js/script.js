@@ -1,6 +1,6 @@
 "use strict";
 // - money - любое число “Доход за месяц”,
-let money = 30;
+let money = 30000;
 // - income - строка с дополнительными доходом
 let income = 'Продажа шоколада';
 //  - addExpenses - строка с перечислением дополнительных расходов через запятую
@@ -30,7 +30,7 @@ console.log(addExpenses.split(', '));
 
 
 //  - Объявить переменную budgetDay и присвоить дневной бюджет (доход за месяц / 30)
-let budgetDay = 30
+let budgetDay = money / 30;
 
 // - Вывести в консоль budgetDay
 console.log( budgetDay );
