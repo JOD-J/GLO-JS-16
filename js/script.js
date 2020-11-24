@@ -120,33 +120,6 @@ let amount2 = userAmount2;
 console.log( 'amount2:', amount2 );
 
 
-// задание 6 я не понимаю учитывая обязательные расходы по этому я взял переменные amount1 amount2 так как я считаю что это расходы 
-
-// 6) задание - Вычислить бюджет на месяц, учитывая обязательные расходы, сохранить в новую переменную budgetMonth и вывести результат в консоль
-// создаем переменную let имя переменной budgetMonth значение money(ежемесечный доход user) - amount1(расход на статью1) - amount2(расход на статью2)
-let budgetMonth = money - amount1 - amount2 ;
-// выводим в консоль переменную budgetMonth узнаем бюджет на месяц
-console.log( 'budgetMonth:', budgetMonth );
-
-
-// 7) задание - Зная budgetMonth, посчитать за сколько месяцев будет достигнута цель mission, вывести в консоль, окоругляя в большую сторону (методы объекта Math в помощь)
-// присваеваем переменной period значение mission(цель накопления денег) / budgetMonth(бюджет на месяц)
-period = mission / budgetMonth;
-// выводим в консоль переменню period узнаем сколько месяцев копить 
-console.log( 'period:', period ) ;
-// выводим в консоль переменню period через метод Math.ceil(окоругляя в большую сторону) узнаем целое значение
-console.log( 'period:', Math.ceil(period) );
-
-
-// 8) задание - Поправить budgetDay учитывая бюджет на месяц, а не месячный доход. Вывести в консоль  округлив в меньшую сторону 
-// присваеваем переменной budgetDay значение budgetMonth (бюджет на месяц) / 30
-budgetDay = budgetMonth / 30;
-// выводим в консоль переменню budgetDay узнаем ежедневный доход
-console.log( 'budgetDay:', budgetDay ) ;
-// выводим в консоль переменню budgetDay через метод Math.floor(окоругляя в меньшую сторону) узнаем целое значение
-console.log( 'budgetDay:', Math.floor(budgetDay) );
-
-
 // 9) задание - Написать конструкцию условий (расчеты приведены в рублях)	
 // Если budgetDay больше 1200, то “У вас высокий уровень дохода”
 // Если budgetDay больше 600 и меньше 1200, то сообщение “У вас средний уровень дохода”
@@ -154,12 +127,71 @@ console.log( 'budgetDay:', Math.floor(budgetDay) );
 // Если отрицательное значение то вывести “Что то пошло не так”
 // Учесть варианты 0, 600 и 1200 (к какому уровню не важно)
 //  создаем условия if для переменной budgetDay в () у нас выполняеться услвоия если оно истина-true то в консоль выведиться соответствующей текст если услвоие ложь-false то будет выполняться следующий участок кода.
-if (  budgetDay >= 1200 ){
-	console.log( 'У вас высокий уровень дохода' );
-}	else if( budgetDay < 1200, budgetDay >= 600 ){
-	console.log( 'У вас средний уровень дохода' );
-}	else if( budgetDay < 600, budgetDay >= 0  ){
-	console.log( 'К сожалению у вас уровень дохода ниже среднего' );
-}	else {
-	console.log( 'Что то пошло не так' );
-}
+
+let getStatusIncome = function( budgetDay ){
+	if (  budgetDay >= 1200 ){
+		console.log( 'У вас высокий уровень дохода' );
+	}	else if( budgetDay < 1200, budgetDay >= 600 ){
+		console.log( 'У вас средний уровень дохода' );
+	}	else if( budgetDay < 600, budgetDay >= 0  ){
+		console.log( 'К сожалению у вас уровень дохода ниже среднего' );
+	}	else {
+		console.log( 'Что то пошло не так' );
+	}
+};
+
+
+// lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04lesson04
+
+
+
+// 1) Объявить функцию getExpensesMonth. Функция возвращает сумму всех обязательных расходов за месяц
+// mission = 800000;
+// money = '500000';
+// amount1 = '3424';
+// amount2 = '12321';
+let getExpensesMonth = function ( amount1, amount2 ){
+	return Number( amount1 ) + Number( amount2 );
+};
+getExpensesMonth( amount1, amount2 );
+console.log( getExpensesMonth( amount1, amount2 ) );
+
+
+// 2) Объявить функцию getAccumulatedMonth. Функция возвращает Накопления за месяц (Доходы минус расходы)
+let getAccumulatedMonth = function ( money,  getExpensesMonth ){
+	return Number( money ) - Number( getExpensesMonth );
+};
+getAccumulatedMonth( money, getExpensesMonth( amount1, amount2 ) );
+console.log( getAccumulatedMonth( money, getExpensesMonth( amount1, amount2) ) );
+
+
+// 3) Объявить переменную accumulatedMonth и присвоить ей результат вызова функции getAccumulatedMonth 
+let accumulatedMonth = getAccumulatedMonth( money, getExpensesMonth( amount1, amount2 ) ); 
+
+
+// 4) Объявить функцию getTargetMonth. Подсчитывает за какой период будет достигнута цель, зная результат месячного накопления (accumulatedMonth) и возвращает результат
+let getTargetMonth = function( mission, accumulatedMonth ) {
+	return mission / accumulatedMonth;
+};
+getTargetMonth( mission, accumulatedMonth );
+console.log( getTargetMonth(  mission, accumulatedMonth ));
+
+
+// 6) budgetDay высчитываем исходя из значения месячного накопления (accumulatedMonth)
+budgetDay = Math.ceil(accumulatedMonth / 30);
+console.log( budgetDay );
+
+// 7) Почистить консоль логи и добавить недостающие, должны остаться:
+//  - вызовы функции showTypeOf
+//  - Расходы за месяц вызов getExpensesMonth
+//  - Вывод возможных расходов в виде массива (addExpenses)
+//  - Cрок достижения цели в месяцах (результат вызова функции getTargetMonth) 
+//  - Бюджет на день (budgetDay)
+//  - вызов функции getStatusIncome
+
+console.clear( );
+console.log( 'расходы за месяц', getExpensesMonth( amount1, amount2 ), typeof getExpensesMonth( amount1, amount2 ) );
+console.log( 'возможные расходы', addExpenses.split(', '), typeof addExpenses );
+console.log( 'цель будет достигнута за ', getTargetMonth( mission, accumulatedMonth ), 'месяцев'  , typeof getTargetMonth( mission, accumulatedMonth ) );
+console.log( 'бюджет на день', budgetDay, typeof budgetDay );
+getStatusIncome();
