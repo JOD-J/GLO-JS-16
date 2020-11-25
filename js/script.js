@@ -65,27 +65,21 @@ console.log( budgetDay );
 
 // 2) задание - Спрашиваем у пользователя “Ваш месячный доход?” и результат сохраняем в переменную money
 // создаем переменную let имя переменной userMoney значение через методм prompt спрашиваем Ваш месячный доход?
-let userMoney = prompt( 'Ваш месячный доход?' );
-// присваеваем переменной с именнем money значение userMoney которое запишет в модальном окне пользователь 
-money = userMoney;
+money = prompt( 'Ваш месячный доход?' );
 // выводим в консоль переменную money проверяем присвоение значение userMoney
 console.log( 'money:', money );
 
 
 // 3) задание - Спросить у пользователя “Перечислите возможные расходы за рассчитываемый период через запятую” сохранить в переменную addExpenses (пример: "Квартплата, проездной, кредит")
 // создаем переменную let имя переменной userAddExpenses значение через методм prompt спрашиваем возможные расходы за рассчитываемый период
-let userAddExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
-// присваеваем переменной с именнем addExpenses значение userAddExpenses которое запишет в модальном окне пользователь 
-addExpenses = userAddExpenses;
+addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
 // выводим в консоль переменную addExpenses проверяем присвоение значение userAddExpenses
 console.log( 'addExpenses:', addExpenses );
 
 
 // 4) задание - Спросить у пользователя “Есть ли у вас депозит в банке?” и сохранить данные в переменной deposit (булево значение true/false)
 // создаем переменную let имя переменной userDeposit значение через методм confirm спрашиваем Есть ли у вас депозит в банке?
-let userDeposit = confirm( 'Есть ли у вас депозит в банке?' );
-// присваеваем переменной с именнем deposit значение userDeposit которое запишет в модальном окне пользователь 
-deposit = userDeposit;
+deposit = confirm( 'Есть ли у вас депозит в банке?' );
 // выводим в консоль переменную deposit проверяем присвоение значение userDeposit
 console.log( 'deposit:', deposit );
 
@@ -94,29 +88,24 @@ console.log( 'deposit:', deposit );
 // “Введите обязательную статью расходов?” (например expenses1, expenses2)
 // “Во сколько это обойдется?” (например amount1, amount2)
 // в итоге 4 вопроса и 4 разные переменных
-// создаем переменную let имя переменной userExpenses1 значение через методм prompt спрашиваем Введите обязательную статью расходов?
-let userExpenses1 = prompt( 'Введите обязательную статью расходов?' );
-// присваеваем переменной с именнем expenses1 значение userExpenses1 которое запишет в модальном окне пользователь 
-let expenses1 = userExpenses1;
-// выводим в консоль переменную expenses1 проверяем присвоение значение userExpenses1
+// создаем переменную let имя переменной expenses1 значение через методм prompt спрашиваем Введите обязательную статью расходов?
+let expenses1 = prompt( 'Введите обязательную статью расходов?' );
+// выводим в консоль переменную expenses1 проверяем присвоение значение 
 console.log( 'expenses1:', expenses1 );
-// создаем переменную let имя переменной userExpenses2 значение через методм prompt Введите обязательную статью расходов?
-let userExpenses2 = prompt( 'Введите обязательную статью расходов?' );
-// присваеваем переменной с именнем expenses2 значение userExpenses2 которое запишет в модальном окне пользователь 
-let expenses2 = userExpenses2;
-// выводим в консоль переменную expenses2 проверяем присвоение значение userExpenses2
+
+// создаем переменную let имя переменной expenses2 значение через методм prompt Введите обязательную статью расходов?
+let expenses2 = prompt( 'Введите обязательную статью расходов?' );
+// выводим в консоль переменную expenses2 проверяем присвоение значение 
 console.log( 'expenses2:', expenses2 );
-// создаем переменную let имя переменной userAmount1 значение через методм prompt спрашиваем Во сколько это обойдется?
-let userAmount1 = prompt( 'Во сколько это обойдется?' );
-// присваеваем переменной с именнем amount1 значение userAmount1 которое запишет в модальном окне пользователь 
-let amount1 = userAmount1;
-// выводим в консоль переменную amount1 проверяем присвоение значение userAmount1
+
+// создаем переменную let имя переменной amount1 значение через методм prompt спрашиваем Во сколько это обойдется?
+let amount1 = prompt( 'Во сколько это обойдется?' );
+// выводим в консоль переменную amount1 проверяем присвоение значение 
 console.log( 'amount1:', amount1 );
-// создаем переменную let имя переменной userAmount2 значение через методм prompt спрашиваем Во сколько это обойдется?
-let userAmount2 = prompt( 'Во сколько это обойдется?' );
-// присваеваем переменной с именнем amount2 значение userAmount2 которое запишет в модальном окне пользователь 
-let amount2 = userAmount2;
-// выводим в консоль переменную amount2 проверяем присвоение значение userAmount2
+
+// создаем переменную let имя переменной amount2 значение через методм prompt спрашиваем Во сколько это обойдется?
+let amount2 = prompt( 'Во сколько это обойдется?' );
+// выводим в консоль переменную amount2 проверяем присвоение значение 
 console.log( 'amount2:', amount2 );
 
 
@@ -147,13 +136,12 @@ let getStatusIncome = function( budgetDay ){
 
 // 1) Объявить функцию getExpensesMonth. Функция возвращает сумму всех обязательных расходов за месяц
 // mission = 800000;
-// money = '500000';
+// money = '50000';
 // amount1 = '3424';
 // amount2 = '12321';
 let getExpensesMonth = function ( amount1, amount2 ){
 	return Number( amount1 ) + Number( amount2 );
 };
-getExpensesMonth( amount1, amount2 );
 console.log( getExpensesMonth( amount1, amount2 ) );
 
 
@@ -161,7 +149,6 @@ console.log( getExpensesMonth( amount1, amount2 ) );
 let getAccumulatedMonth = function ( money,  getExpensesMonth ){
 	return Number( money ) - Number( getExpensesMonth );
 };
-getAccumulatedMonth( money, getExpensesMonth( amount1, amount2 ) );
 console.log( getAccumulatedMonth( money, getExpensesMonth( amount1, amount2) ) );
 
 
@@ -173,7 +160,6 @@ let accumulatedMonth = getAccumulatedMonth( money, getExpensesMonth( amount1, am
 let getTargetMonth = function( mission, accumulatedMonth ) {
 	return mission / accumulatedMonth;
 };
-getTargetMonth( mission, accumulatedMonth );
 console.log( getTargetMonth(  mission, accumulatedMonth ));
 
 
