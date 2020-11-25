@@ -21,14 +21,6 @@ let mission = 800000;
 let period = 6;
 
 
-// задание - Вывести в консоль тип данных значений переменных money, income, deposit;
-// выводим в консоль money через оператор typeof получаем тип данных 
-console.log( typeof money );
-// выводим в консоль income через оператор typeof получаем тип данных 
-console.log( typeof income );
-// выводим в консоль deposit через оператор typeof получаем тип данных 
-console.log( typeof deposit );
-
 
 // задание - Вывести в консоль длину строки addExpenses
 // выводим в консоль addExpenses через свойство length узнаем длину переменной 
@@ -167,6 +159,11 @@ console.log( getTargetMonth(  mission, accumulatedMonth ));
 budgetDay = Math.ceil(accumulatedMonth / 30);
 console.log( budgetDay );
 
+let showTypeOf = function(data){
+	console.log(data, typeof(data));
+};
+
+
 // 7) Почистить консоль логи и добавить недостающие, должны остаться:
 //  - вызовы функции showTypeOf
 //  - Расходы за месяц вызов getExpensesMonth
@@ -176,6 +173,9 @@ console.log( budgetDay );
 //  - вызов функции getStatusIncome
 
 console.clear( );
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
 console.log( 'расходы за месяц', getExpensesMonth( amount1, amount2 ), typeof getExpensesMonth( amount1, amount2 ) );
 console.log( 'возможные расходы', addExpenses.split(', '), typeof addExpenses );
 console.log( 'цель будет достигнута за ', getTargetMonth( mission, accumulatedMonth ), 'месяцев'  , typeof getTargetMonth( mission, accumulatedMonth ) );
