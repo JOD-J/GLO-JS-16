@@ -10,7 +10,8 @@ let money,
 	addExpenses = 'Телефон, Интернет, Комуналка',
 	deposit = true,
 	mission = 800000,
-	period = 6;
+	period = 6,
+	expensesAmount = 0;
 
 console.log(addExpenses.length);
 console.log( 'Период равен ' + (period) + ' месяцев' );
@@ -35,19 +36,17 @@ start();
 
 let expenses = [];
 let getExpensesMonth = function (){
-	let sum = 0;
 	for (let i = 0; i < 2; i++){
-		let sum1;
+		let sum;
 		expenses[i] = prompt( 'Введите обязательную статью расходов?' );
-		while( !isNumber(sum1)){
-			sum1 = prompt( 'Во сколько это обойдется?' );
+		while( !isNumber(sum)){
+			sum = prompt( 'Во сколько это обойдется?' );
 		}
-	sum = sum + Number(sum1);
+		expensesAmount = Number(expensesAmount) + Number(sum);
 	}
 	console.log( expenses );
-	return sum;
+	return expensesAmount;
 };
-let  expensesAmount = getExpensesMonth();
 
 let getAccumulatedMonth = function ( money,  getExpensesMonth ){
 	return Number( money ) - Number( getExpensesMonth );
@@ -87,7 +86,7 @@ showTypeOf(income);
 showTypeOf(deposit);
 console.log( 'расходы за месяц', expensesAmount, typeof expensesAmount );
 console.log( 'возможные расходы', addExpenses.split(', '), typeof addExpenses );
-console.log( getTargetMonth( mission, accumulatedMonth ) > 0 ? 'Цель будет достигнута ' + Math.ceil(getTargetMonth(mission, accumulatedMonth)) + ' qмесяцев'  : 'цель не будет достигнута');
+console.log( getTargetMonth( mission, accumulatedMonth ) > 0 ? 'Цель будет достигнута ' + Math.ceil(getTargetMonth(mission, accumulatedMonth)) + ' месяцев'  : 'цель не будет достигнута');
 console.log( 'бюджет на день', budgetDay);
 getStatusIncome();
 
