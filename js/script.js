@@ -67,9 +67,9 @@ let appData = {
 		appData.budgetMonth = appData.budget - appData.expensesMonth;
 		appData.budgetDay = appData.budgetMonth / 30;
 	},
-	// за какой период будет достигнута цель (period)
+	// за сколько месяцев будет достигнута цель 
 	getTargetMonth: function () {
-		return appData.period = appData.budget / appData.budgetDay;
+		return appData.mission / appData.budgetMonth;
 	},
 	// уровень дохода 
 	getStatusIncome: function() {
