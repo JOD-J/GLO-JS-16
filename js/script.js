@@ -56,20 +56,16 @@ let appData = {
 	},
 	// расходы за месяц (expensesMonth)
 	getExpensesMonth: function () {
-		// for (let i = 0; i < 2; i++){
-		// 	let sum;
-		// 	appData.expenses[i] = prompt( 'Введите обязательную статью расходов?', 'школа' );
-		// 	while( !isNumber(sum)){
-		// 		sum = prompt( 'Во сколько это обойдется?', 5000);
-		// 	}
-		// 	appData.expensesMonth = Number(appData.expensesMonth) + Number(sum);
-		// }
-		// console.log( appData.expenses );
+		for (let key in appData.expenses){
+			appData.expensesMonth +=  appData.expenses[key];
+		}
+		console.log( 'appData.expensesMonth ' + appData.expensesMonth);
 		return appData.expensesMonth;
 	},
 	// доход за месяц минус расходы за месяц (budgetDay)
-	getAccumulatedMonth: function () {
-		return appData.budgetDay = appData.budget - Number( appData.expensesMonth );
+	getBudget: function () {
+		appData.budgetMonth = appData.budget - appData.expensesMonth;
+		appData.budgetDay = appData.budgetMonth / 30;
 	},
 	// за какой период будет достигнута цель (period)
 	getTargetMonth: function () {
@@ -88,27 +84,19 @@ let appData = {
 		} 	
 	}
 };
-
 appData.asking();
-
 appData.getExpensesMonth();
-
-appData.getAccumulatedMonth();
-
+appData.getBudget();
 appData.getTargetMonth();
-
 appData.getStatusIncome();
 
+console.clear();
+console.log( 'расходы за месяц ', appData.expensesMonth );
+console.log( appData.getTargetMonth() > 0 ? 'Цель будет достигнута за ' + Math.ceil(appData.getTargetMonth()) + ' месяцев'  : 'цель не будет достигнута');
+console.log( 'бюджет на день', Math.ceil(appData.budgetDay));
 
-
-
-
-// console.clear( );
-console.log( 'расходы за месяц', appData.expensesMonth );
-// console.log( 'возможные расходы', appData.addExpenses.split(', '), typeof appData.addExpenses );
-// console.log( appData.getTargetMonth( appData.mission, accumulatedMonth ) > 0 ? 'Цель будет достигнута ' + Math.ceil(appData.getTargetMonth(appData.mission, accumulatedMonth)) + ' месяцев'  : 'цель не будет достигнута');
-console.log( 'бюджет на день', appData.budgetDay);
-
-
-
+console.clear();
+for ( let key in appData ) {
+	console.log( 'Наша программа включает в себя данные: ' + key );
+}
 
