@@ -39,22 +39,32 @@ let appData = {
 	asking: function () {
 		// 
 		let addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
-			// присваеваем ключу addExpenses в обьекте appData  значение возможных расходов через , в нижнем регистре.
+			// присваеваем свойства  addExpenses в обьекте appData  значение возможных расходов через , в нижнем регистре.
 			appData.addExpenses = addExpenses.toLowerCase().split(', ');
-			// присваеваем ключу deposit в обьекте appData булевое значение.
+			// присваеваем свойства  deposit в обьекте appData булевое значение.
 			appData.deposit = confirm( 'Есть ли у вас депозит в банке?' );
+			// 
+			for (let i = 0; i < 2; i++) {
+				let sum;
+				let expenses = prompt( 'Введите обязательную статью расходов?', 'школа' );
+				while( !isNumber(sum)) {
+					sum = prompt( 'Во сколько это обойдется?', 5000);
+				}
+				appData.expenses[expenses] = +sum ;
+			}
+			console.log( appData.expenses );
 	},
 	// расходы за месяц (expensesMonth)
 	getExpensesMonth: function () {
-		for (let i = 0; i < 2; i++){
-			let sum;
-			appData.expenses[i] = prompt( 'Введите обязательную статью расходов?', 'школа', 'садик' );
-			while( !isNumber(sum)){
-				sum = prompt( 'Во сколько это обойдется?', 5000, 3000 );
-			}
-			appData.expensesMonth = Number(appData.expensesMonth) + Number(sum);
-		}
-		console.log( appData.expenses );
+		// for (let i = 0; i < 2; i++){
+		// 	let sum;
+		// 	appData.expenses[i] = prompt( 'Введите обязательную статью расходов?', 'школа' );
+		// 	while( !isNumber(sum)){
+		// 		sum = prompt( 'Во сколько это обойдется?', 5000);
+		// 	}
+		// 	appData.expensesMonth = Number(appData.expensesMonth) + Number(sum);
+		// }
+		// console.log( appData.expenses );
 		return appData.expensesMonth;
 	},
 	// доход за месяц минус расходы за месяц (budgetDay)
