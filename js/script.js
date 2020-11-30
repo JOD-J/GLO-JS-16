@@ -23,6 +23,10 @@ let appData = {
 	addExpenses: [],
 	//  депозит в банке.
 	deposit: false,
+	// процент депозита
+	percentDeposit: 0,
+	// сколько человек денег заложил
+	moneyDeposit: 0,
 	// цель денег.
 	mission: 650555,
 	// за сколько хотим достичь этой цели.
@@ -37,6 +41,12 @@ let appData = {
 	expensesMonth: 0, 
 
 	asking: function () {
+		// 
+		if (confirm( 'есть ли у вас дополнительный заработок?' )) {
+			let itemIncome = prompt( 'какой у вас дополнительный заработок?', 'таксую' );
+			let cashIncome = prompt( 'сколько в месяц вы на этом зарабатываете', 5000);
+			appData.income[itemIncome]= cashIncome;
+		} 
 		// 
 		let addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
 			// присваеваем свойства  addExpenses в обьекте appData  значение возможных расходов через , в нижнем регистре.
@@ -82,7 +92,18 @@ let appData = {
 		} else {
 			console.log( 'Что то пошло не так' );
 		} 	
-	}
+	},
+	// годовой процент , сумма заложенных денег 
+	getInfoDeposit: function () {
+		if (appData.deposit) {
+			appData.percentDeposit = prompt( 'какой годовой процент?', '10');
+			appData.moneyDeposit = prompt( 'какая сумма заложенна', 10000);
+		}
+	},
+	// сколько денег мы заработаем за период 
+	calcSavedMoney: function () {
+		return appData.budgetMonth * appData.period;
+	},
 };
 appData.asking();
 appData.getExpensesMonth();
@@ -90,13 +111,19 @@ appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
 
-console.clear();
-console.log( 'расходы за месяц ', appData.expensesMonth );
-console.log( appData.getTargetMonth() > 0 ? 'Цель будет достигнута за ' + Math.ceil(appData.getTargetMonth()) + ' месяцев'  : 'цель не будет достигнута');
-console.log( 'бюджет на день', Math.ceil(appData.budgetDay));
 
-console.clear();
-for ( let key in appData ) {
-	console.log( 'Наша программа включает в себя данные: ' + key );
-}
+// console.clear();
+// console.log( 'расходы за месяц ', appData.expensesMonth );
+// console.log( appData.getTargetMonth() > 0 ? 'Цель будет достигнута за ' + Math.ceil(appData.getTargetMonth()) + ' месяцев'  : 'цель не будет достигнута');
+// console.log( 'бюджет на день', Math.ceil(appData.budgetDay));
 
+// console.clear();
+// for ( let key in appData ) {
+	
+// 	console.log( 'Наша программа включает в себя данные: ' + key );
+// }
+
+
+console.log( 'appData.addExpenses: ', appData.addExpenses.join(' , ').toUpperCase());
+console.log( 'appData.addExpenses: ', appData.addExpenses, typeof  appData.addExpenses);
+console.log( 'appData.addExpenses: ', appData.addExpenses.join(', '));
