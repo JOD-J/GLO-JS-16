@@ -1,38 +1,15 @@
 "use strict";
 
-// Кнопку "Рассчитать" через id
-let calculateElem = document.getElementById('start');
-// Кнопки “+” (плюс) через Tag, каждую в своей переменной
-let plus1Elem = document.getElementsByTagName('button')[0];
-let plus2Elem = document.getElementsByTagName('button')[1];
-// Чекбокс по id через querySelector
-let CheckboxElem = document.querySelector('#deposit-check');
-// Поля для ввода возможных доходов (additional_income-item) при помощи querySelectorAll
-let addExpensesElem = document.querySelectorAll('additional_income-item');
-// Каждый элемент в правой части программы через класс(не через querySelector), которые имеют в имени класса "-value", начиная с class="budget_day-value" и заканчивая class="target_month-value">
-
-// доход за месяц 
-let budgetMonthElem  = document.getElementsByClassName('result-total')[0];
-// Дневной бюджет
-let budgetDayElem  = document.getElementsByClassName('result-total')[1];
-// Расход за месяц
-let expensesMonthElem = document.getElementsByClassName('result-total')[2];
-// Возможные доходы
-let addIncomeElem = document.getElementsByClassName('result-total')[3];
-// Возможные расходы
-let addExpensesElem = document.getElementsByClassName('result-total')[4];
-// Накопления за период
-let incomePeriodElem = document.getElementsByClassName('result-total')[5];
-// Срок достижения цели в месяцах
-let targetMonthElem = document.getElementsByClassName('result-total')[6];
-
-
-let isNumber = function(n){
+// проверка на число 
+let isNumber = function(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 };
-
+// проверка на строку
+let isStr = function(n) {
+	return (typeof n === "string" && !parseFloat(n) && n !== null);
+};
 let money;
-let start = function(){
+let start = function() {
 	do {
 		money = prompt( 'Ваш месячный доход?', 50000 );
 	} while( !isNumber( money ));
@@ -50,6 +27,10 @@ let appData = {
 	addExpenses: [],
 	//  депозит в банке.
 	deposit: false,
+	// процент депозита
+	percentDeposit: 0,
+	// сколько человек денег заложил
+	moneyDeposit: 0,
 	// цель денег.
 	mission: 650555,
 	// за сколько хотим достичь этой цели.
@@ -64,22 +45,38 @@ let appData = {
 	expensesMonth: 0, 
 
 	asking: function () {
+		if (confirm( 'есть ли у вас дополнительный заработок?' )) {
+			let itemIncome;
+			let cashIncome;
+			do {
+				itemIncome = prompt( 'какой у вас дополнительный заработок?', 'таксую' );
+			} while( !isStr( itemIncome ));
+			do {
+				cashIncome = prompt( 'сколько в месяц вы на этом зарабатываете', 5000);
+			} while( !isNumber( cashIncome ));
+			appData.income[itemIncome]= cashIncome;
+		} 
+		let addExpenses;
+		do {
+			addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
+		} while( !isStr( addExpenses ));
+		// присваеваем свойства  addExpenses в обьекте appData  значение возможных расходов через , в нижнем регистре.
+		appData.addExpenses = addExpenses.toLowerCase().split(', ');
+		// присваеваем свойства  deposit в обьекте appData булевое значение.
+		appData.deposit = confirm( 'Есть ли у вас депозит в банке?' );
 		// 
-		let addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую' );
-			// присваеваем свойства  addExpenses в обьекте appData  значение возможных расходов через , в нижнем регистре.
-			appData.addExpenses = addExpenses.toLowerCase().split(', ');
-			// присваеваем свойства  deposit в обьекте appData булевое значение.
-			appData.deposit = confirm( 'Есть ли у вас депозит в банке?' );
-			// 
-			for (let i = 0; i < 2; i++) {
-				let sum;
-				let expenses = prompt( 'Введите обязательную статью расходов?', 'школа' );
-				while( !isNumber(sum)) {
-					sum = prompt( 'Во сколько это обойдется?', 5000);
-				}
-				appData.expenses[expenses] = +sum ;
+		for (let i = 0; i < 2; i++) {
+			let sum;
+			let expenses;
+			do {
+				expenses = prompt( 'Введите обязательную статью расходов?', 'школа' );
+			} while( !isStr( expenses ));
+			while( !isNumber(sum)) {
+				sum = prompt( 'Во сколько это обойдется?', 5000);
 			}
-			console.log( appData.expenses );
+			appData.expenses[expenses] = +sum ;
+		}
+		console.log( appData.expenses );
 	},
 	// расходы за месяц (expensesMonth)
 	getExpensesMonth: function () {
@@ -109,21 +106,49 @@ let appData = {
 		} else {
 			console.log( 'Что то пошло не так' );
 		} 	
-	}
+	},
+	// годовой процент , сумма заложенных денег 
+	getInfoDeposit: function () {
+		if (appData.deposit) {
+			do {
+				appData.percentDeposit = prompt( 'какой годовой процент?', '10');
+			} while( !isNumber( appData.percentDeposit ));
+			do {
+				appData.moneyDeposit = prompt( 'какая сумма заложенна', 10000);
+			} while( !isNumber( appData.moneyDeposit ));
+		}
+	},
+	// сколько денег мы заработаем за период 
+	calcSavedMoney: function () {
+		return appData.budgetMonth * appData.period;
+	},
+	// привидение первой буквы к большой остальное к нижней 
+	getAddExpenses(){
+        appData.addExpenses = appData.addExpenses.map(function(item) {
+			let transformations = item.toLowerCase();
+			let theFirst = transformations.slice(0, 1).toUpperCase();
+			let remainder = transformations.slice(1);
+            return theFirst + remainder;
+        });
+    }
 };
 appData.asking();
 appData.getExpensesMonth();
 appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
+appData.getAddExpenses();
 
-console.clear();
+// console.clear();
 console.log( 'расходы за месяц ', appData.expensesMonth );
 console.log( appData.getTargetMonth() > 0 ? 'Цель будет достигнута за ' + Math.ceil(appData.getTargetMonth()) + ' месяцев'  : 'цель не будет достигнута');
 console.log( 'бюджет на день', Math.ceil(appData.budgetDay));
 
-console.clear();
+// console.clear();
 for ( let key in appData ) {
 	console.log( 'Наша программа включает в себя данные: ' + key );
 }
+appData.getInfoDeposit();
+console.log(appData.percentDeposit, appData.moneyDeposit, appData.calcSavedMoney());
 
+console.log(appData.addExpenses.join(', '));
