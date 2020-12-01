@@ -5,7 +5,7 @@ let calculateElem = document.getElementById('start');
 let plus1Elem = document.getElementsByTagName('button')[0];
 let plus2Elem = document.getElementsByTagName('button')[1];
 // Чекбокс по id через querySelector
-let CheckboxElem = document.querySelector('#deposit-check');
+let checkboxElem = document.querySelector('#deposit-check');
 // Поля для ввода возможных доходов (additional_income-item) при помощи querySelectorAll
 let addIncomeAllElem = document.querySelectorAll('additional_income-item');
 // Каждый элемент в правой части программы через класс(не через querySelector), которые имеют в имени класса "-value", начиная с class="budget_day-value" и заканчивая class="target_month-value">
