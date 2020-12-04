@@ -12,7 +12,7 @@ let bodyElem = document.querySelector( 'body' );
 let advElem = document.querySelector( '.adv' );
 let bookElem = document.querySelectorAll( '.book' );
 let titleElem = document.querySelectorAll('.book h2 a');
-let itemsEletm2 = document.querySelectorAll('.book ul li');
+let itemsEletm2 = bookElem[0].children[1].children; 
 let itemsEletm5 = bookElem[5].children[1].children; 
 console.log('itemsEletm5: ', itemsEletm5);
 let itemsEletm6 = bookElem[2].children[1].children;
@@ -47,10 +47,11 @@ titleElem[4].textContent = 'Книга 3. this и Прототипы Объек�
 // Восстановить порядок глав во второй и пятой книге (внимательно инспектируйте индексы элементов, поможет dev tools)
 
 // вариант 1
-itemsEletm2[5].prepend(itemsEletm2[2]);
-itemsEletm2[4].prepend(itemsEletm2[6]);
-itemsEletm2[4].prepend(itemsEletm2[8]);
-itemsEletm2[4].prepend(itemsEletm2[6]);
+console.log(itemsEletm2);
+itemsEletm2[1].after(itemsEletm2[3]);
+itemsEletm2[2].after(itemsEletm2[6]);
+itemsEletm2[3].after(itemsEletm2[8]);
+itemsEletm2[9].after(itemsEletm2[5]);
 
 // варинт 2 лучше чем первый вариант 
 itemsEletm5[1].after(itemsEletm5[9]);
