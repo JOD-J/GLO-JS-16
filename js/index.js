@@ -100,7 +100,6 @@ let appData = {
 		targetMonthElem.value = Math.ceil(appData.getTargetMonth());
 		incomePeriodElem.value = appData.calcSavedMoney();
 		
-
 	},
 	// добавление дополнительных полей обязательных расходров
 	addExpensesBlock: function () {
