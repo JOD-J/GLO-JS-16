@@ -150,7 +150,7 @@ let appData = {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-				this.expenses[itemExpenses] = cashExpenses;
+				appData.expenses[itemExpenses] = cashExpenses;
 			}
 		});
 	},
@@ -161,20 +161,20 @@ let appData = {
 			let itemIncome = item.querySelector('.income-title').value;
 			let cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
-				this.income[itemIncome] = cashIncome;
+				appData.income[itemIncome] = cashIncome;
 			}
 		});
 		for (let key in this.income) {
 			this.incomeMonth += +this.income[key];
 		}
 	},
-
+	// значение additionalExpensesItemElem разбивает на масив через метод split через запятую и присваеваеться переменной addExpenses через forEach перебераем масив addExpenses item – очередной элемент массива через метод trim удаляет  пробельные символы с обоих концов строки и через условие если item – очередной элемент массива не пустая строка то пушим в обьект appData методом push в конец масива 
 	getAddExpenses: function () {
 		let addExpenses = additionalExpensesItemElem.value.split(', ');
 		addExpenses.forEach(function(item) {
 			item = item.trim();
 			if (item !== '') {
-				this.addExpenses.push(item);
+				appData.addExpenses.push(item);
 			}
 		});
 	},
@@ -183,7 +183,7 @@ let appData = {
 		additionIncomeItemElem.forEach(function(item) {
 			let itemVaule = item.value.trim();
 			if ( itemVaule !== '' ) {
-				this.addIncome.push(itemVaule);
+				appData.addIncome.push(itemVaule);
 			}
 		});
 	},
@@ -211,18 +211,7 @@ let appData = {
 	calcSavedMoney: function () {
 		return this.budgetMonth * periodSelectElem.value;
 	},
-
-	// привидение первой буквы к большой остальное к нижней 
-	getAddExpensess: function () {
-	this.addExpenses = this.addExpenses.map(function(item) {
-		let transformations = item.toLowerCase();
-		let theFirst = transformations.slice(0, 1).toUpperCase();
-		let remainder = transformations.slice(1);
-		return theFirst + remainder;
-	});
-	}
 };
-
 
 start.disabled = true; // блокировка кнопки старт
 
