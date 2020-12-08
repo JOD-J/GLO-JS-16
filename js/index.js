@@ -106,13 +106,27 @@ let appData = {
 		for (let i = incomeItemsElem.length - 1; i > 0 ; i--){
 			incomeItemsElem[i].remove();
 		}
+		
+		// возвращаем все ключи в обект в исходное положение 
+		this.incomeMonth = 0;
+        this.income = {};
+        this.addIncome = [];
+        this.expenses = {};
+        this.addExpenses = [];
+        this.deposit = false;
+        this.percentDeposit = 0;
+        this.moneyDeposit = 0;
+        this.budget = 0;
+        this.budgetDay = 0;
+        this.budgetMonth = 0;
+        this.expensesMonth = 0;
 	},
 
 	// поля данных 
 	showResult: function () {
 		
 		periodSelectElem.addEventListener( 'input', function() {
-			incomePeriodElem.value = this.calcSavedMoney();	// динамическое изменение инпут Накопления за период
+			incomePeriodElem.value = appData.calcSavedMoney();	// динамическое изменение инпут Накопления за период
 		});
 		budgetMonthElem.value = this.budgetMonth;
 		budgetDayElem.value = Math.ceil(this.budgetDay);
