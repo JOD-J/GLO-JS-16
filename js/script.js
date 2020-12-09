@@ -34,7 +34,7 @@ DomElement.prototype.createElement = function () {
 		background-color : ${this.bg};
 		font-size : ${this.fontSize}px;
 		`;
-		Elem.textContent = this.text;	// добавляем етекст
+		Elem.textContent = this.text;	// добавляем текст
 		document.body.append(Elem);		// добавляем элемент на страницу
 	}
 };
