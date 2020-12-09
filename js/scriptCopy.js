@@ -149,7 +149,7 @@ let appData = {
 	},
 
 	// добавление дополнительных полей доходов
-	addIncomeBlock() {
+	addIncomeBlock: function () {
 		let cloneIncomeItems = incomeItemsElem[0].cloneNode(true);
 		incomeItemsElem[0].parentNode.insertBefore(cloneIncomeItems, incomePlusElem);
 		incomeItemsElem = document.querySelectorAll('.income-items');
