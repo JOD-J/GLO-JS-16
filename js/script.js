@@ -39,10 +39,10 @@ DomElement.prototype.createElement = function () {
 	}
 };
 
-let ElemOne = new DomElement('.div', 300, 300, 'yellow', 50, 'p');	
+let elemOne = new DomElement('.div', 300, 300, 'yellow', 50, 'p');	
 //  использование конструткора DomElement через оператор new вызов функции через new-порождает новый пустой объект 
-let ElemTwo = new DomElement('#div', 300, 300, 'red', 50, 'div');	
+let elemTwo = new DomElement('#div', 300, 300, 'red', 50, 'div');	
 //  использование конструткора DomElement через оператор new вызов функции через new-порождает новый пустой объект 
 
-ElemOne.createElement();	// вызов 
-ElemTwo.createElement();	// вызов  
+elemOne.createElement();	// вызов 
+elemTwo.createElement();	// вызов  
