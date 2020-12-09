@@ -34,15 +34,7 @@ let expensesItemsElem = document.querySelectorAll('.expenses-items'),	// Обя�
 	additionIncomeItemElem = document.querySelectorAll('.additional_income-item'),	// инпут возможный доход (строка)
 	incomeItemsElem = document.querySelectorAll('.income-items');	// дополнительный доход ДИВ для добовление новых инпутов
 
-// проверка на число 
-const isNumber = function(n) {
-	return !isNaN(parseFloat(n)) && isFinite(n);
-};
 
-// проверка на строку
-const isStr = function(n) {
-	return (typeof n === "string" && !parseFloat(n) && n !== null);
-};
 
 //  конструктор AppData
 class AppData {
@@ -252,6 +244,15 @@ class AppData {
 		periodSelectElem.addEventListener('input', function () {
 			periodAmountElem.textContent = periodSelectElem.value;
 	});
+	}
+	// проверка на число 
+	isNumber (n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+
+	// проверка на строку
+	isStr (n) {
+		return (typeof n === "string" && !parseFloat(n) && n !== null);
 	}
 }
 
