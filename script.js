@@ -1,20 +1,26 @@
 "use strict";
 
-let ulElem = document.querySelector('#d');
-console.log('ulElem: ', ulElem);
+let ulElem = document.querySelector('.ul');
 let liElem = document.querySelector('li');
-console.log('liElem: ', liElem);
-let buttonElem = document.querySelector('.button');
-console.log('buttonElem: ', buttonElem);
 let inputElem = document.querySelector('.input');
-console.log('inputElem: ', inputElem);
+let buttonElem = document.querySelector('.button');
 
-let getPet = () => {
-	let li = document.createElement('li');
-	console.log('li: ', li);
-		li = inputElem.value;
-		console.log('li: ', li);
-		ulElem.inerHTML = li;
+let inputElemBlok = () => {
+	buttonElem.disabled = true;
 };
 
-buttonElem.addEventListener('click', getPet);
+inputElem.addEventListener('input', () => {
+	if (inputElem.value !== ''){
+		buttonElem.disabled = false;
+	}
+});
+buttonElem.addEventListener('click', (item) => {
+	let li = document.createElement('li');
+	item = inputElem.value;
+	console.log('li: ', li);
+	ulElem.append(li) ;
+	inputElem.value = '';
+	inputElemBlok();
+} );
+
+inputElemBlok();
