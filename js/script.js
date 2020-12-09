@@ -1,18 +1,21 @@
 "use strict";
 
 class First {
-	firsthello (){
-		this.helo = console.log('First: Привет я метод родителя!');
+	constructor(heloFirst, heloSecond) {
+		this.heloFirst = heloFirst;
+		this.heloSecond = heloSecond;
+	}
+	hello (){
+		console.log(this.heloFirst);
 	}
 }
 
 class Second extends First {
-	secondhello (){
-		super.firsthello();
-		this.helo = console.log('Second: А я наследуемый метод!');
+	hello (){
+		super.hello();
+		console.log(this.heloSecond);
 	}
 }
-
-const second = new Second();
-second.secondhello();
+const second = new Second('Привет я метод родителя!', 'А я наследуемый метод!');
+second.hello();
 
