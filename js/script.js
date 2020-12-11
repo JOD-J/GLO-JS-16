@@ -23,8 +23,8 @@ const salaryAmountElem = document.querySelector('.salary-amount'), 	// инпу�
 	expensesAmountElem = document.querySelector('.expenses-amount'),// инпут обязательныйе расходы (число)
 	targetAmountElem = document.querySelector('.target-amount'),	// инпут цель (число)
 	
-	incomeTitleElem = document.querySelector('.income-title'),		// инпут Дополнительный доход (строка)
-	expensesTitleElem = document.querySelector('.expenses-title'),	// инпут Обязательные расходы (строка)
+	incomeTitleElem = document.querySelector('.income-title'),							// инпут Дополнительный доход (строка)
+	expensesTitleElem = document.querySelector('.expenses-title'),						// инпут Обязательные расходы (строка)
 	additionalExpensesItemElem = document.querySelector('.additional_expenses-item'),	// инпут Возможные расходы (строка)
 
 	periodAmountElem = document.querySelector('.period-amount'),	// период расчета ДИВ значение меняется при изменение инпута
@@ -36,9 +36,9 @@ const salaryAmountElem = document.querySelector('.salary-amount'), 	// инпу�
 	depositBankElem = document.querySelector('.deposit-bank');		// select банков
 
 
-let expensesItemsElem = document.querySelectorAll('.expenses-items'),	// Обязательные расходы ДИВ для добовление новых инпутов
+let expensesItemsElem = document.querySelectorAll('.expenses-items'),				// Обязательные расходы ДИВ для добовление новых инпутов
 	additionIncomeItemElem = document.querySelectorAll('.additional_income-item'),	// инпут возможный доход (строка)
-	incomeItemsElem = document.querySelectorAll('.income-items');	// дополнительный доход ДИВ для добовление новых инпутов
+	incomeItemsElem = document.querySelectorAll('.income-items');					// дополнительный доход ДИВ для добовление новых инпутов
 
 
 
@@ -74,10 +74,10 @@ class AppData {
 		//  блокируем все input[type=text] 
 		let  input = document.querySelectorAll('input[type=text]');
 		input.forEach((item) => {
-			item.disabled = true;	 // блокировка всех инпутов
+			item.disabled = true;	 				// блокировка всех инпутов
 		});
-		start.style.display = 'none';	// кнопка старт пропадает 
-		cancel.style.display = 'block'; // кнопка расчитать появляется 
+		start.style.display = 'none';				// кнопка старт пропадает 
+		cancel.style.display = 'block'; 			// кнопка расчитать появляется 
 		expensesPlusElem.style.display = 'none';	// убираем кнопку плюс 
 		incomePlusElem.style.display = 'none';		// убираем кнопку плюс 
 	}
@@ -93,11 +93,23 @@ class AppData {
 		
 		periodSelectElem.value = 1;			// сброс периода расчета в левом поле инпут
 		periodAmountElem.textContent = '1';	// сброс периода расчета в левом поле текст
+
+		start.disabled = true;				// сброс  блокировки всех инпутов
+
 		cancel.style.display = 'none';		// кнопка сбросить пропадет 
 		start.style.display = 'block'; 		// кнопка старт появляется 
-		start.disabled = true;				// сброс  блокировки всех инпутов
+		
 		expensesPlusElem.style.display = 'block';	// возвращаем кнопки плюс 
 		incomePlusElem.style.display = 'block';		// возвращаем кнопки плюс 
+
+		depositBankElem.value = '';					// сброс выбора банков
+		depositAmountElem.value = '';				// сброс суммы 
+		depositPercentElem.value = ''; 				// сброс процентов 
+
+		depositBankElem.style.display = 'none';		// лист банков пропадает 
+		depositAmountElem.style.display = 'none';	// инпут вложенная сумма пропадает
+		depositPercentElem.style.display = 'none'; 	// инпут проценты пропадет 
+		depositCheckElem.checked = false;			// чек депозит false
 	
 		// циклами удаляем  Обязательные расходы блоки ДИВ для добовление новых инпутов
 		for (let i = expensesItemsElem.length - 1; i > 0 ; i--){
@@ -207,7 +219,8 @@ class AppData {
 	
 	// доход за месяц минус расходы за месяц (budgetDay)
 	getBudget () {
-		this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
+		const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+		this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
 		this.budgetDay = this.budgetMonth / 30;
 	}
 	
@@ -224,15 +237,22 @@ class AppData {
 	// 
 	getInfoDeposit () {
 		if (this.deposit) {
-			this.percentDeposit = depositPercentElem.value ; 
+			this.percentDeposit = +depositPercentElem.value ; 
 			this.moneyDeposit = depositAmountElem.value;
 		}
 	}
 
 	// 
 	changePercent () {
-		const selectIndex = this.value;
-		console.log(selectIndex);
+		const valueSelect = this.value;
+		if (valueSelect === 'other') {
+			depositPercentElem.value = '';
+			depositPercentElem.style.display = 'inline-block';
+
+		} else {
+			depositPercentElem.style.display = 'none';
+			depositPercentElem.value = valueSelect;
+		}
 	}
 
 	// 
@@ -245,8 +265,10 @@ class AppData {
 		} else {
 			depositBankElem.style.display = 'none';
 			depositAmountElem.style.display = 'none';
+			depositPercentElem.style.display = 'none';
 			depositBankElem.value = '';
 			depositAmountElem.value = '';
+			depositPercentElem.value = '';
 			this.deposit = false;
 			depositBankElem.removeEventListener ('change', this.changePercent);
 		}
@@ -254,7 +276,7 @@ class AppData {
 	
 	// 
 	eventsListeners () {
-	
+
 		start.disabled = true; // блокировка кнопки старт
 	
 		// разблокирвока кнопки старт при условии salaryAmountElem (Месячный доход*) не пустая строка 
@@ -281,8 +303,20 @@ class AppData {
 		// динамическое изменение инпута период расчета 
 		periodSelectElem.addEventListener('input', function () {
 			periodAmountElem.textContent = periodSelectElem.value;
-	});
+		});
 		depositCheckElem.addEventListener('change', this.depositHandler.bind(appData));
+
+		depositPercentElem.addEventListener('change', () => { 
+            if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100 ){
+                depositPercentElem.value = '';
+				alert('Введите корректное значение в поле проценты (1-100)');
+				start.disabled = true;
+            } else {
+                start.disabled = false;
+				this.percentDeposit = +depositPercentElem.value;
+				console.log('percentDeposit: ', this.percentDeposit);
+            }
+        });
 
 	}
 	// проверка на число 
