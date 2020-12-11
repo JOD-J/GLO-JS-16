@@ -76,6 +76,10 @@ class AppData {
 		input.forEach((item) => {
 			item.disabled = true;	 				// блокировка всех инпутов
 		});
+
+		depositBankElem.disabled = true;			//	блокирвоака выбора банков
+		depositCheckElem.disabled = true;			//	блокирвоака чек бокса 
+
 		start.style.display = 'none';				// кнопка старт пропадает 
 		cancel.style.display = 'block'; 			// кнопка расчитать появляется 
 		expensesPlusElem.style.display = 'none';	// убираем кнопку плюс 
@@ -109,7 +113,10 @@ class AppData {
 		depositBankElem.style.display = 'none';		// лист банков пропадает 
 		depositAmountElem.style.display = 'none';	// инпут вложенная сумма пропадает
 		depositPercentElem.style.display = 'none'; 	// инпут проценты пропадет 
-		depositCheckElem.checked = false;			// чек депозит false
+		depositCheckElem.checked = false;			// разблакеровка чек бокса
+		depositCheckElem.disabled = false;			// разблакеровка чек бокса
+		depositBankElem.disabled = false;			// разблакеровка выбора банков
+
 	
 		// циклами удаляем  Обязательные расходы блоки ДИВ для добовление новых инпутов
 		for (let i = expensesItemsElem.length - 1; i > 0 ; i--){
@@ -245,7 +252,7 @@ class AppData {
 	// 
 	changePercent () {
 		const valueSelect = this.value;
-		if (valueSelect === 'other') {
+		if (valueSelect === 'other'  ) {
 			depositPercentElem.value = '';
 			depositPercentElem.style.display = 'inline-block';
 
@@ -257,7 +264,8 @@ class AppData {
 
 	// 
 	depositHandler () {
-		if (depositCheckElem.checked) {
+		if (depositCheckElem.checked ) {
+			console.log('depositCheckElem.checked: ', depositCheckElem.checked);
 			depositBankElem.style.display = 'inline-block';
 			depositAmountElem.style.display = 'inline-block';
 			this.deposit = true;
@@ -274,20 +282,62 @@ class AppData {
 		}
 	}
 	
+
+
+
 	// 
 	eventsListeners () {
 
 		start.disabled = true; // блокировка кнопки старт
+
+		
+		// salaryAmountElem.addEventListener('input', () => {
+		// 		if (salaryAmountElem.value !== '') {
+		// 			start.disabled = false;
+		// 		} else {
+		// 			start.disabled = true;
+		// 	}
+		// });
 	
+		// depositAmountElem.addEventListener('input', () => {
+		// 	if (depositCheckElem.checked) {
+		// 		console.log('fff');
+		// 	} else {
+		// 		salaryAmountElem.addEventListener('input', () => {
+		// 				if (salaryAmountElem.value !== '' && depositAmountElem.value !== '') {
+		// 					start.disabled = false;
+		// 				} else {
+		// 					start.disabled = true ;
+		// 				}
+		// 			});
+		// 	}
+		// });
+
 		// разблокирвока кнопки старт при условии salaryAmountElem (Месячный доход*) не пустая строка 
+		// salaryAmountElem.addEventListener('input', () => {
+		// 	if (salaryAmountElem.value !== '') {
+		// 		start.disabled = false;
+		// 	} else {
+		// 		start.disabled = true ;
+		// 	}
+		// });
+
+
 		salaryAmountElem.addEventListener('input', () => {
-			if (salaryAmountElem.value !== '') {
-				start.disabled = false;
+			if ( depositAmountElem.value !== '' ) {
+				if (salaryAmountElem.value !== '' && depositAmountElem.value !== '') {
+					start.disabled = false;
+				}
+			} else if (salaryAmountElem.value !== '') {
+				start.disabled = false ;
 			} else {
-				start.disabled = true;
+				start.disabled = true ;
+
 			}
 		});
-	
+
+
+
 		// на кнопку старт навешиваем слушатель клик, вызываем функцию start обьекта appData привязываем контекст this с помощью bind для обьекта appData
 		start.addEventListener('click', this.start.bind(appData));
 	
@@ -301,23 +351,71 @@ class AppData {
 		incomePlusElem.addEventListener('click', this.addIncomeBlock);	// дополнительный доход ДИВ для добовление новых инпутов
 	
 		// динамическое изменение инпута период расчета 
-		periodSelectElem.addEventListener('input', function () {
+		periodSelectElem.addEventListener('input',  () => {
 			periodAmountElem.textContent = periodSelectElem.value;
 		});
 		depositCheckElem.addEventListener('change', this.depositHandler.bind(appData));
+	
+
+		// depositPercentElem.addEventListener('change', () => { 
+		// 	const _this = this;
+		// 	if (salaryAmountElem.value !== '') {
+		// 		if (depositAmountElem.value !== '') {
+		// 			if (!_this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
+		// 				depositPercentElem.value = '' ;
+		// 				alert('Введите корректное значение в поле проценты (1-100)');
+		// 				start.disabled = true;
+		// 			} else  {
+		// 				start.disabled = false;
+		// 				this.percentDeposit = +depositPercentElem.value;
+		// 			}
+		// 		} else {
+		// 			start.disabled = true;
+		// 		}
+		// 	} else {
+		// 		start.disabled = true;
+		// 	}
+		// });
+
 
 		depositPercentElem.addEventListener('change', () => { 
-            if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100 ){
-                depositPercentElem.value = '';
+			if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
+				depositPercentElem.value = '' ;
 				alert('Введите корректное значение в поле проценты (1-100)');
 				start.disabled = true;
-            } else {
-                start.disabled = false;
-				this.percentDeposit = +depositPercentElem.value;
-				console.log('percentDeposit: ', this.percentDeposit);
-            }
-        });
+			} else if (depositAmountElem.value !== '' && salaryAmountElem.value !== '' ) {
+					start.disabled = false;
+					this.percentDeposit = +depositPercentElem.value;
+					
+			} else {
+				start.disabled = true;
+			}
+		});
 
+		// depositPercentElem.addEventListener('change', () => { 
+		// 				if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
+		// 					depositPercentElem.value = '' ;
+		// 					alert('Введите корректное значение в поле проценты (1-100)');
+		// 					start.disabled = true;
+		// 				} else  {
+		// 					start.disabled = false;
+		// 					this.percentDeposit = +depositPercentElem.value;
+		// 				}
+
+			
+		// });
+		
+		// depositAmountElem.addEventListener('input', () => {
+		// 	if (salaryAmountElem.value !== '') {
+		// 		if (depositAmountElem.value !== '') {
+		// 			start.disabled = false;
+		// 		} else {
+		// 			start.disabled = true;
+		// 			}
+		// 	} else {
+		// 		start.disabled = true;
+		// 	}
+		// });
 	}
 	// проверка на число 
 	isNumber (n) {
