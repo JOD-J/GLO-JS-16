@@ -1,20 +1,48 @@
 "use strict";
 
+const a = document.querySelector('#a'); // 1 число 
+const b = document.querySelector('#b');	// 2 число 
+const sum = document.querySelector('#sum'); // сумму  a b
+const mult = document.querySelector('#mult'); // произведение  a b
+const res = document.querySelector('#res'); // результат a b
+
+
 const calculator = {
 	sum: function(){
-	  // ваш код
+		return a.value + b.value;
 	},
 	mult: function(){
 	  // ваш код
 	},
 	show: function(){
-	  // ваш код
+		mult.textContent = sum();
 	}
 };
 
+sum.addEventListener('click', calculator.sum);
+
+mult.addEventListener('click', function () {
+
+});
 
 
-
+// class First {
+// 	constructor(heloFirst, heloSecond) {
+// 		this.heloFirst = heloFirst;
+// 		this.heloSecond = heloSecond;
+// 	}
+// 	hello (){
+// 		console.log(this.heloFirst);
+// 	}
+// }
+// class Second extends First {
+// 		hello (){
+// 		super.hello();
+// 		console.log(this.heloSecond);
+// 	}
+// }
+// 	const second = new Second('Привет я метод родителя!', 'А я наследуемый метод!');
+// 	second.hello();
 
 
 
