@@ -9,6 +9,7 @@ const res = document.querySelector('#res'); // результат a b
 
 const calculator = {
 	sum: function(){
+
 		return a.value + b.value;
 	},
 	mult: function(){
