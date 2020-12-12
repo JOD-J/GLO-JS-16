@@ -265,6 +265,9 @@ class AppData {
 				console.log('start.disabled: ', start.disabled);
 			}
 		} else {
+			start.disabled = false;
+			console.log('start.disabled: ', start.disabled);
+
 			depositPercentElem.style.display = 'none';
 			depositPercentElem.value = valueSelect;
 		}
@@ -294,7 +297,6 @@ class AppData {
 		if (depositCheckElem.checked) {
 			start.disabled = true;
 			console.log('start.disabled: ', start.disabled);
-			if (depositCheckElem.checked) { 
 				if (depositCheckElem.checked) {
 					depositPercentElem.addEventListener('input', () => { 
 						if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
@@ -313,18 +315,6 @@ class AppData {
 						}
 					});
 				}
-
-				depositAmountElem.addEventListener('input', () => {
-					if ( depositAmountElem.value !== '' ) {
-						start.disabled = false;
-						console.log('start.disabled: ', start.disabled);
-					}  else {
-						start.disabled = true ;
-						console.log('start.disabled: ', start.disabled);
-					}
-				});
-
-			}
 		} else {
 			salaryAmountElem.addEventListener('input', () => {
 				if ( salaryAmountElem.value !== '' ) {
@@ -348,7 +338,11 @@ class AppData {
 		depositCheckElem.addEventListener('input', this.salaryAmountDepositCheck.bind(appData));
 
 
-		// разблокирвока кнопки старт при условии salaryAmountElem (Месячный доход*) не пустая строка 
+
+
+
+
+		// // разблокирвока кнопки старт при условии salaryAmountElem (Месячный доход*) не пустая строка 
 		// salaryAmountElem.addEventListener('input', () => {
 		// 	if ( salaryAmountElem.value !== '' ) {
 		// 		start.disabled = false;
