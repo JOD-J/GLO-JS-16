@@ -267,7 +267,7 @@ class AppData {
 		if (valueSelect !== 'other') {
 			start.disabled = true;
 			console.log('start.disabled : ', start.disabled );
-			if (depositPercentElem !== '') {
+			if (depositPercentElem !== '' &&  salaryAmountElem.value !== '' ) {
 				depositAmountElem.addEventListener('input', () => {
 					if (depositAmountElem.value === '' || depositBankElem.value === ''  ) {
 						start.disabled = true;
@@ -316,6 +316,7 @@ class AppData {
 						if (depositPercentElem.value > 100 ){
 							alert('Введите корректное значение в поле проценты (1-100)');
 							start.disabled = true; 
+							depositPercentElem.value = '';
 							console.log('start.disabled: ', start.disabled);
 						} else {
 							start.disabled = false; 
