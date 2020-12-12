@@ -248,6 +248,8 @@ class AppData {
 	changePercent () {
 		const valueSelect = this.value;
 		if (valueSelect === 'other'  ) {
+			depositAmountElem.value = '';
+
 			start.disabled = true;
 			console.log('start.disabled: ', start.disabled);
 			depositPercentElem.value = '';
@@ -265,12 +267,15 @@ class AppData {
 			console.log('start.disabled: ', start.disabled);
 			depositPercentElem.style.display = 'none';
 			depositPercentElem.value = valueSelect;
+
 		} 
 		if (valueSelect !== 'other') {
 			start.disabled = true;
+			depositAmountElem.value = '';
+
 			console.log('start.disabled : ', start.disabled );
 			depositAmountElem.addEventListener('input', () => {
-				if (depositAmountElem.value === '' || depositBankElem.value === '' || ) {
+				if (depositAmountElem.value === '' || depositBankElem.value === '' || depositPercentElem === ''  ) {
 					start.disabled = true;
 					console.log('start.disabled : ', start.disabled );
 				} else {
@@ -360,7 +365,7 @@ class AppData {
 				start.disabled = false; 
 				console.log('start.disabled: ', start.disabled);
 			}
-			if (depositPercentElem.value === '') {
+			if (depositPercentElem.value === '' || salaryAmountElem.value === '' || depositAmountElem.value === '' ) {
 				start.disabled = true; 
 				console.log('start.disabled: ', start.disabled);
 			}
