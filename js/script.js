@@ -134,9 +134,8 @@ class AppData {
 	
 	// поля данных 
 	showResult () {
-		const _this = this;
 		periodSelectElem.addEventListener( 'input', () => {
-			incomePeriodElem.value = _this.calcSavedMoney();	// динамическое изменение инпут Накопления за период
+			incomePeriodElem.value = this.calcSavedMoney();	// динамическое изменение инпут Накопления за период
 		});
 		budgetMonthElem.value = this.budgetMonth;
 		budgetDayElem.value = Math.ceil(this.budgetDay);
@@ -170,24 +169,22 @@ class AppData {
 	
 	 // получение списка обязательных расходов
 	getExpenses () {
-		const _this = this;
 		expensesItemsElem.forEach((item) => {
 			const itemExpenses = item.querySelector('.expenses-title').value;
 			const cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-				_this.expenses[itemExpenses] = cashExpenses;
+				this.expenses[itemExpenses] = cashExpenses;
 			}
 		});
 	}
 	
 	// получение списка дополнительного источника заработка
 	getIncome () {
-		const _this = this;
 		incomeItemsElem.forEach((item) => {
 			const itemIncome = item.querySelector('.income-title').value;
 			const cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
-				_this.income[itemIncome] = cashIncome;
+				this.income[itemIncome] = cashIncome;
 			}
 		});
 		for (let key in this.income) {
@@ -196,22 +193,20 @@ class AppData {
 	}
 	// значение additionalExpensesItemElem разбивает на масив через метод split через запятую и присваеваеться переменной addExpenses через forEach перебераем масив addExpenses item – очередной элемент массива через метод trim удаляет  пробельные символы с обоих концов строки и через условие если item – очередной элемент массива не пустая строка то пушим в обьект appData методом push в конец масива 
 	getAddExpenses () {
-		const _this = this;
 		const addExpenses = additionalExpensesItemElem.value.split(', ');
 		addExpenses.forEach((item) => {
 			item = item.trim();
 			if (item !== '') {
-				_this.addExpenses.push(item);
+				this.addExpenses.push(item);
 			}
 		});
 	}
 	
 	getAddIncome () {
-		const _this = this;
 			additionIncomeItemElem.forEach((item) => {
 			const itemVaule = item.value.trim();
 			if ( itemVaule !== '' ) {
-				_this.addIncome.push(itemVaule);
+				this.addIncome.push(itemVaule);
 			}
 		});
 	}
@@ -259,14 +254,11 @@ class AppData {
 			depositPercentElem.style.display = 'inline-block';
 			if (depositPercentElem.value !== '') {
 				start.disabled = false;
-				console.log('start.disabled: ', start.disabled);
 			} else {
 				start.disabled = true;
-				console.log('start.disabled: ', start.disabled);
 			}
 		} else {
 			start.disabled = false;
-			console.log('start.disabled: ', start.disabled);
 
 			depositPercentElem.style.display = 'none';
 			depositPercentElem.value = valueSelect;
@@ -296,22 +288,18 @@ class AppData {
 	salaryAmountDepositCheck() {
 		if (depositCheckElem.checked) {
 			start.disabled = true;
-			console.log('start.disabled: ', start.disabled);
 				if (depositCheckElem.checked) {
 					depositPercentElem.addEventListener('input', () => { 
 						if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
 							depositPercentElem.value = '' ;
 							alert('Введите корректное значение в поле проценты (1-100)');
 							start.disabled = true;
-							console.log('start.disabled: ', start.disabled);
 						} else if (depositAmountElem.value !== '' && salaryAmountElem.value !== '' ) {
 								start.disabled = false;
-								console.log('start.disabled: ', start.disabled);
 								this.percentDeposit = +depositPercentElem.value;
 								
 						} else {
 							start.disabled = true;
-							console.log('start.disabled: ', start.disabled);
 						}
 					});
 				}
@@ -319,10 +307,8 @@ class AppData {
 			salaryAmountElem.addEventListener('input', () => {
 				if ( salaryAmountElem.value !== '' ) {
 					start.disabled = false;
-					console.log('start.disabled: ', start.disabled);
 				}  else {
 					start.disabled = true ;
-					console.log('start.disabled: ', start.disabled);
 				}
 			});
 		}
@@ -332,102 +318,17 @@ class AppData {
 	eventsListeners () {
 
 		start.disabled = true; // блокировка кнопки старт
-		console.log('start.disabled: ', start.disabled);
 
-		salaryAmountElem.addEventListener('input', this.salaryAmountDepositCheck.bind(appData));
-		depositCheckElem.addEventListener('input', this.salaryAmountDepositCheck.bind(appData));
+		salaryAmountElem.addEventListener('input', this.salaryAmountDepositCheck.bind(this));
+		depositCheckElem.addEventListener('input', this.salaryAmountDepositCheck.bind(this));
 
-
-
-
-
-
-		// // разблокирвока кнопки старт при условии salaryAmountElem (Месячный доход*) не пустая строка 
-		// salaryAmountElem.addEventListener('input', () => {
-		// 	if ( salaryAmountElem.value !== '' ) {
-		// 		start.disabled = false;
-		// 		console.log('start.disabled: ', start.disabled);
-		// 		if (depositAmountElem.value === '') {
-		// 			start.disabled = true;
-		// 			console.log('start.disabled: ', start.disabled);
-		// 		}else if (depositAmountElem.value !== '') {
-		// 			start.disabled = false ;
-		// 			console.log('start.disabled: ', start.disabled);
-		// 		}
-				
-		// 	}  else {
-		// 		start.disabled = true ;
-		// 		console.log('start.disabled: ', start.disabled);
-
-		// 	}
-		// });
-
-		// depositPercentElem.addEventListener('change', () => { 
-		// 	if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
-		// 		depositPercentElem.value = '' ;
-		// 		alert('Введите корректное значение в поле проценты (1-100)');
-		// 		start.disabled = true;
-		// 		console.log('start.disabled: ', start.disabled);
-		// 	} else if (depositAmountElem.value !== '' && salaryAmountElem.value !== '' ) {
-		// 			start.disabled = false;
-		// 			console.log('start.disabled: ', start.disabled);
-		// 			this.percentDeposit = +depositPercentElem.value;
-					
-		// 	} else {
-		// 		start.disabled = true;
-		// 		console.log('start.disabled: ', start.disabled);
-		// 	}
-		// });
-		
-		// salaryAmountElem,depositCheckElem.addEventListener('input', ()=>{
-		// 	if (depositCheckElem.checked){
-		// 		start.disabled = true;
-		// 		console.log('start.disabled: ', start.disabled);
-
-		// 		depositPercentElem.addEventListener('input', () => { 
-		// 			if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
-		// 				depositPercentElem.value = '' ;
-		// 				alert('Введите корректное значение в поле проценты (1-100)');
-		// 				start.disabled = true;
-		// 				console.log('start.disabled: ', start.disabled);
-		// 			} else if (depositAmountElem.value !== '' && salaryAmountElem.value !== '' ) {
-		// 					start.disabled = false;
-		// 					console.log('start.disabled: ', start.disabled);
-		// 					this.percentDeposit = +depositPercentElem.value;
-							
-		// 			} else {
-		// 				start.disabled = true;
-		// 				console.log('start.disabled: ', start.disabled);
-		// 			}
-		// 		});
-		// 	} else {
-		// 		salaryAmountElem.addEventListener('input', () => {
-		// 			if ( salaryAmountElem.value !== '' ) {
-		// 				start.disabled = false;
-		// 				console.log('start.disabled: ', start.disabled);
-		// 				if (depositAmountElem.value !== '') {
-		// 					start.disabled = false;
-		// 					console.log('start.disabled: ', start.disabled);
-		// 				}else if (depositAmountElem.value !== '') {
-		// 					start.disabled = false ;
-		// 					console.log('start.disabled: ', start.disabled);
-		// 				}
-		// 			}  else {
-		// 				start.disabled = true ;
-		// 				console.log('start.disabled: ', start.disabled);
-		// 			}
-		// 		});
-		// 	}
-		// });
-
-
-		depositCheckElem.addEventListener('change', this.depositHandler.bind(appData));
+		depositCheckElem.addEventListener('change', this.depositHandler.bind(this));
 
 		// на кнопку старт навешиваем слушатель клик, вызываем функцию start обьекта appData привязываем контекст this с помощью bind для обьекта appData
-		start.addEventListener('click', this.start.bind(appData));
+		start.addEventListener('click', this.start.bind(this));
 	
 		// на кнопку сбросить навешиваем слушатель клик, вызываем функцию reset обьекта appData привязываем контекст this с помощью bind для обьекта appData
-		cancel.addEventListener('click', this.reset.bind(appData));
+		cancel.addEventListener('click', this.reset.bind(this));
 	
 		// на кнопку + expensesPlusElem навешиваем слушатель клик, вызываем функцию addExpensesBlock обьекта appData 
 		expensesPlusElem.addEventListener('click', this.addExpensesBlock); // Обязательные расходы ДИВ для добовление новых инпутов
@@ -455,5 +356,4 @@ class AppData {
 const appData = new AppData();
 
 appData.eventsListeners();
-
 
