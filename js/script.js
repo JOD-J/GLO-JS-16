@@ -247,11 +247,10 @@ class AppData {
 	// 
 	changePercent () {
 		const valueSelect = this.value;
-		if (valueSelect === 'other'  ) {
-			depositAmountElem.value = '';
-
+		if (valueSelect === 'other' ) {
 			start.disabled = true;
 			console.log('start.disabled: ', start.disabled);
+			depositAmountElem.value = '';
 			depositPercentElem.value = '';
 			depositPercentElem.style.display = 'inline-block';
 			if (depositPercentElem.value !== '') {
@@ -260,34 +259,31 @@ class AppData {
 			} else {
 				start.disabled = true;
 				console.log('start.disabled: ', start.disabled);
-			}
-		} 
-		else {
-			start.disabled = false;
-			console.log('start.disabled: ', start.disabled);
+			}	
+		} else {
 			depositPercentElem.style.display = 'none';
 			depositPercentElem.value = valueSelect;
-
-		} 
+		}
 		if (valueSelect !== 'other') {
 			start.disabled = true;
-			depositAmountElem.value = '';
-
 			console.log('start.disabled : ', start.disabled );
-			depositAmountElem.addEventListener('input', () => {
-				if (depositAmountElem.value === '' || depositBankElem.value === '' || depositPercentElem === ''  ) {
-					start.disabled = true;
-					console.log('start.disabled : ', start.disabled );
-				} else {
-					start.disabled = false;
-					console.log('start.disabled : ', start.disabled );
-				}
-			});
+			if (depositPercentElem !== '') {
+				depositAmountElem.addEventListener('input', () => {
+					if (depositAmountElem.value === '' || depositBankElem.value === ''  ) {
+						start.disabled = true;
+						console.log('start.disabled : ', start.disabled );
+					} else if ( depositPercentElem.value === '') {
+						start.disabled = true;
+						console.log('start.disabled : ', start.disabled );
+					} else {
+						start.disabled = false ;
+						console.log('start.disabled : ', start.disabled );
+					}
+				});	
+			}
 			depositAmountElem.value = '';
-		}
-
+		} 
 	}
-
 	// 
 	depositHandler () {
 		if (depositCheckElem.checked ) {
@@ -307,29 +303,34 @@ class AppData {
 		}
 	}
 	
-
 	salaryAmountDepositCheck() {
 		if (depositCheckElem.checked) {
 			start.disabled = true;
-				// if (depositCheckElem.checked) {
-				// 	depositPercentElem.addEventListener('input', () => { 
-				// 		if (!this.isNumber(depositPercentElem.value) || depositPercentElem.value <= 0  || depositPercentElem.value > 100  ){
-				// 			depositPercentElem.value = '' ;
-				// 			alert('Введите корректное значение в поле проценты (1-100)');
-				// 			start.disabled = true;
-				// 			console.log('start.disabled: ', start.disabled);
-				// 		} else if (depositAmountElem.value !== '' && salaryAmountElem.value !== '' ) {
-				// 				start.disabled = false;
-				// 				console.log('start.disabled: ', start.disabled);
-				// 				this.percentDeposit = +depositPercentElem.value;
-								
-				// 		} else {
-				// 			start.disabled = true;
-				// 			console.log('start.disabled: ', start.disabled);
-				// 		}
-				// 	});
-				// }
+			console.log('start.disabled: ', start.disabled);
+				if (depositCheckElem.checked) {
+					depositPercentElem.addEventListener('input', (evt) => {
+						const regesp = /^[0-9]+/;
+						const prosto = evt.currentTarget.value;
+						const checkEstr = prosto.match(regesp);
+						depositPercentElem.value = checkEstr ? checkEstr : '';
+						if (depositPercentElem.value > 100 ){
+							alert('Введите корректное значение в поле проценты (1-100)');
+							start.disabled = true; 
+							console.log('start.disabled: ', start.disabled);
+						} else {
+							start.disabled = false; 
+							console.log('start.disabled: ', start.disabled);
+						}
+						if (depositPercentElem.value === '' || salaryAmountElem.value === '' || depositAmountElem.value === '' ) {
+							start.disabled = true; 
+							console.log('start.disabled: ', start.disabled);
+						}
+					});
+				}
 		} else {
+			start.disabled = false;
+			console.log('start.disabled: ', start.disabled);
+
 			salaryAmountElem.addEventListener('input', () => {
 				if ( salaryAmountElem.value !== '' ) {
 					start.disabled = false;
@@ -346,63 +347,12 @@ class AppData {
 	eventsListeners () {
 
 		start.disabled = true; // блокировка кнопки старт
+		console.log('start.disabled: ', start.disabled);
 
 		salaryAmountElem.addEventListener('input', this.salaryAmountDepositCheck.bind(this));
 
 		depositCheckElem.addEventListener('input', this.salaryAmountDepositCheck.bind(this));
 		depositCheckElem.addEventListener('change', this.depositHandler.bind(this));
-
-		depositPercentElem.addEventListener('input', (evt) => {
-			let regesp = /^[0-9]+/;
-			let prosto = evt.currentTarget.value;
-			let checkEstr = prosto.match(regesp);
-			depositPercentElem.value = checkEstr ? checkEstr : '';
-			if (depositPercentElem.value > 100 ){
-				depositPercentElem.value = 'не правильно';
-				start.disabled = true; 
-				console.log('start.disabled: ', start.disabled);
-			} else {
-				start.disabled = false; 
-				console.log('start.disabled: ', start.disabled);
-			}
-			if (depositPercentElem.value === '' || salaryAmountElem.value === '' || depositAmountElem.value === '' ) {
-				start.disabled = true; 
-				console.log('start.disabled: ', start.disabled);
-			}
-		});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		// на кнопку старт навешиваем слушатель клик, вызываем функцию start обьекта appData привязываем контекст this с помощью bind для обьекта appData
 		start.addEventListener('click', this.start.bind(this));
