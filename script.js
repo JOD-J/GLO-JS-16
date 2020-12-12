@@ -1,30 +1,30 @@
 "use strict";
 
-const a = document.querySelector('#a'); // 1 число 
-const b = document.querySelector('#b');	// 2 число 
-const sum = document.querySelector('#sum'); // сумму  a b
-const mult = document.querySelector('#mult'); // произведение  a b
-const res = document.querySelector('#res'); // результат a b
+// const a = document.querySelector('#a'); // 1 число 
+// const b = document.querySelector('#b');	// 2 число 
+// const sum = document.querySelector('#sum'); // сумму  a b
+// const mult = document.querySelector('#mult'); // произведение  a b
+// const res = document.querySelector('#res'); // результат a b
 
 
-const calculator = {
-	sum: function(){
+// const calculator = {
+// 	sum: function(){
 
-		return a.value + b.value;
-	},
-	mult: function(){
-	  // ваш код
-	},
-	show: function(){
-		mult.textContent = sum();
-	}
-};
+// 		return a.value + b.value;
+// 	},
+// 	mult: function(){
+// 	  // ваш код
+// 	},
+// 	show: function(){
+// 		mult.textContent = sum();
+// 	}
+// };
 
-sum.addEventListener('click', calculator.sum);
+// sum.addEventListener('click', calculator.sum);
 
-mult.addEventListener('click', function () {
+// mult.addEventListener('click', function () {
 
-});
+// });
 
 
 // class First {
@@ -94,16 +94,42 @@ mult.addEventListener('click', function () {
 // 	{lesson: 16, type: 'additional', points: 7},
 // 	];
 
-// 	for (let i = 0; i < myLesson.length; i++) {
-// 		if (myLesson[i].type === 'basic') {
-// 			myLesson[i].points /= 2;
-// 		} else {
-// 			myLesson.splice(i, 1);
-// 			i--;
-// 		}
-// 	}
+	// for (let i = 0; i < myLesson.length; i++) {
+	// 	if (myLesson[i].type === 'basic') {
+	// 		myLesson[i].points /= 2;
+	// 	} else {
+	// 		myLesson.splice(i, 1);
+	// 		i--;
+	// 	}
+	// }
 	
-// 	console.log(myLesson);
+	// console.log(myLesson);
+
+
+// let myLesson = [
+// 	{lesson: 1, type: 'basic', points: 2},
+// 	{lesson: 2, type: 'additional', points: 4},
+// 	{lesson: 3, type: 'basic', points: 6},
+// 	{lesson: 4, type: 'additional', points: 3},
+// 	{lesson: 5, type: 'basic', points: 4},
+// 	{lesson: 6, type: 'basic', points: 2},
+// 	{lesson: 7, type: 'additional', points: 2},
+// 	{lesson: 8, type: 'basic', points: 6},
+// 	{lesson: 9, type: 'basic', points: 4},
+// 	{lesson: 10, type: 'basic', points: 6},
+// 	{lesson: 11, type: 'additional', points: 5}, 
+// 	{lesson: 12, type: 'basic', points: 2}, 
+// 	{lesson: 13, type: 'additional', points: 2}, 
+// 	{lesson: 14, type: 'basic', points: 4},
+// 	{lesson: 15, type: 'additional', points: 1},
+// 	{lesson: 16, type: 'additional', points: 7},
+// 	];
+
+
+// 	let newMyLesson = myLesson.filter(item => item.type === 'basic').map(item => ({...item, points: item.points/2}));
+
+// console.log('newMyLesson ', newMyLesson);
+// console.log('myLesson ', myLesson);
 
 
 
@@ -131,36 +157,35 @@ mult.addEventListener('click', function () {
 
 
 
+let ulElem = document.querySelector('.ul');
+let liElem = document.querySelectorAll('li');
+let inputElem = document.querySelector('.input');
+let buttonElem = document.querySelector('.button');
+
+let buttonElemBlok = () => {
+	buttonElem.disabled = true;
+};
+
+inputElem.addEventListener('input', () => {
+	if (inputElem.value !== ''){
+		buttonElem.disabled = false;
+	}
+});
+
+buttonElem.addEventListener('click', (item) => {
+	ulElem.forEach(function (item ) {
+
+		let li = document.createElement('li');
+
+		item = inputElem.value;
+		li.innerHTML = `<li>${item}</li>`;
+	});
 
 
+	inputElem.value = '';
 
+	buttonElemBlok();
 
-// let ulElem = document.querySelector('.ul');
-// let liElem = document.querySelectorAll('li');
-// let inputElem = document.querySelector('.input');
-// let buttonElem = document.querySelector('.button');
+});
 
-// let buttonElemBlok = () => {
-// 	buttonElem.disabled = true;
-// };
-
-// inputElem.addEventListener('input', () => {
-// 	if (inputElem.value !== ''){
-// 		buttonElem.disabled = false;
-// 	}
-// });
-
-// buttonElem.addEventListener('click', (item) => {
-// 	let li = document.createElement('li');
-// 	item = inputElem.value;
-// 	li.innerHTML = `<li>${item}</li>`;
-
-// 	// ulElem.append(liValue) ;
-
-// 	inputElem.value = '';
-
-// 	buttonElemBlok();
-
-// });
-
-// buttonElemBlok();
+buttonElemBlok();
