@@ -46,35 +46,6 @@
 // 	second.hello();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const myLesson = [
 // 	{lesson: 1, type: 'basic', points: 2},
 // 	{lesson: 2, type: 'additional', points: 4},
@@ -132,60 +103,30 @@
 // console.log('myLesson ', myLesson);
 
 
+// let ulElem = document.querySelector('ul');
+// let liElem = document.querySelectorAll('li');
+// let inputElem = document.querySelector('input');
+// let buttonElem = document.querySelector('button');
 
+// let buttonElemBlok = () => {
+// 	buttonElem.disabled = true;
+// };
 
+// inputElem.addEventListener('input', () => {
+// 	if (inputElem.value !== ''){
+// 		buttonElem.disabled = false;
+// 	} else{
+// 		buttonElemBlok();
+// 	}
+// });
 
+// buttonElem.addEventListener('click', (item ) => {
+// 	let li = document.createElement('li');
+// 	item = inputElem.value;
+// 	li.innerHTML = `<li>${item}</li>`;
+// 	ulElem.append(li);
+// 	inputElem.value = '';
+// 	buttonElemBlok();
+// });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let ulElem = document.querySelector('.ul');
-let liElem = document.querySelectorAll('li');
-let inputElem = document.querySelector('.input');
-let buttonElem = document.querySelector('.button');
-
-let buttonElemBlok = () => {
-	buttonElem.disabled = true;
-};
-
-inputElem.addEventListener('input', () => {
-	if (inputElem.value !== ''){
-		buttonElem.disabled = false;
-	}
-});
-
-buttonElem.addEventListener('click', (item) => {
-	ulElem.forEach(function (item ) {
-
-		let li = document.createElement('li');
-
-		item = inputElem.value;
-		li.innerHTML = `<li>${item}</li>`;
-	});
-
-
-	inputElem.value = '';
-
-	buttonElemBlok();
-
-});
-
-buttonElemBlok();
+// buttonElemBlok();
