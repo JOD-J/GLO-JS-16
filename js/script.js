@@ -248,6 +248,7 @@ class AppData {
 	changePercent () {
 		const valueSelect = this.value;
 		if (valueSelect === 'other' ) {
+			depositAmountElem.removeEventListener ('input', this.changePercent);
 			start.disabled = true;
 			console.log('start.disabled: ', start.disabled);
 			depositAmountElem.value = '';
@@ -307,27 +308,26 @@ class AppData {
 		if (depositCheckElem.checked) {
 			start.disabled = true;
 			console.log('start.disabled: ', start.disabled);
-				if (depositCheckElem.checked) {
-					depositPercentElem.addEventListener('input', (evt) => {
-						const regesp = /^[0-9]+/;
-						const prosto = evt.currentTarget.value;
-						const checkEstr = prosto.match(regesp);
-						depositPercentElem.value = checkEstr ? checkEstr : '';
-						if (depositPercentElem.value > 100 ){
-							alert('Введите корректное значение в поле проценты (1-100)');
-							start.disabled = true; 
-							depositPercentElem.value = '';
-							console.log('start.disabled: ', start.disabled);
-						} else {
-							start.disabled = false; 
-							console.log('start.disabled: ', start.disabled);
-						}
-						if (depositPercentElem.value === '' || salaryAmountElem.value === '' || depositAmountElem.value === '' ) {
-							start.disabled = true; 
-							console.log('start.disabled: ', start.disabled);
-						}
-					});
-				}
+				depositPercentElem.addEventListener('input', (evt) => {
+					const regesp = /^[0-9]+/;
+					const prosto = evt.currentTarget.value;
+					const checkEstr = prosto.match(regesp);
+					depositPercentElem.value = checkEstr ? checkEstr : '';
+					if (depositPercentElem.value > 100 ){
+						alert('Введите корректное значение в поле проценты (1-100)');
+						start.disabled = true; 
+						depositPercentElem.value = '';
+						console.log('start.disabled: ', start.disabled);
+					} else {
+						start.disabled = false; 
+						console.log('start.disabled: ', start.disabled);
+					}
+					if (depositPercentElem.value === '' || salaryAmountElem.value === '' || depositAmountElem.value === '' ) {
+						start.disabled = true; 
+						console.log('start.disabled: ', start.disabled);
+					}
+				});
+
 		} else {
 			start.disabled = false;
 			console.log('start.disabled: ', start.disabled);
