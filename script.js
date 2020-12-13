@@ -1,31 +1,160 @@
 "use strict";
 
-// const a = document.querySelector('#a'); // 1 число 
-// const b = document.querySelector('#b');	// 2 число 
-// const sum = document.querySelector('#sum'); // сумму  a b
-// const mult = document.querySelector('#mult'); // произведение  a b
-// const res = document.querySelector('#res'); // результат a b
+let aElem = document.querySelector('#a'); // 1 число 
+let bElem = document.querySelector('#b');	// 2 число 
+let sumElem = document.querySelector('#sum'); // сумму  a b
+let multElem = document.querySelector('#mult'); // произведение  a b
+let resElem = document.querySelector('#res'); // результат a b
+
+const calculator = {
+	blocking: function(){
+		if (aElem.value !== '' && bElem.value !== '') {
+			sumElem.disabled = false;
+			multElem.disabled = false;
+		} else {
+			resElem.disabled = true;
+			sumElem.disabled = true;
+			multElem.disabled = true;
+		}
+	},
+	clearInput: function (){
+		aElem.value = '';
+		bElem.value = '';
+	},
+	sum: function(){
+		resElem.value = +aElem.value + (+bElem.value);
+		calculator.clearInput();
+		calculator.blocking();
+	},
+	mult: function(){
+		resElem.value = +aElem.value * (+bElem.value);
+		calculator.clearInput();
+		calculator.blocking();
+	},
+	show: function(){
+		this.blocking();
+		aElem.addEventListener('input', this.blocking);
+		bElem.addEventListener('input', this.blocking);
+		sumElem.addEventListener('click', this.sum);
+		multElem.addEventListener('click', this.mult);
+	}
+};
+calculator.show();
+
 
 
 // const calculator = {
+// 	blocking: function(){
+// 		if (aElem.value !== '' && bElem.value !== '') {
+// 			sumElem.disabled = false;
+// 			multElem.disabled = false;
+// 		} else {
+// 			resElem.disabled = true;
+// 			sumElem.disabled = true;
+// 			multElem.disabled = true;
+// 		}
+// 	},
+// 	clearInput: function (){
+// 		aElem.value = '';
+// 		bElem.value = '';
+// 	},
 // 	sum: function(){
-
-// 		return a.value + b.value;
+// 		// sumElem.removeEventListener('click', calculator.sum);
+// 		return calculator.show();
 // 	},
 // 	mult: function(){
-// 	  // ваш код
+// 		// multElem.removeEventListener('click', calculator.sum);
+// 		return calculator.show();
+// 	},
+// 	show: function(aElema, bElemb, event){
+// 		// event.preventDefault();
+// 		resElem.value = '';
+// 		aElema = +aElem.value;
+// 		bElemb = +bElem.value;
+		
+// 		if (false) {
+// 			resElem.value = aElema + bElemb;
+// 			calculator.clearInput();
+// 			calculator.blocking();
+// 			return resElem;
+// 		} else {
+// 			resElem.value = aElema * bElemb;
+// 			calculator.clearInput();
+// 			calculator.blocking();
+// 			console.log(resElem.value);
+// 			return resElem;
+// 		}
+		
+// 	}
+// };
+// calculator.blocking();
+// sumElem.addEventListener('click', calculator.sum);
+// multElem.addEventListener('click', calculator.mult);
+// aElem.addEventListener('input', calculator.blocking);
+// bElem.addEventListener('input', calculator.blocking);
+
+
+
+// let calculator = {
+// 	firstNumber: 0,
+// 	secondNumber: 0,
+// 	blocking: function(){
+// 		if (aElem.value !== '' && bElem.value !== '') {
+// 			sumElem.disabled = false;
+// 			multElem.disabled = false;
+// 		} else {
+// 			resElem.disabled = true;
+// 			sumElem.disabled = true;
+// 			multElem.disabled = true;
+// 		}
+// 	},
+// 	sum: function(){
+// 		calculator.firstNumber = +aElem.value;
+// 		calculator.secondNumber = +bElem.value;
+// 		let sumFirstSecond = calculator.firstNumber + calculator.secondNumber;
+// 		console.log('sum: ', sumFirstSecond);
+// 		return sumFirstSecond;
+// 	},
+// 	mult: function(){
+// 		calculator.firstNumber = +aElem.value;
+// 		calculator.secondNumber = +bElem.value;
+// 		let sumFirstSecond = calculator.firstNumber * calculator.secondNumber;
+// 		console.log('mult: ', sumFirstSecond);
+// 		return sumFirstSecond;
 // 	},
 // 	show: function(){
-// 		mult.textContent = sum();
+// 		let sumElemNotPressed = true;
+// 		console.log('sumElemNotPressed: ', sumElemNotPressed);
+
+// 		sumElemNotPressed = !sumElem ;
+// 		console.log('sumElemNotPressed: ', sumElemNotPressed);
+
+// 		if (!sumElemNotPressed ) {
+// 			calculator.sum();
+// 			console.log('sum: ', sumElemNotPressed);
+			
+// 			aElem.value = '';
+// 			bElem.value = '';
+// 			calculator.blocking();
+// 		} else {
+// 			calculator.mult();
+// 			console.log('mult: ', sumElemNotPressed);
+
+// 			aElem.value = '';
+// 			bElem.value = '';
+// 			calculator.blocking();
+
+// 		}
 // 	}
 // };
 
-// sum.addEventListener('click', calculator.sum);
+// calculator.blocking();
 
-// mult.addEventListener('click', function () {
+// aElem.addEventListener('input', calculator.blocking);
+// bElem.addEventListener('input', calculator.blocking);
 
-// });
-
+// sumElem.addEventListener('click', calculator.sum);
+// multElem.addEventListener('click', calculator.mult);
 
 // class First {
 // 	constructor(heloFirst, heloSecond) {
