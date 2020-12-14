@@ -1,8 +1,7 @@
-
 // eslint-disable-next-line strict
 window.addEventListener('DOMContentLoaded', ()  => {
-
 	'use sctrict';
+
 	// Timer
 	function countTimer(deadline) {
 		const timerHoursElem = document.querySelector('#timer-hours'),
@@ -21,14 +20,19 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		function updateClock() {
 			const timer = getTimeRemaining();
-			timerHoursElem.textContent = timer.hours;			// выводим hours в html
-			timerMinutesElem.textContent = timer.minutes;		// выводим minutes в html
-			timerSecondsElem.textContent = timer.seconds;		// выводим seconds в html
-			if (timer.timeRemaining > 0) {
-				// setInterval(updateClock, 1000);
+			if (timer.timeRemaining >= 0) {
+				timerHoursElem.textContent = timer.hours;			// выводим hours в html.
+				timerMinutesElem.textContent = timer.minutes;		// выводим minutes в html.
+				timerSecondsElem.textContent = timer.seconds;		// выводим seconds в html.
+
+				setInterval(updateClock, 1000);
+			} else {
+				timerHoursElem.textContent = '00';		// остановка часов при достижении цели.
+				timerMinutesElem.textContent = '00';	// остановка часов при достижении цели.
+				timerSecondsElem.textContent = '00';	// остановка часов при достижении цели.
 			}
 		}
 		updateClock();
 	}
-	countTimer('01 july 2021');
+	countTimer('15 December 2020');
 });
