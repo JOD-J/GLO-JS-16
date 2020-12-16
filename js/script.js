@@ -59,18 +59,24 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	// menu
 	const toggleMenu = () => {
 		const btnMenuElem = document.querySelector('.menu'),		// элементы со тсраницы кнопка header
-			menuElem = document.querySelector('menu'),				// элементы со тсраницы див с меню
-			btnCloseElem = document.querySelector('.close-btn'),	// элементы со тсраницы закрытие меню
-			menuItemElem = menuElem.querySelectorAll('ul>li');		// элементы со тсраницы получение всег осписка меню
+			menuElem = document.querySelector('menu');				// элементы со тсраницы див с меню
 		//======================================================handlerMenu===========================================================
 		const handlerMenu = () => {
-			menuElem.classList.toggle('active-menu');	 // навешивание стилей на див
+			menuElem.classList.toggle('active-menu');	 		// навешивание стилей на див
 		};
 		//==============================================\\\\\\\handlerMenu===========================================================
 		//===================================================слушатели==============================================================
-		btnMenuElem.addEventListener('click', handlerMenu);								// слушатель на закрытие меню
-		btnCloseElem.addEventListener('click', handlerMenu);							// слушатель на закрытие меню
-		menuItemElem.forEach(elem => elem.addEventListener('click', handlerMenu));		// для каждого элемента закрытие меню
+		btnMenuElem.addEventListener('click', handlerMenu);			// слушатель на закрытие меню
+		menuElem.addEventListener('click', event => {
+			const target = event.target;
+			if (target.classList.contains('close-btn')) {		// проверки на вложенность получение close-btn
+				handlerMenu();									// запуск функции handlerMenu
+			} else {
+				if (target.closest('ul>li>a')) { 				// получаем ближайший родительский элемент ul>li>a
+					handlerMenu();								// запуск функции handlerMenu
+				}
+			}
+		});
 		//==============================================\\\\\\\слушатели===========================================================
 	};
 	//==============================================\\\\\\\toggleMenu===========================================================
@@ -81,14 +87,13 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	// popup
 	const togglePopup = () => {
 		const popupElem = document.querySelector('.popup'),					// элементы со тсраницы див с самим popup
-			btnPopupElem = document.querySelectorAll('.popup-btn'),			// элементы со тсраницы кнопки оставить заявку 
-			btnPopupCloseElem = document.querySelector('.popup-close');		// элементы со тсраницы закрытие popup окна
+			btnPopupElem = document.querySelectorAll('.popup-btn');			// элементы со тсраницы кнопки оставить заявку
 		//======================================================animatePopup===========================================================
 		const animatePopup = () => {
 			popupElem.style.transform = `translate(-100%)`;	// убираем popup
 			let count = -100;								// счетчик -100 для скрытия popup
 			const go = () => {
-				count = 1 + count; 							// счетчик прибавляем каждый раз с условием count === 100
+				count = 5 + count; 							// счетчик прибавляем каждый раз с условием count === 100
 				popupElem.style.left = `${count}%`; 		// появление popup окна
 				const animate = requestAnimationFrame(go);	// запуск анимации
 				if (count === 100) {
@@ -107,12 +112,57 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				}
 			});
 		});
-		btnPopupCloseElem.addEventListener('click', () => {
-			popupElem.style.display = 'none';	// убираем элемент со страницы popup
+		popupElem.addEventListener('click', event => {
+			let target = event.target;
+			if (target.classList.contains('popup-close')) {
+				popupElem.style.display = 'none';
+			} else {
+				target = target.closest('.popup-content');
+				if (!target) {
+					popupElem.style.display = 'none';
+				}
+			}
 		});
 		//==============================================\\\\\\\слушатели======================================================
 	};
 	//==============================================\\\\\\\togglePopup======================================================
 	togglePopup();
+
+
+	//======================================================tabs===========================================================
+	// табы
+	const tabs = () => {
+		const tabHeaderElem = document.querySelector('.service-header'),		// элемент со страницы див с сылками
+			tabElem = tabHeaderElem.querySelectorAll('.service-header-tab'),	// элемент со страницы ссылки
+			tabContentElem = document.querySelectorAll('.service-tab');			// элемент со страницы контент
+		//======================================================toggleTabContent===========================================================
+		const toggleTabContent = index => {
+			for (let i = 0; i < tabContentElem.length; i++) {
+				if (index === i) {									// условие
+					tabElem[i].classList.add('active');				// добовление  активного класса
+					tabContentElem[i].classList.remove('d-none');	// удаление display none
+				} else {
+					tabElem[i].classList.remove('active');			// удаление активного класса
+					tabContentElem[i].classList.add('d-none');		// добовление display none
+				}
+			}
+		};
+		//==============================================\\\\\\\toggleTabContent======================================================
+		//======================================================слушатель===========================================================
+		tabHeaderElem.addEventListener('click', event => {
+			let target = event.target;
+			target = event.target.closest('.service-header-tab');
+			if (target) {
+				tabElem.forEach((item, i) => {
+					if (item === target) {
+						toggleTabContent(i);
+					}
+				});
+			}
+		});
+		//==============================================\\\\\\\слушатель======================================================
+	};
+	//==============================================\\\\\\\tabs======================================================
+	tabs();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
