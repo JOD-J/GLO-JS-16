@@ -3,6 +3,8 @@
 // eslint-disable-next-line strict
 window.addEventListener('DOMContentLoaded', ()  => {
 	'use sctrict';
+
+
 	//======================================================countTimer===========================================================
 	// Timer
 	function countTimer(deadline) {
@@ -28,7 +30,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				timerHoursElem.textContent = timer.hours;			// выводим hours в html.
 				timerMinutesElem.textContent = timer.minutes;		// выводим minutes в html.
 				timerSecondsElem.textContent = timer.seconds;		// выводим seconds в html.
-				console.log('if', timer.timeRemaining);				// проверка работы setInterval.
+				// console.log('if', timer.timeRemaining);				// проверка работы setInterval.
 				if (timer.hours < 10) {
 					timerHoursElem.textContent = '0' +  timer.hours;		// конкантенация строки с числом hours.
 				}
@@ -43,7 +45,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				timerHoursElem.textContent = '00';			// присвоение значение 00 для hours в сулчае окончание акции.
 				timerMinutesElem.textContent = '00';		// присвоение значение 00 для minutes в сулчае окончание акции.
 				timerSecondsElem.textContent = '00';		// присвоение значение 00 для seconds в сулчае окончание акции.
-				console.log('else', timer.timeRemaining);	// проверка удаление setInterval.
+				// console.log('else', timer.timeRemaining);	// проверка удаление setInterval.
 
 			}
 		}
@@ -51,5 +53,66 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	}
 	//==============================================\\\\\\\countTimer===========================================================
 	countTimer('30 December 2020 ');
+
+
+	//======================================================toggleMenu===========================================================
+	// menu
+	const toggleMenu = () => {
+		const btnMenuElem = document.querySelector('.menu'),		// элементы со тсраницы кнопка header
+			menuElem = document.querySelector('menu'),				// элементы со тсраницы див с меню
+			btnCloseElem = document.querySelector('.close-btn'),	// элементы со тсраницы закрытие меню
+			menuItemElem = menuElem.querySelectorAll('ul>li');		// элементы со тсраницы получение всег осписка меню
+		//======================================================handlerMenu===========================================================
+		const handlerMenu = () => {
+			menuElem.classList.toggle('active-menu');	 // навешивание стилей на див
+		};
+		//==============================================\\\\\\\handlerMenu===========================================================
+		//===================================================слушатели==============================================================
+		btnMenuElem.addEventListener('click', handlerMenu);								// слушатель на закрытие меню
+		btnCloseElem.addEventListener('click', handlerMenu);							// слушатель на закрытие меню
+		menuItemElem.forEach(elem => elem.addEventListener('click', handlerMenu));		// для каждого элемента закрытие меню
+		//==============================================\\\\\\\слушатели===========================================================
+	};
+	//==============================================\\\\\\\toggleMenu===========================================================
+	toggleMenu();
+
+
+	//======================================================togglePopup===========================================================
+	// popup
+	const togglePopup = () => {
+		const popupElem = document.querySelector('.popup'),					// элементы со тсраницы див с самим popup
+			btnPopupElem = document.querySelectorAll('.popup-btn'),			// элементы со тсраницы кнопки оставить заявку 
+			btnPopupCloseElem = document.querySelector('.popup-close');		// элементы со тсраницы закрытие popup окна
+		//======================================================animatePopup===========================================================
+		const animatePopup = () => {
+			popupElem.style.transform = `translate(-100%)`;	// убираем popup
+			let count = -100;								// счетчик -100 для скрытия popup
+			const go = () => {
+				count = 1 + count; 							// счетчик прибавляем каждый раз с условием count === 100
+				popupElem.style.left = `${count}%`; 		// появление popup окна
+				const animate = requestAnimationFrame(go);	// запуск анимации
+				if (count === 100) {
+					cancelAnimationFrame(animate); 			// отмена анимации при условии count === 100
+				}
+			};
+			requestAnimationFrame(go);						// запуск анимации
+		};
+		//==============================================\\\\\\\animatePopup======================================================
+		//======================================================слушатели===========================================================
+		btnPopupElem.forEach(elem => {
+			elem.addEventListener('click', () => {
+				popupElem.style.display = 'block';	// показываем элемент со страницы popup
+				if (window.innerWidth > 768) {
+					animatePopup();					// при условие если экран меньше чем 768 отключаем анимацию
+				}
+			});
+		});
+		btnPopupCloseElem.addEventListener('click', () => {
+			popupElem.style.display = 'none';	// убираем элемент со страницы popup
+		});
+		//==============================================\\\\\\\слушатели======================================================
+	};
+	//==============================================\\\\\\\togglePopup======================================================
+	togglePopup();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
