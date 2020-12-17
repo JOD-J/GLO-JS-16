@@ -1,71 +1,60 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
+
 "use strict";
 
-const ulElem = document.querySelector('.ul'),
-	days  = ['Воскресение', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота' ],
-	date = new Date(),
-	hours = date.getHours(),
-	dateNewYear = new Date(2020, 11, 31);
+function counterTimer(newYear) {
+	const timeOfDay = document.querySelector('.time-of-day'),
+		nowDay = document.querySelector('.now-day'),
+		nowTime = document.querySelector('.now-time'),
+		newYearCounter = document.querySelector('.new-year-counter');
 
-const dateTime =  {
-	getTimeRemaining: () => {
-		const	dateStop = new Date(dateNewYear).getTime(),	// экземпляр класса date так мы получим конечную дату через метод getTime находим милисекунды.
-			dateNow = new Date().getTime(),					// получаем текущю дату через метод getTime находим милисекунды.
-			timeRemaining = (dateStop - dateNow) / 1000,	// разница между двумя датами |1000 получаем секунды.
-			seconds = Math.floor(timeRemaining % 60),		// % 60 остаток от деления.
-			minutes = Math.floor((timeRemaining / 60) % 60),
-			hours = Math.floor(timeRemaining / 60 / 60),
-			days =  Math.floor(timeRemaining / 60 / 60 / 24);
-		return { timeRemaining, days, hours, minutes, seconds };
-	},
-	getStyleDateTime: () => {
-		ulElem.style.width = '500px';
-		ulElem.style.height = '200px';
-		ulElem.style.border = '1px solid red';
-	},
-	getGood: () => {
-		const li = document.createElement('li');
-		const timer = dateTime.getTimeRemaining();
-		if (timer.hours >= 12) {
-			li.textContent = `Добрый день`;
-			return ulElem.append(li);
-		} else if (timer.hours >= 18) {
-			li.textContent = `Добрый вечер`;
-			return ulElem.append(li);
-		} else if (timer.hours >= 24) {
-			li.textContent = `Доброй ночи`;
-			return	ulElem.append(li);
-		} else if (timer.hours >= 6) {
-			li.textContent = `Доброe утро`;
-			return ulElem.append(li);
+	function getTimeRemaining() {
+		const dateNow = new Date().getTime(),
+			dateNewYear = new Date(newYear).getTime(),
+			timeRemaining = (dateNewYear - dateNow) / 1000,
+			days = Math.floor(timeRemaining / 60 / 60 / 24),
+			now = new Date(),
+			nowDay = new Date(),
+			options = { hour: 'numeric', minute: 'numeric', second: 'numeric' },
+			hours = Intl.DateTimeFormat('ru-Ru', options).format(now),
+			weekday = Intl.DateTimeFormat('ru-Ru',  { weekday: 'long' }).format(nowDay);
+		return { timeRemaining, days, now, hours, weekday };
+	}
+	setInterval(updateClock, 1);
+	function updateClock() {
+		const timer = getTimeRemaining();
+
+		if (timer.hours > '12:00:00') {
+			timeOfDay.textContent = `Добрый день`;
+			nowDay.textContent = `Сегодня ${timer.weekday}`;
+			nowTime.textContent = `Текущее время: ${timer.hours} PM`;
 		}
-	},
-	getToDay: () => {
-		const li = document.createElement('li');
-		li.textContent = `Сегодня ${days[date.getDay()]}`;
-		return ulElem.append(li);
-	},
-	getTime: () => {
-		const li = document.createElement('li');
-		li.textContent = `Текущее время: ${date.toTimeString().slice(0, 8)}`;
-		return ulElem.append(li);
+		if (timer.hours > '17:00:00') {
+			timeOfDay.textContent = `Добрый вечер`;
+		}
+		if (timer.hours < '12:00:00') {
+			timeOfDay.textContent = `Доброе утро`;
+			nowTime.textContent = `Текущее время: ${timer.hours} AM`;
+		}
+		if (timer.hours > '00:00:00' && timer.hours < '06:00:00') {
+			timeOfDay.textContent = `Доброй ночи`;
+			nowTime.textContent = `Текущее время: ${timer.hours} AM`;
+		}
+		if (timer.days.toString().match(/[2-4]$/)) {
+			newYearCounter.textContent = `До нового года осталось ${timer.days} дня`;
+		}
+		if (timer.days.toString().match(/[5-9]$/) || timer.days.toString().match(/0$/)) {
+			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
+		}
+		if (timer.days.toString().match(/1$/)) {
+			newYearCounter.textContent = `До нового года остался ${timer.days} день`;
+		}
+		if (timer.days.toString().match(/[1]1$/)) {
+			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
+		}
+		if (timer.days.toString().match(/^1[2-9]$/)) {
+			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
+		}
+	}
+}
 
-	},
-	getDayToNewYear: () => {
-		const li = document.createElement('li');
-		const timer = dateTime.getTimeRemaining();
-		const dayToNewYear = timer.days;
-		li.textContent = `До нового года осталось ` + dayToNewYear + ` дней`;
-		return ulElem.append(li);
-	},
-	showDateTime: () => {
-		dateTime.getStyleDateTime();
-		dateTime.getGood();
-		dateTime.getToDay();
-		dateTime.getTime();
-		dateTime.getDayToNewYear();
-	},
-};
-
-dateTime.showDateTime();
+counterTimer('1 jan 2021');
