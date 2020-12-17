@@ -87,16 +87,17 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	// popup
 	const togglePopup = () => {
 		const popupElem = document.querySelector('.popup'),					// элементы со тсраницы див с самим popup
-			btnPopupElem = document.querySelectorAll('.popup-btn');			// элементы со тсраницы кнопки оставить заявку
+			btnPopupElem = document.querySelectorAll('.popup-btn'),			// элементы со тсраницы кнопки оставить заявку
+			popupContentElem = document.querySelector('.popup-content');	// элементы со тсраницы контейнер для popup
 		//======================================================animatePopup===========================================================
 		const animatePopup = () => {
-			popupElem.style.transform = `translate(-100%)`;	// убираем popup
+			popupContentElem.style.transform = `translate(-50%)`;	// убираем popup
 			let count = -100;								// счетчик -100 для скрытия popup
 			const go = () => {
-				count = 5 + count; 							// счетчик прибавляем каждый раз с условием count === 100
-				popupElem.style.left = `${count}%`; 		// появление popup окна
+				count = 1 + count; 							// счетчик прибавляем каждый раз с условием count === 100
+				popupContentElem.style.left = `${count}%`; 		// появление popup окна
 				const animate = requestAnimationFrame(go);	// запуск анимации
-				if (count === 100) {
+				if (count === 50) {
 					cancelAnimationFrame(animate); 			// отмена анимации при условии count === 100
 				}
 			};
