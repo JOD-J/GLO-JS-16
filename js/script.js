@@ -178,6 +178,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			portfolioDotsElem.insertAdjacentElement('afterbegin', dotCreatesElem); 	// добовляем в portfolioDotsElem полученный dotCreatesElem
 		}
 		const dot = document.querySelectorAll('.dot');						// получаем dot для дальнейшей работы
+		dot[0].classList.add('dot-active'); 								// активный класс дайем первой точке
 		let currentSlide = 0, 												// номер слайда для изменение слайда
 			interval;
 		//======================================================prevSlide===========================================================
