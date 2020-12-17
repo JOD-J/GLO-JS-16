@@ -2,10 +2,10 @@
 "use strict";
 
 function counterTimer(newYear) {
-	const timeOfDay = document.querySelector('.time-of-day'),
-		nowDay = document.querySelector('.now-day'),
-		nowTime = document.querySelector('.now-time'),
-		newYearCounter = document.querySelector('.new-year-counter');
+	const timeOfDayElem = document.querySelector('.time-of-day'),
+		nowDayElem = document.querySelector('.now-day'),
+		nowTimeElem = document.querySelector('.now-time'),
+		newYearCounterElem = document.querySelector('.new-year-counter');
 
 	function getTimeRemaining() {
 		const dateNow = new Date().getTime(),
@@ -14,47 +14,43 @@ function counterTimer(newYear) {
 			days = Math.floor(timeRemaining / 60 / 60 / 24),
 			now = new Date(),
 			nowDay = new Date(),
-			options = { hour: 'numeric', minute: 'numeric', second: 'numeric' },
+			options = {
+				hour: 'numeric',
+				minute: 'numeric',
+				second: 'numeric'
+			},
 			hours = Intl.DateTimeFormat('ru-Ru', options).format(now),
 			weekday = Intl.DateTimeFormat('ru-Ru',  { weekday: 'long' }).format(nowDay);
-		return { timeRemaining, days, now, hours, weekday };
+		return { days, hours, weekday };
 	}
-	setInterval(updateClock, 1);
+
+	function showDayTime() {
+		const timer = getTimeRemaining();
+		nowDayElem.textContent = `Сегодня ${timer.weekday}`;
+		nowTimeElem.textContent = `Текущее время: ${timer.hours}`;
+	}
+	setInterval(updateClock, 1000);
 	function updateClock() {
 		const timer = getTimeRemaining();
-
 		if (timer.hours > '12:00:00') {
-			timeOfDay.textContent = `Добрый день`;
-			nowDay.textContent = `Сегодня ${timer.weekday}`;
-			nowTime.textContent = `Текущее время: ${timer.hours} PM`;
+			timeOfDayElem.textContent = `Добрый день`;
+			showDayTime();
 		}
 		if (timer.hours > '17:00:00') {
-			timeOfDay.textContent = `Добрый вечер`;
+			timeOfDayElem.textContent = `Добрый вечер`;
+			showDayTime();
 		}
 		if (timer.hours < '12:00:00') {
-			timeOfDay.textContent = `Доброе утро`;
-			nowTime.textContent = `Текущее время: ${timer.hours} AM`;
+			timeOfDayElem.textContent = `Доброе утро`;
+			showDayTime();
 		}
 		if (timer.hours > '00:00:00' && timer.hours < '06:00:00') {
-			timeOfDay.textContent = `Доброй ночи`;
-			nowTime.textContent = `Текущее время: ${timer.hours} AM`;
+			timeOfDayElem.textContent = `Доброй ночи`;
+			showDayTime();
 		}
-		if (timer.days.toString().match(/[2-4]$/)) {
-			newYearCounter.textContent = `До нового года осталось ${timer.days} дня`;
-		}
-		if (timer.days.toString().match(/[5-9]$/) || timer.days.toString().match(/0$/)) {
-			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
-		}
-		if (timer.days.toString().match(/1$/)) {
-			newYearCounter.textContent = `До нового года остался ${timer.days} день`;
-		}
-		if (timer.days.toString().match(/[1]1$/)) {
-			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
-		}
-		if (timer.days.toString().match(/^1[2-9]$/)) {
-			newYearCounter.textContent = `До нового года осталось ${timer.days} дней`;
+		if (timer.days) {
+			newYearCounterElem.textContent = `До нового года осталось ${timer.days} дней`;
 		}
 	}
 }
-
 counterTimer('1 jan 2021');
