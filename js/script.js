@@ -85,6 +85,7 @@ class Todo {
 		this.todoContainer.addEventListener('click', event => {
 			event.preventDefault(); 										// отмена действие по умолчанию
 			const target = event.target;									// target = элементу html
+			console.log(target);
 			if (target.matches('.todo-remove')) {							// если клик класс .todo-remove вызов deleteItem
 				this.deleteItem(target.parentElement);						//
 			} else if (target.matches('.todo-complete')) {					// если клик класс .todo-complete вызов completedItem
