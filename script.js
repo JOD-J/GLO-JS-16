@@ -1,33 +1,48 @@
 "use strict";
-// let select = document.querySelector('#country');
-// let result = document.querySelector('.result');
 
-// console.log('select: ', select);
-// console.log('result: ', result);
 const cityArr = {
-	
 	rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
 	uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
 	bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
-	jap: ['Токио', 'Киото', 'Осака', 'Иокогама'] 
+	jap: ['Токио', 'Киото', 'Осака', 'Иокогама']
 };
 
-console.log('cityArr: ', cityArr);
-
-
-
 class Region {
-	constructor(country, result) {
-		this.country = document.querySelector('country');
-		this.result = document.querySelector('result');
+	constructor(country, result, city) {
+		this.country = document.querySelector(country);
+		this.result = document.querySelector(result);
+		this.city = document.querySelector(city);
 	}
-	result() {
-		console.log(this.result);
+	countryss() {
+		const valueSelect = this.value;
+		console.log('valueSelect: ', valueSelect);
+		const option = document.createElement('option');
+		if (valueSelect === 'rus') {
+			console.log('cityArr.rus: ', cityArr.rus);
+			for (let i = 0; i < cityArr.rus.length; i++) {
+				option.innerHTML = cityArr.rus[i];
+				this.city.appendChild(option.cloneNode(true));
+			}
+		} else if (valueSelect === 'uk') {
+			console.log('cityArr.uk: ', cityArr.uk);
+		} else if (valueSelect === 'bel') {
+			console.log('cityArr.bel: ', cityArr.bel);
+		} else if (valueSelect === 'jap') {
+			console.log('cityArr.jap: ', cityArr.jap);
+		}
+	}
+	countrys() {
+		if (this.country) {
+			this.city.style.display = 'inline-block';
+			this.country.addEventListener('click', this.countryss);
+		}
+	}
+	init() {
+		this.country.addEventListener('change', this.countrys.bind(this));
 	}
 }
-
-let region = new Region('#country', '.result');
-result.result();
+const region = new Region('#country', '.results', '#city');
+region.init();
 
 
 // function getResult(x,y){
@@ -51,8 +66,8 @@ result.result();
 
 
 
-// let aElem = document.querySelector('#a'); // 1 число 
-// let bElem = document.querySelector('#b');	// 2 число 
+// let aElem = document.querySelector('#a'); // 1 число
+// let bElem = document.querySelector('#b');	// 2 число
 // let sumElem = document.querySelector('#sum'); // сумму  a b
 // let multElem = document.querySelector('#mult'); // произведение  a b
 // let resElem = document.querySelector('#res'); // результат a b
@@ -122,7 +137,7 @@ result.result();
 // 		resElem.value = '';
 // 		aElema = +aElem.value;
 // 		bElemb = +bElem.value;
-		
+
 // 		if (false) {
 // 			resElem.value = aElema + bElemb;
 // 			calculator.clearInput();
@@ -135,7 +150,7 @@ result.result();
 // 			console.log(resElem.value);
 // 			return resElem;
 // 		}
-		
+
 // 	}
 // };
 // calculator.blocking();
@@ -183,7 +198,7 @@ result.result();
 // 		if (!sumElemNotPressed ) {
 // 			calculator.sum();
 // 			console.log('sum: ', sumElemNotPressed);
-			
+
 // 			aElem.value = '';
 // 			bElem.value = '';
 // 			calculator.blocking();
@@ -237,24 +252,24 @@ result.result();
 // 	{lesson: 8, type: 'basic', points: 6},
 // 	{lesson: 9, type: 'basic', points: 4},
 // 	{lesson: 10, type: 'basic', points: 6},
-// 	{lesson: 11, type: 'additional', points: 5}, 
-// 	{lesson: 12, type: 'basic', points: 2}, 
-// 	{lesson: 13, type: 'additional', points: 2}, 
+// 	{lesson: 11, type: 'additional', points: 5},
+// 	{lesson: 12, type: 'basic', points: 2},
+// 	{lesson: 13, type: 'additional', points: 2},
 // 	{lesson: 14, type: 'basic', points: 4},
 // 	{lesson: 15, type: 'additional', points: 1},
 // 	{lesson: 16, type: 'additional', points: 7},
 // 	];
 
-	// for (let i = 0; i < myLesson.length; i++) {
-	// 	if (myLesson[i].type === 'basic') {
-	// 		myLesson[i].points /= 2;
-	// 	} else {
-	// 		myLesson.splice(i, 1);
-	// 		i--;
-	// 	}
-	// }
-	
-	// console.log(myLesson);
+// for (let i = 0; i < myLesson.length; i++) {
+// 	if (myLesson[i].type === 'basic') {
+// 		myLesson[i].points /= 2;
+// 	} else {
+// 		myLesson.splice(i, 1);
+// 		i--;
+// 	}
+// }
+
+// console.log(myLesson);
 
 
 // let myLesson = [
@@ -268,9 +283,9 @@ result.result();
 // 	{lesson: 8, type: 'basic', points: 6},
 // 	{lesson: 9, type: 'basic', points: 4},
 // 	{lesson: 10, type: 'basic', points: 6},
-// 	{lesson: 11, type: 'additional', points: 5}, 
-// 	{lesson: 12, type: 'basic', points: 2}, 
-// 	{lesson: 13, type: 'additional', points: 2}, 
+// 	{lesson: 11, type: 'additional', points: 5},
+// 	{lesson: 12, type: 'basic', points: 2},
+// 	{lesson: 13, type: 'additional', points: 2},
 // 	{lesson: 14, type: 'basic', points: 4},
 // 	{lesson: 15, type: 'additional', points: 1},
 // 	{lesson: 16, type: 'additional', points: 7},
