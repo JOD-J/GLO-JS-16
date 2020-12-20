@@ -1,45 +1,96 @@
 "use strict";
+// let select = document.querySelector('#country');
+// let result = document.querySelector('.result');
 
-let aElem = document.querySelector('#a'); // 1 число 
-let bElem = document.querySelector('#b');	// 2 число 
-let sumElem = document.querySelector('#sum'); // сумму  a b
-let multElem = document.querySelector('#mult'); // произведение  a b
-let resElem = document.querySelector('#res'); // результат a b
-
-const calculator = {
-	blocking: function(){
-		if (aElem.value !== '' && bElem.value !== '') {
-			sumElem.disabled = false;
-			multElem.disabled = false;
-		} else {
-			resElem.disabled = true;
-			sumElem.disabled = true;
-			multElem.disabled = true;
-		}
-	},
-	clearInput: function (){
-		aElem.value = '';
-		bElem.value = '';
-	},
-	sum: function(){
-		resElem.value = +aElem.value + (+bElem.value);
-		calculator.clearInput();
-		calculator.blocking();
-	},
-	mult: function(){
-		resElem.value = +aElem.value * (+bElem.value);
-		calculator.clearInput();
-		calculator.blocking();
-	},
-	show: function(){
-		this.blocking();
-		aElem.addEventListener('input', this.blocking);
-		bElem.addEventListener('input', this.blocking);
-		sumElem.addEventListener('click', this.sum);
-		multElem.addEventListener('click', this.mult);
-	}
+// console.log('select: ', select);
+// console.log('result: ', result);
+const cityArr = {
+	
+	rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
+	uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
+	bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
+	jap: ['Токио', 'Киото', 'Осака', 'Иокогама'] 
 };
-calculator.show();
+
+console.log('cityArr: ', cityArr);
+
+
+
+class Region {
+	constructor(country, result) {
+		this.country = document.querySelector('country');
+		this.result = document.querySelector('result');
+	}
+	result() {
+		console.log(this.result);
+	}
+}
+
+let region = new Region('#country', '.result');
+result.result();
+
+
+// function getResult(x,y){
+// 	let result;
+// 	result = x**y;
+// 	console.log('result: степень', result);
+// 	result = String(result);
+// 	console.log('result: перевод в строку ', result);
+// 	result = result.split('');
+// 	console.log('result: разбивание на масив ', result);
+// 	result = result.reduce(function (sum, current){
+// 		return +sum + +current;
+// 	}, 0);
+// 	console.log('results: сумма его цифр ', result);
+// 	return result
+// }
+// console.log('getResult ', getResult(4, 8))
+
+
+
+
+
+
+// let aElem = document.querySelector('#a'); // 1 число 
+// let bElem = document.querySelector('#b');	// 2 число 
+// let sumElem = document.querySelector('#sum'); // сумму  a b
+// let multElem = document.querySelector('#mult'); // произведение  a b
+// let resElem = document.querySelector('#res'); // результат a b
+
+// const calculator = {
+// 	blocking: function(){
+// 		if (aElem.value !== '' && bElem.value !== '') {
+// 			sumElem.disabled = false;
+// 			multElem.disabled = false;
+// 		} else {
+// 			resElem.disabled = true;
+// 			sumElem.disabled = true;
+// 			multElem.disabled = true;
+// 		}
+// 	},
+// 	clearInput: function (){
+// 		aElem.value = '';
+// 		bElem.value = '';
+// 	},
+// 	sum: function(){
+// 		resElem.value = +aElem.value + (+bElem.value);
+// 		calculator.clearInput();
+// 		calculator.blocking();
+// 	},
+// 	mult: function(){
+// 		resElem.value = +aElem.value * (+bElem.value);
+// 		calculator.clearInput();
+// 		calculator.blocking();
+// 	},
+// 	show: function(){
+// 		this.blocking();
+// 		aElem.addEventListener('input', this.blocking);
+// 		bElem.addEventListener('input', this.blocking);
+// 		sumElem.addEventListener('click', this.sum);
+// 		multElem.addEventListener('click', this.mult);
+// 	}
+// };
+// calculator.show();
 
 
 
