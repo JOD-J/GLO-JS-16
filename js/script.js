@@ -248,7 +248,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				return;
 			}
 			prevSlide(slideElem, currentSlide, 'portfolio-item-active');	//  удаление у слайда активных  картинок
-			prevSlide(dot, currentSlide, 'dot-active');					//  удаление у слайда активных точек
+			prevSlide(dot, currentSlide, 'dot-active');						//  удаление у слайда активных точек
 			if (target.matches('#arrow-right')) {							// клик по кнопке  право вперед слайд
 				currentSlide++;												// вперед слайд
 			} else if (target.matches('#arrow-left')) {						// клик по кнопке лево назад слайд
