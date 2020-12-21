@@ -1,50 +1,79 @@
 "use strict";
 
-const cityArr = {
-	rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
-	uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
-	bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
-	jap: ['Токио', 'Киото', 'Осака', 'Иокогама']
-};
 
-class Region {
-	constructor(country, result, city) {
-		this.country = document.querySelector(country);
-		this.result = document.querySelector(result);
-		this.city = document.querySelector(city);
-	}
-	countryss() {
-		const valueSelect = this.value;
-		console.log('valueSelect: ', valueSelect);
-		const option = document.createElement('option');
-		if (valueSelect === 'rus') {
-			console.log('cityArr.rus: ', cityArr.rus);
-			for (let i = 0; i < cityArr.rus.length; i++) {
-				option.innerHTML = cityArr.rus[i];
-				this.city.appendChild(option.cloneNode(true));
+window.addEventListener('DOMContentLoaded', ()  => {
+	const cityArr = {
+		rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
+		uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
+		bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
+		jap: ['Токио', 'Киото', 'Осака', 'Иокогама']
+	};
+
+	class Region {
+		constructor(country, result, city) {
+			this.country = document.querySelector(country);
+			this.result = document.querySelector(result);
+			this.city = document.querySelector(city);
+		}
+		// countryss() {
+		// 	const valueSelect = this.value;
+		// 	console.log('valueSelect: ', valueSelect);
+		// 	const option = document.createElement('option');
+		// 	if (valueSelect === 'rus') {
+		// 		console.log('cityArr.rus: ', cityArr.rus);
+		// 		for (let i = 0; i < cityArr.rus.length; i++) {
+		// 			option.innerHTML = cityArr.rus[i];
+		// 			this.city.appendChild(option.cloneNode(true));
+		// 		}
+		// 	} else if (valueSelect === 'uk') {
+		// 		console.log('cityArr.uk: ', cityArr.uk);
+		// 	} else if (valueSelect === 'bel') {
+		// 		console.log('cityArr.bel: ', cityArr.bel);
+		// 	} else if (valueSelect === 'jap') {
+		// 		console.log('cityArr.jap: ', cityArr.jap);
+		// 	}
+		// }
+		countrys() {
+			region.city.style.display = 'inline-block';
+			const valueSelect = this.value;
+			console.log('valueSelect: ', valueSelect);
+			const option = document.createElement('option');
+			if (valueSelect === 'rus') {
+				console.log('cityArr.rus: ', cityArr.rus);
+				for (let i = 0; i < cityArr.rus.length; i++) {
+					option.innerHTML = cityArr.rus[i];
+					region.city.appendChild(option.cloneNode(true));
+				}
+			} else if (valueSelect === 'uk') {
+				for (let i = 0; i < cityArr.uk.length; i++) {
+					option.innerHTML = cityArr.uk[i];
+					region.city.appendChild(option.cloneNode(true));
+				}
+				console.log('cityArr.uk: ', cityArr.uk);
+			} else if (valueSelect === 'bel') {
+				for (let i = 0; i < cityArr.bel.length; i++) {
+					option.innerHTML = cityArr.bel[i];
+					region.city.appendChild(option.cloneNode(true));
+				}
+				console.log('cityArr.bel: ', cityArr.bel);
+			} else if (valueSelect === 'jap') {
+				for (let i = 0; i < cityArr.jap.length; i++) {
+					option.innerHTML = cityArr.jap[i];
+					region.city.appendChild(option.cloneNode(true));
+				}
+				console.log('cityArr.jap: ', cityArr.jap);
 			}
-		} else if (valueSelect === 'uk') {
-			console.log('cityArr.uk: ', cityArr.uk);
-		} else if (valueSelect === 'bel') {
-			console.log('cityArr.bel: ', cityArr.bel);
-		} else if (valueSelect === 'jap') {
-			console.log('cityArr.jap: ', cityArr.jap);
+
+			// if (this.country) {
+			// }
+		}
+		showResult() {
+			this.country.addEventListener('change', this.countrys);
 		}
 	}
-	countrys() {
-		if (this.country) {
-			this.city.style.display = 'inline-block';
-			this.country.addEventListener('click', this.countryss);
-		}
-	}
-	init() {
-		this.country.addEventListener('change', this.countrys.bind(this));
-	}
-}
-const region = new Region('#country', '.results', '#city');
-region.init();
-
-
+	const region = new Region('#country', '.result', '#city');
+	region.showResult();
+});
 // function getResult(x,y){
 // 	let result;
 // 	result = x**y;
