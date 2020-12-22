@@ -289,7 +289,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	slider();
 
 
-	//======================================================ourTeam===========================================================
+	//======================================================ourTeam==========================================================
+	// смнеа нашей команды картинки
 	const ourTeam = () => {
 		const commandElem = document.querySelector('.command'); 	// находи родительский элемент нашей комады
 		const links = {}; 											// создаем объект для сохранение исходной картинки
@@ -311,17 +312,66 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	ourTeam();
 
 
-	//======================================================calculator===========================================================
-	const calculator = () => {
-		const calcElem = document.querySelector('.calc');			// находи родительский элемент калькулятор
-		calcElem.addEventListener('input', event => {				// слушатель
+	//======================================================calculator==========================================================
+	// калькулятор
+	const calculator = (price = 100) => {
+		const calcBlockElem = document.querySelector('.calc-block'),		// находи родительский элемент калькулятор
+			calcTypeElem = document.querySelector('.calc-type'),			// select
+			calcSquareElem = document.querySelector('.calc-square'),		// общая площадь
+			calcCountElem = document.querySelector('.calc-count'),			// количесвто помещений
+			calcDayElem = document.querySelector('.calc-day'),				// срок исполнения в днях
+			totalValueElem = document.getElementById('total');				// цена
+		//======================================================countSum===========================================================
+		const countSum = () => {
+			let total = 0,
+				countValue = 1,
+				dayValue = 1,
+				count = 0;
+			const typeValue = calcTypeElem.options[calcTypeElem.selectedIndex].value;
+			const squareValue = +calcSquareElem.value;
+			if (calcCountElem.value > 1) {
+				countValue += (calcCountElem.value - 1) / 10;
+				console.log('countValue: ', countValue);
+			}
+			if (calcDayElem.value && calcDayElem.value < 5) {
+				dayValue *= 2;
+			} else if (calcDayElem.value && calcDayElem.value < 10) {
+				dayValue *= 1.5;
+			}
+			if (typeValue && squareValue) {
+				total = price * typeValue * squareValue * countValue * dayValue;
+			}
+			totalValueElem.textContent = total;
+			
+			// const go = () => {
+			// 	count += 2;
+			// 	// totalValueElem.textContent = total;
+			// 	const animate = requestAnimationFrame(go);
+			// 	if (count === total) {
+			// 		totalValueElem.textContent = count;
+			// 		cancelAnimationFrame(animate);
+			// 	}
+			// };
+			// requestAnimationFrame(go);
+		};
+		//==============================================\\\\\\\countSum======================================================
+
+		calcBlockElem.addEventListener('change', event => {				// слушатель
 			const target = event.target;							// делегирование
-			if (target.matches('.calc-square') || target.matches('.calc-count') || target.matches('.calc-day')) {
+			if (target.matches('select') || target.matches('input')) {
+				countSum();
+			}
+		});
+		calcBlockElem.addEventListener('input', event => {				// слушатель
+			const target = event.target;							// делегирование
+			if (target.matches('.calc-square') ||
+			target.matches('.calc-count') ||
+			target.matches('.calc-day')) {
 				target.value = target.value.replace(/\D/, ''); 		// удаление все что не цифры
 			}
 		});
 	};
 	//==============================================\\\\\\\calculator======================================================
-	calculator();
+	calculator(100);
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
