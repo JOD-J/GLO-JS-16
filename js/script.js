@@ -326,7 +326,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			let total = 0,
 				countValue = 1,
 				dayValue = 1,
-				count = 0;
+				time = 1000,
+				step = 2;
 			const typeValue = calcTypeElem.options[calcTypeElem.selectedIndex].value;
 			const squareValue = +calcSquareElem.value;
 			if (calcCountElem.value > 1) {
@@ -342,17 +343,37 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				total = price * typeValue * squareValue * countValue * dayValue;
 			}
 			totalValueElem.textContent = total;
-			
+
 			// const go = () => {
-			// 	count += 2;
-			// 	// totalValueElem.textContent = total;
+			// 	count += 10;
 			// 	const animate = requestAnimationFrame(go);
+			// 	totalValueElem.textContent = count;
+
 			// 	if (count === total) {
-			// 		totalValueElem.textContent = count;
+			// 		// totalValueElem.textContent = count;
 			// 		cancelAnimationFrame(animate);
 			// 	}
 			// };
 			// requestAnimationFrame(go);
+
+			const go = total => {
+				// const animate = requestAnimationFrame(go);
+				let n = 0;
+				const t = Math.round(time / (total / step));
+				console.log('t: ', t);
+				const interval = setInterval(() => {
+					n += step;
+					if (n === total) {
+						console.log('total: ', total);
+						console.log('n: ', n);
+						// totalValueElem.textContent = count;
+						clearInterval(interval);
+					}
+					totalValueElem.textContent = n;
+				}, 50);
+
+			};
+			go(total);
 		};
 		//==============================================\\\\\\\countSum======================================================
 
