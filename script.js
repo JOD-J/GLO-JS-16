@@ -1,6 +1,5 @@
 "use strict";
 
-
 window.addEventListener('DOMContentLoaded', ()  => {
 	const cityArr = {
 		rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
@@ -8,72 +7,104 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
 		jap: ['Токио', 'Киото', 'Осака', 'Иокогама']
 	};
-
 	class Region {
 		constructor(country, result, city) {
-			this.country = document.querySelector(country);
-			this.result = document.querySelector(result);
-			this.city = document.querySelector(city);
+			this.countryElem = document.querySelector(country);
+			this.resultElem = document.querySelector(result);
+			this.cityElem = document.querySelector(city);
 		}
-		// countryss() {
-		// 	const valueSelect = this.value;
-		// 	console.log('valueSelect: ', valueSelect);
-		// 	const option = document.createElement('option');
-		// 	if (valueSelect === 'rus') {
-		// 		console.log('cityArr.rus: ', cityArr.rus);
-		// 		for (let i = 0; i < cityArr.rus.length; i++) {
-		// 			option.innerHTML = cityArr.rus[i];
-		// 			this.city.appendChild(option.cloneNode(true));
-		// 		}
-		// 	} else if (valueSelect === 'uk') {
-		// 		console.log('cityArr.uk: ', cityArr.uk);
-		// 	} else if (valueSelect === 'bel') {
-		// 		console.log('cityArr.bel: ', cityArr.bel);
-		// 	} else if (valueSelect === 'jap') {
-		// 		console.log('cityArr.jap: ', cityArr.jap);
-		// 	}
-		// }
-		countrys() {
-			region.city.style.display = 'inline-block';
+
+		getresult(option, target) {
+			let total;
+			const typeValue = this.cityElem.options[this.cityElem.selectedIndex].value;
+			if (typeValue && this.countryElem.value) {
+				const textOption = region.countryElem.options[2].text;
+				// this.resultElem.textContent =  (textOption + '' + typeValue);
+				total =  textOption + ' ' + typeValue;
+			}
+			this.resultElem.textContent = total;
+			this.cityElem.removeEventListener('click', this.getCityElem);
+		}
+		getCityElem(cityArradd) {
+			const option = document.createElement('option');
+			this.cityElem.textContent = '';
+			cityArradd.forEach(item => {
+				option.textContent = item;
+				this.cityElem.appendChild(option.cloneNode(true));
+				console.log('item: ', item);
+			});
+			this.cityElem.addEventListener('click', event => {
+				const target = event.target;
+				console.log('target: ', target);
+				this.getresult(option, target);
+			});
+		}
+		getCity() {
 			const valueSelect = this.value;
 			console.log('valueSelect: ', valueSelect);
-			const option = document.createElement('option');
 			if (valueSelect === 'rus') {
-				console.log('cityArr.rus: ', cityArr.rus);
-				for (let i = 0; i < cityArr.rus.length; i++) {
-					option.innerHTML = cityArr.rus[i];
-					region.city.appendChild(option.cloneNode(true));
-				}
-			} else if (valueSelect === 'uk') {
-				for (let i = 0; i < cityArr.uk.length; i++) {
-					option.innerHTML = cityArr.uk[i];
-					region.city.appendChild(option.cloneNode(true));
-				}
-				console.log('cityArr.uk: ', cityArr.uk);
-			} else if (valueSelect === 'bel') {
-				for (let i = 0; i < cityArr.bel.length; i++) {
-					option.innerHTML = cityArr.bel[i];
-					region.city.appendChild(option.cloneNode(true));
-				}
-				console.log('cityArr.bel: ', cityArr.bel);
-			} else if (valueSelect === 'jap') {
-				for (let i = 0; i < cityArr.jap.length; i++) {
-					option.innerHTML = cityArr.jap[i];
-					region.city.appendChild(option.cloneNode(true));
-				}
-				console.log('cityArr.jap: ', cityArr.jap);
-			}
+				region.getCityElem(cityArr.rus);
 
-			// if (this.country) {
-			// }
+			} else	if (valueSelect === 'uk') {
+				region.getCityElem(cityArr.uk);
+
+			} else	if (valueSelect === 'bel') {
+				region.getCityElem(cityArr.bel);
+
+			} else	if (valueSelect === 'jap') {
+				region.getCityElem(cityArr.jap);
+
+			}
 		}
-		showResult() {
-			this.country.addEventListener('change', this.countrys);
+		showCity() {
+			if (this.countryElem.click) {
+				this.cityElem.style.display = 'inline-block';
+				this.countryElem.addEventListener('click',  this.getCity);
+			}
+		}
+		init() {
+			this.countryElem.addEventListener('change',  this.showCity.bind(this));
 		}
 	}
 	const region = new Region('#country', '.result', '#city');
-	region.showResult();
+	region.init();
 });
+
+// const option = document.createElement('option');
+// if (valueSelect === 'rus') {
+// 	region.cityElem.textContent = '';
+// 	for (let i = 0; i < cityArr.rus.length; i++) {
+// 		option.innerHTML = cityArr.rus[i];
+// 		region.cityElem.appendChild(option.cloneNode(true));
+// 	}
+// 	region.resultElem.textContent =  region.countryElem.options[0].text;
+// } else if (valueSelect === 'uk') {
+// 	region.cityElem.textContent = '';
+// 	for (let i = 0; i < cityArr.uk.length; i++) {
+// 		option.innerHTML = cityArr.uk[i];
+// 		region.cityElem.appendChild(option.cloneNode(true));
+// 	}
+// 	region.resultElem.textContent =  region.countryElem.options[1].text;
+
+// } else if (valueSelect === 'bel') {
+// 	region.cityElem.textContent = '';
+// 	for (let i = 0; i < cityArr.bel.length; i++) {
+// 		option.innerHTML = cityArr.bel[i];
+// 		region.cityElem.appendChild(option.cloneNode(true));
+// 	}
+// 	let textOption = region.countryElem.options[2].text;
+// 	region.resultElem.textContent =  textOption;
+
+// } else if (valueSelect === 'jap') {
+// 	region.cityElem.textContent = '';
+// 	for (let i = 0; i < cityArr.jap.length; i++) {
+// 		option.innerHTML = cityArr.jap[i];
+// 		region.cityElem.appendChild(option.cloneNode(true));
+// 	}
+// 	region.resultElem.textContent =  region.countryElem.options[3].text;
+
+// }
+
 // function getResult(x,y){
 // 	let result;
 // 	result = x**y;
