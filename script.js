@@ -1,6 +1,6 @@
+/* eslint-disable max-len */
 "use strict";
-
-window.addEventListener('DOMContentLoaded', ()  => {
+document.addEventListener('DOMContentLoaded', ()  => {
 	const cityArr = {
 		rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
 		uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
@@ -8,66 +8,81 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		jap: ['Токио', 'Киото', 'Осака', 'Иокогама']
 	};
 	class Region {
-		constructor(country, result, city) {
-			this.countryElem = document.querySelector(country);
-			this.resultElem = document.querySelector(result);
-			this.cityElem = document.querySelector(city);
+		//==================================================constructor===================================================
+		constructor(country, result, city, cityArr) {
+			this.countryElem = document.querySelector(country); 		// получаем элементы со старнциы
+			this.resultElem = document.querySelector(result);			// получаем элементы со старнциы
+			this.cityElem = document.querySelector(city); 				// получаем элементы со старнциы
+			this.cityArr = cityArr;
 		}
+		//==========================================\\\\\\constructor====================================================
 
-		getresult(option, target) {
-			let total;
-			const typeValue = this.cityElem.options[this.cityElem.selectedIndex].value;
-			if (typeValue && this.countryElem.value) {
-				const textOption = region.countryElem.options[2].text;
-				// this.resultElem.textContent =  (textOption + '' + typeValue);
-				total =  textOption + ' ' + typeValue;
-			}
-			this.resultElem.textContent = total;
-			this.cityElem.removeEventListener('click', this.getCityElem);
+
+		//==================================================getresult===================================================
+		getresult() {
+			const countryElemValue = this.countryElem.options[this.countryElem.selectedIndex].textContent;
+			const cityElemValue = this.cityElem.options[this.cityElem.selectedIndex].textContent;
+			this.resultElem.textContent = countryElemValue + ' ' + cityElemValue;
 		}
-		getCityElem(cityArradd) {
-			const option = document.createElement('option');
+		//==========================================\\\\\\getresult====================================================
+
+
+		
+		//==========================================\\\\\\getCityElem====================================================
+
+		getCitis() {
 			this.cityElem.textContent = '';
-			cityArradd.forEach(item => {
-				option.textContent = item;
-				this.cityElem.appendChild(option.cloneNode(true));
-				console.log('item: ', item);
-			});
-			this.cityElem.addEventListener('click', event => {
-				const target = event.target;
-				console.log('target: ', target);
-				this.getresult(option, target);
-			});
-		}
-		getCity() {
-			const valueSelect = this.value;
-			console.log('valueSelect: ', valueSelect);
-			if (valueSelect === 'rus') {
-				region.getCityElem(cityArr.rus);
+			switch (this.countryElem.value) {
+			case 'rus':
+				this.cityArr.rus.forEach(item => {
+					this.cityElem.insertAdjacentHTML('afterbegin', `<option>${item}</option>`);
+				});
+				this.getresult();
 
-			} else	if (valueSelect === 'uk') {
-				region.getCityElem(cityArr.uk);
 
-			} else	if (valueSelect === 'bel') {
-				region.getCityElem(cityArr.bel);
+				break;
+			case 'uk':
+				this.cityArr.uk.forEach(item => {
+					this.cityElem.insertAdjacentHTML('afterbegin', `<option>${item}</option>`);
+				});
+				this.getresult();
+				break;
 
-			} else	if (valueSelect === 'jap') {
-				region.getCityElem(cityArr.jap);
+			case 'bel':
+				this.cityArr.bel.forEach(item => {
+					this.cityElem.insertAdjacentHTML('afterbegin', `<option>${item}</option>`);
+				});
+				this.getresult();
+				break;
+
+			case 'jap':
+				this.cityArr.jap.forEach(item => {
+					this.cityElem.insertAdjacentHTML('afterbegin', `<option>${item}</option>`);
+				});
+				this.getresult();
+				break;
 
 			}
+
 		}
+		//==================================================showCity===================================================
 		showCity() {
-			if (this.countryElem.click) {
-				this.cityElem.style.display = 'inline-block';
-				this.countryElem.addEventListener('click',  this.getCity);
-			}
+			this.getCitis();
+			this.cityElem.style.display = 'inline-block'; 						// показываем cityElem
 		}
+		//==========================================\\\\\\showCity====================================================
+
+
+		//==================================================init===================================================
 		init() {
-			this.countryElem.addEventListener('change',  this.showCity.bind(this));
+			this.countryElem.addEventListener('change', this.showCity.bind(this)); // слушатель на countryElem запускаем this.showCity и передаем this сласса Region
+
+			this.cityElem.addEventListener('change', this.getresult.bind(this));
 		}
+		//==========================================\\\\\\init====================================================
 	}
-	const region = new Region('#country', '.result', '#city');
-	region.init();
+	const region = new Region('#country', '.result', '#city', cityArr); 						// присваеваем constructor элементы со страницы
+	region.init(); 																	// вызываем инициализацию
 });
 
 // const option = document.createElement('option');
