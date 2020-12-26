@@ -325,9 +325,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		const countSum = () => {
 			let total = 0,
 				countValue = 1,
-				dayValue = 1,
-				time = 1000,
-				step = 2;
+				dayValue = 1;
 			const typeValue = calcTypeElem.options[calcTypeElem.selectedIndex].value;
 			const squareValue = +calcSquareElem.value;
 			if (calcCountElem.value > 1) {
@@ -343,37 +341,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				total = price * typeValue * squareValue * countValue * dayValue;
 			}
 			totalValueElem.textContent = total;
-
-			// const go = () => {
-			// 	count += 10;
-			// 	const animate = requestAnimationFrame(go);
-			// 	totalValueElem.textContent = count;
-
-			// 	if (count === total) {
-			// 		// totalValueElem.textContent = count;
-			// 		cancelAnimationFrame(animate);
-			// 	}
-			// };
-			// requestAnimationFrame(go);
-
-			const go = total => {
-				// const animate = requestAnimationFrame(go);
-				let n = 0;
-				const t = Math.round(time / (total / step));
-				console.log('t: ', t);
-				const interval = setInterval(() => {
-					n += step;
-					if (n === total) {
-						console.log('total: ', total);
-						console.log('n: ', n);
-						// totalValueElem.textContent = count;
-						clearInterval(interval);
-					}
-					totalValueElem.textContent = n;
-				}, 50);
-
-			};
-			go(total);
 		};
 		//==============================================\\\\\\\countSum======================================================
 
@@ -394,5 +361,102 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	};
 	//==============================================\\\\\\\calculator======================================================
 	calculator(100);
+
+
+	//======================================================sendForm==========================================================
+	// send ajax FORM
+	const sendForm = () => {
+		const errorMessage = 'Что то пошло не так',						// выводим на экрам определный текст
+			loadMessage = 'Загрузка...',								// выводим на экрам определный текст
+			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';		// выводим на экрам определный текст
+
+		const form1Elem = document.getElementById('form1'); 			// получаем элемент со старницы 1 формы
+		const statusMessage = document.createElement('div'); 			// создаем див для текста
+
+		//======================================================postData==========================================================
+		function postData(body, outputData, errorData)  {
+			const request = new XMLHttpRequest();
+			request.addEventListener('readystatechange', () => {
+				if (request.readyState !== 4) {
+					return;
+				}
+				if (request.status === 200) {
+					outputData();
+				} else {
+					errorData(request.status);
+				}
+			});
+			request.open('POST', './server.php'); 							// открываем соединение
+			request.setRequestHeader('Content-Type', 'application/json');	// создаем заоловок
+			request.send(JSON.stringify(body)); 							// получаем данные из формы отправляем запрос
+		}
+		//==============================================\\\\\\\postData======================================================
+
+
+		//======================================================form1Elem==========================================================
+		form1Elem.addEventListener('submit', event => { 		// слуаштель для формы
+			event.preventDefault();								// отключаем стандартную перезакрузку
+			form1Elem.appendChild(statusMessage); 				// добовляем на странциу нашь див с текстом
+			statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
+			const formData = new FormData(form1Elem);
+			const body = {}; 									// создаем обект body
+			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
+				body[val[0]] = val[1];
+			}
+			postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
+				statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+				clearInput(form1Elem);
+			}, error => {
+				statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+				console.log(error);
+			});
+		});
+		//==============================================\\\\\\\form1Elem======================================================
+
+
+		//======================================================form2Elem==========================================================
+		const form2Elem = document.getElementById('form2'); 	// получаем элемент со страницы 2 формы
+		form2Elem.addEventListener('submit', event => { 		// слушатель для 2 формы
+			event.preventDefault();								// отключаем стандартную перезакрузку
+			const formData = new FormData(form2Elem);
+			const body = {};									// создаем обект body
+			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
+				body[val[0]] = val[1];
+			}
+			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
+				alert('ваше сообщение отправлено');
+				clearInput(form2Elem);
+			}, () => { console.log('error'); });
+		});
+		//==============================================\\\\\\\form2Elem======================================================
+
+
+		//======================================================form3Elem==========================================================
+		const form3Elem = document.getElementById('form3');		// получаем элемент со страницы 3 формы
+		form3Elem.addEventListener('submit', event => { 		// слушатель для 3 формы
+			event.preventDefault();								// отключаем стандартную перезакрузку
+			const formData3 = new FormData(form3Elem);
+			const body = {};									// создаем обект body
+			for (const val of formData3.entries()) {			// заполняем обект body нашими элементами
+				body[val[0]] = val[1];
+			}
+			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
+				alert('ваше сообщение отправлено');
+				clearInput(form3Elem);
+			}, () => { console.log('error'); });
+		});
+		//==============================================\\\\\\\form3Elem======================================================
+
+
+		//======================================================clearInput==========================================================
+		function clearInput(form) {
+			const elementsForm = [...form.elements].filter(item => item.tagName.toLowerCase() !== 'button' && item.type !== 'button').forEach(item => item.value = '');
+		}
+		//==============================================\\\\\\\clearInput======================================================
+
+
+	};
+	//==============================================\\\\\\\sendForm======================================================
+	sendForm();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
