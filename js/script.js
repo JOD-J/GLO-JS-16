@@ -366,13 +366,15 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	//======================================================sendForm==========================================================
 	// send ajax FORM
 	const sendForm = () => {
+
+		let isError = false;
 		const errorMessage = 'Что то пошло не так',						// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',								// выводим на экрам определный текст
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';		// выводим на экрам определный текст
 
 		const form1Elem = document.getElementById('form1'); 			// получаем элемент со старницы 1 формы
 		const statusMessage = document.createElement('div'); 			// создаем див для текста
-		const formInputs = document.querySelectorAll('input[id]');		// 
+		const formInputs = document.querySelectorAll('input[id]');		//
 
 		//======================================================postData==========================================================
 		function postData(body, outputData, errorData)  {
@@ -396,23 +398,39 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			item.addEventListener('input', event => {
+			item.addEventListener('change', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
-					target.setAttribute('pattern', '[а-яА-ЯЁё\\-]{2,}');
-					target.value = target.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
+					if (!checkName(target)) {
+						target.style.boxShadow = '0 0 5px 5px red';
+						isError = true;
+					} else {
+						target.style.boxShadow = '0 0 5px 5px green';
+					}
 				}
 				if (target.matches('.form-phone')) {
-					target.setAttribute('pattern', '[0-9\\+\\-\\s()]{2,18}');
-					target.value = target.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:]/, '');
+					if (!checkPhone(target)) {
+						target.style.boxShadow = '0 0 5px 5px red';
+						isError = true;
+					} else {
+						target.style.boxShadow = '0 0 5px 5px green';
+					}
 				}
 				if (target.matches('.form-email')) {
-					target.setAttribute('pattern', '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
-					target.value = target.value.replace(/[а-яА-ЯЁё?!,='"/*)(}{\][|;:\\-]/, '');
+					if (!checkEmail(target)) {
+						target.style.boxShadow = '0 0 5px 5px red';
+						isError = true;
+					} else {
+						target.style.boxShadow = '0 0 5px 5px green';
+					}
 				}
 				if (target.matches('.mess')) {
-					target.setAttribute('pattern', '[а-яА-ЯЁё0-9\\-]{2,}');
-					target.value = target.value.replace(/[a-zA-Z?@=_'"/+*)(}{\][|;:\\-]/, '');
+					if (!checkMessage(target)) {
+						target.style.boxShadow = '0 0 5px 5px red';
+						isError = true;
+					} else {
+						target.style.boxShadow = '0 0 5px 5px green';
+					}
 				}
 			});
 		});
@@ -429,13 +447,20 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-			postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-				statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-				clearInput(form1Elem);
-			}, error => {
-				statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-				console.log(error);
-			});
+
+			if (!isError) {
+				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
+					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+					clearInput(form1Elem);
+				}, () => {
+					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+					alert('Спасибо! Мы скоро с вами свяжемся!');
+
+				});
+			} else {
+				alert('Поля заполнены не корректно');
+			}
+
 		});
 		//==============================================\\\\\\\form1Elem======================================================
 
@@ -486,3 +511,19 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	sendForm();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
+
+function checkPhone(elem) {
+	return /\+?\d{11}/.test(elem.value);
+}
+
+function checkMessage(elem) {
+	return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
+}
+
+function checkName(elem) {
+	return /^[а-яА-Я\s]+$/.test(elem.value);
+}
+function checkEmail(elem) {
+	return /\w+@\w+\.\w{2,3}/g.test(elem.value);
+}
+
