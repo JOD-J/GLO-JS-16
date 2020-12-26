@@ -372,6 +372,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		const form1Elem = document.getElementById('form1'); 			// получаем элемент со старницы 1 формы
 		const statusMessage = document.createElement('div'); 			// создаем див для текста
+		const formInputs = document.querySelectorAll('input[id]');		// 
 
 		//======================================================postData==========================================================
 		function postData(body, outputData, errorData)  {
@@ -391,6 +392,31 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			request.send(JSON.stringify(body)); 							// получаем данные из формы отправляем запрос
 		}
 		//==============================================\\\\\\\postData======================================================
+
+
+		//======================================================formInputs==========================================================
+		formInputs.forEach(item => {
+			item.addEventListener('input', event => {
+				const target = event.target;
+				if (target.matches('[name="user_name"]')) {
+					target.setAttribute('pattern', '[а-яА-ЯЁё\\-]{2,}');
+					target.value = target.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
+				}
+				if (target.matches('.form-phone')) {
+					target.setAttribute('pattern', '[0-9\\+\\-\\s()]{2,18}');
+					target.value = target.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:]/, '');
+				}
+				if (target.matches('.form-email')) {
+					target.setAttribute('pattern', '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
+					target.value = target.value.replace(/[а-яА-ЯЁё?!,='"/*)(}{\][|;:\\-]/, '');
+				}
+				if (target.matches('.mess')) {
+					target.setAttribute('pattern', '[а-яА-ЯЁё0-9\\-]{2,}');
+					target.value = target.value.replace(/[a-zA-Z?@=_'"/+*)(}{\][|;:\\-]/, '');
+				}
+			});
+		});
+		//==============================================\\\\\\\formInputs======================================================
 
 
 		//======================================================form1Elem==========================================================
@@ -424,7 +450,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				body[val[0]] = val[1];
 			}
 			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
-				alert('ваше сообщение отправлено');
+				alert('Спасибо! Мы скоро с вами свяжемся!');
 				clearInput(form2Elem);
 			}, () => { console.log('error'); });
 		});
@@ -441,7 +467,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				body[val[0]] = val[1];
 			}
 			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
-				alert('ваше сообщение отправлено');
+				alert('Спасибо! Мы скоро с вами свяжемся!');
 				clearInput(form3Elem);
 			}, () => { console.log('error'); });
 		});
