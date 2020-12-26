@@ -396,6 +396,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//==============================================\\\\\\\postData======================================================
 
 
+
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
 			item.addEventListener('change', event => {
@@ -403,38 +404,66 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
 						target.style.boxShadow = '0 0 5px 5px red';
+						target.setAttribute('placeholder', 'example "Иван"');
 						isError = true;
 					} else {
+						target.setAttribute('placeholder', 'Ваше имя');
+						isError = false;
 						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.form-phone')) {
 					if (!checkPhone(target)) {
 						target.style.boxShadow = '0 0 5px 5px red';
+						target.setAttribute('placeholder', 'example "+79078425469"');
 						isError = true;
 					} else {
+						target.setAttribute('placeholder', 'Номер телефона');
+						isError = false;
 						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
 						target.style.boxShadow = '0 0 5px 5px red';
+						target.setAttribute('placeholder', 'example "vika@gmail.com"');
 						isError = true;
 					} else {
+						target.setAttribute('placeholder', 'E-mail');
+						isError = false;
 						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
 						target.style.boxShadow = '0 0 5px 5px red';
+						target.setAttribute('placeholder', 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.');
 						isError = true;
 					} else {
+						target.setAttribute('placeholder', 'Ваше сообщение');
+						isError = false;
 						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 			});
 		});
 		//==============================================\\\\\\\formInputs======================================================
+
+
+		//======================================================валид==========================================================
+		function checkName(elem) {
+			return /^[а-яА-Я\s]+$/.test(elem.value);
+		}
+		function checkPhone(elem) {
+			return /\+?\d{11}/.test(elem.value);
+		}
+		function checkEmail(elem) {
+			return /\w+@\w+\.\w{2,3}/g.test(elem.value);
+		}
+		function checkMessage(elem) {
+			return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
+		}
+		//==============================================\\\\\\\валид======================================================
 
 
 		//======================================================form1Elem==========================================================
@@ -447,7 +476,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-
 			if (!isError) {
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
 					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
@@ -455,12 +483,10 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				}, () => {
 					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
 					alert('Спасибо! Мы скоро с вами свяжемся!');
-
 				});
 			} else {
 				alert('Поля заполнены не корректно');
 			}
-
 		});
 		//==============================================\\\\\\\form1Elem======================================================
 
@@ -474,10 +500,15 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
-				alert('Спасибо! Мы скоро с вами свяжемся!');
-				clearInput(form2Elem);
-			}, () => { console.log('error'); });
+
+			if (!isError) {
+				postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
+					alert('Спасибо! Мы скоро с вами свяжемся!');
+					clearInput(form2Elem);
+				}, () => { console.log('error'); });
+			} else {
+				alert('Поля заполнены не корректно');
+			}
 		});
 		//==============================================\\\\\\\form2Elem======================================================
 
@@ -491,17 +522,24 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData3.entries()) {			// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-			postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
-				alert('Спасибо! Мы скоро с вами свяжемся!');
-				clearInput(form3Elem);
-			}, () => { console.log('error'); });
+			if (!isError) {
+				postData(body, () => {								// передаем в функцию postData body и 2 колбек функции
+					alert('Спасибо! Мы скоро с вами свяжемся!');
+					clearInput(form3Elem);
+				}, () => { console.log('error'); });
+			} else {
+				alert('Поля заполнены не корректно');
+			}
 		});
 		//==============================================\\\\\\\form3Elem======================================================
 
 
 		//======================================================clearInput==========================================================
 		function clearInput(form) {
-			const elementsForm = [...form.elements].filter(item => item.tagName.toLowerCase() !== 'button' && item.type !== 'button').forEach(item => item.value = '');
+			const elementsForm = [...form.elements].filter(item => item.tagName.toLowerCase() !== 'button' && item.type !== 'button').forEach(item => {
+				item.value = '';
+				item.style.boxShadow = '';
+			});
 		}
 		//==============================================\\\\\\\clearInput======================================================
 
@@ -512,18 +550,4 @@ window.addEventListener('DOMContentLoaded', ()  => {
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
 
-function checkPhone(elem) {
-	return /\+?\d{11}/.test(elem.value);
-}
-
-function checkMessage(elem) {
-	return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
-}
-
-function checkName(elem) {
-	return /^[а-яА-Я\s]+$/.test(elem.value);
-}
-function checkEmail(elem) {
-	return /\w+@\w+\.\w{2,3}/g.test(elem.value);
-}
 
