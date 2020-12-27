@@ -375,8 +375,14 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		const statusMessage = document.createElement('div'); 						// создаем див для текста
 		statusMessage.style.color = 'white'; 										// белый цвет для текста
 		const formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
-
-
+		const popupBtnElems = document.querySelectorAll('.popup-btn');
+		const formBtnElems = document.querySelectorAll('.form-btn');
+		formBtnElems.forEach(item => {
+			item.setAttribute("disabled", "true");
+		});
+		popupBtnElems.forEach(item => {
+			item.removeAttribute("disabled", "true");
+		});
 		//======================================================postData==========================================================
 		function postData(body, outputData, errorData)  {
 			const request = new XMLHttpRequest();
@@ -421,6 +427,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
+
 			if (!isError) {
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
 					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
@@ -504,10 +511,16 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				}
 				if (target.matches('.form-phone')) {
 					if (!checkPhone(target)) {
+						formBtnElems.forEach(item => {
+							item.setAttribute("disabled", "true");
+						});
 						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'example "+79078425469"');
 						console.log('isError checkPhone: ', isError);
 					} else {
+						formBtnElems.forEach(item => {
+							item.removeAttribute("disabled", "true");
+						});
 						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'Номер телефона');
 						console.log('isError checkPhone: ', isError);
