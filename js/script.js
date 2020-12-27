@@ -375,14 +375,16 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		const statusMessage = document.createElement('div'); 						// создаем див для текста
 		statusMessage.style.color = 'white'; 										// белый цвет для текста
 		const formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
-		const popupBtnElems = document.querySelectorAll('.popup-btn');
-		const formBtnElems = document.querySelectorAll('.form-btn');
-		formBtnElems.forEach(item => {
-			item.setAttribute("disabled", "true");
+		const popupBtnElems = document.querySelectorAll('.popup-btn');				// находим все popup кнопки
+		const formBtnElems = document.querySelectorAll('.form-btn');				// находим все бтн кнопки форм
+		formBtnElems.forEach(item => {												// перебераем все кнопки форм formBtn
+			item.setAttribute("disabled", "true");									// блокируем все кнопки formBtn
 		});
-		popupBtnElems.forEach(item => {
-			item.removeAttribute("disabled", "true");
+		popupBtnElems.forEach(item => {												// перебераем все кнопки формpopupBtn
+			item.removeAttribute("disabled", "true");								// разблокируем все кнопки popupBtn
 		});
+
+
 		//======================================================postData==========================================================
 		function postData(body, outputData, errorData)  {
 			const request = new XMLHttpRequest();
@@ -423,7 +425,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-
 			if (!isError) {
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
 					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
@@ -441,6 +442,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//==============================================\\\\\\\checkUserFormElems======================================================
 
 
+		//======================================================showBoxShadow==========================================================
 		function showBoxShadow(checkBolean, elem) {
 			if (checkBolean) {
 				isError = true;
@@ -452,6 +454,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				return elem.style.boxShadow = '0 0 5px 5px green';
 			}
 		}
+		//==============================================\\\\\\\showBoxShadow======================================================
+
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
