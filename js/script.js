@@ -405,10 +405,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================userFormElems==========================================================
 		userFormElems.forEach(item => { 								// перебераем все формы
-			// item.addEventListener('input', event => {
-			// 	const target = event.target; 							// делегирование
-			// 	checkInputFormElems(target);
-			// });
 			item.addEventListener('submit', event => { 					// каждой форме навешиваем submit
 				event.preventDefault();									// отключаем стандартную перезакрузку
 				const target = event.target; 							// делегирование
@@ -444,44 +440,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		//==============================================\\\\\\\checkUserFormElems======================================================
 
-		// function checkInputFormElems(elem) {
-		// 	if (!checkName(elem) || !checkPhone(elem) || !checkEmail(elem) || !checkMessage(elem)) {
-		// 		console.log('!checkName(elem): ', !checkName(elem));
-		// 		isError = true;
-		// 		console.log('isError: checkInputFormElems', isError);
-		// 		elem.style.boxShadow = '0 0 5px 5px red';
 
-		// 	} else {
-		// 		console.log('!checkName(elem): ', !checkName(elem));
-		// 		isError = false;
-		// 		console.log('isError: checkInputFormElems', isError);
-
-		// 		elem.style.boxShadow = '0 0 5px 5px green';
-		// 	}
-		// }
-
-		// function checkInputFormElems(elem) {
-		// 	if (!checkName(elem)) {
-		// 		showBoxShadow(!checkName(elem), elem);
-		// 	}  else  {
-		// 		showBoxShadow(!checkName(elem), elem);
-		// 	}
-		// if (!checkPhone(elem)) {
-		// 	showBoxShadow(!checkPhone(elem), elem);
-		// }  else  {
-		// 	showBoxShadow(!checkPhone(elem), elem);
-		// }
-		// if (!checkEmail(elem)) {
-		// 	showBoxShadow(!checkEmail(elem), elem);
-		// }  else  {
-		// 	showBoxShadow(!checkEmail(elem), elem);
-		// }
-		// if (!checkMessage(elem)) {
-		// 	showBoxShadow(!checkMessage(elem), elem);
-		// }  else  {
-		// 	showBoxShadow(!checkMessage(elem), elem);
-		// }
-		// }
 		function showBoxShadow(checkBolean, elem) {
 			if (checkBolean) {
 				isError = true;
