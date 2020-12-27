@@ -523,7 +523,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		function checkPhone(elem) {
 			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/, '');
-			return /\+?\d{11}/.test(elem.value);
+			return /\+?\d{11}$/.test(elem.value);
 		}
 		function checkEmail(elem) {
 			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
