@@ -366,20 +366,16 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	//======================================================sendForm==========================================================
 	// send ajax FORM
 	const sendForm = () => {
-
-		let isError = false;
+		let isError = false;														// флаг для отправки формы
 		console.log('isError: ', isError);
-		const errorMessage = 'Что то пошло не так',						// выводим на экрам определный текст
-			loadMessage = 'Загрузка...',								// выводим на экрам определный текст
-			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';		// выводим на экрам определный текст
+		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
+			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
+			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';					// выводим на экрам определный текст
+		const userFormElems = document.querySelectorAll('[name="user_form"]'); 		// получаем все формы со станицы
+		const statusMessage = document.createElement('div'); 						// создаем див для текста
+		statusMessage.style.color = 'white'; 										// белый цвет для текста
+		const formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
 
-		const form1Elem = document.getElementById('form1'); 			// получаем элемент со старницы 1 формы
-		const form2Elem = document.getElementById('form2'); 			// получаем элемент со страницы 2 формы
-		const form3Elem = document.getElementById('form3');				// получаем элемент со страницы 3 формы
-		const userFormElems = document.querySelectorAll('[name="user_form"]'); // получаем все формы со станицы
-		const statusMessage = document.createElement('div'); 			// создаем див для текста
-		statusMessage.style.color = 'white';
-		const formInputs = document.querySelectorAll('input[id]');		// получаем инпуты со всех форм 
 
 		//======================================================postData==========================================================
 		function postData(body, outputData, errorData)  {
@@ -400,6 +396,42 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		//==============================================\\\\\\\postData======================================================
 
+
+		//======================================================userFormElems==========================================================
+		userFormElems.forEach(item => { 								// перебераем все формы
+			item.addEventListener('submit', event => { 					// каждой форме навешиваем submit
+				event.preventDefault();									// отключаем стандартную перезакрузку
+				const target = event.target; 							// делегирование
+				console.log('target: ', target);
+				checkUserFormElems(target); 							// отправляем target-форму на исполнение
+			});
+		});
+		//==============================================\\\\\\\userFormElems======================================================
+
+
+		//======================================================checkUserFormElems==========================================================
+		function checkUserFormElems(elem) {
+			elem.appendChild(statusMessage); 					// добовляем на странциу нашь див с текстом
+			statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
+			const formData = new FormData(elem);
+			const body = {}; 									// создаем обект body
+			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
+				body[val[0]] = val[1];
+			}
+			if (!isError) {
+				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
+					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+					alert('Спасибо! Мы скоро с вами свяжемся!');
+					clearInput(elem);
+				}, () => {
+					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+					console.log('error');
+				});
+			} else {
+				alert('Поля заполнены не корректно');
+			}
+		}
+		//==============================================\\\\\\\checkUserFormElems======================================================
 
 
 		//======================================================formInputs==========================================================
@@ -474,6 +506,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		// 	}
 		// }
 
+
 		//======================================================валид==========================================================
 		function checkName(elem) {
 			return /^[а-яА-Я\s]+$/.test(elem.value);
@@ -489,114 +522,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		//==============================================\\\\\\\валид======================================================
 
-		function checkUserFormElems(elem) {
-			elem.appendChild(statusMessage); 					// добовляем на странциу нашь див с текстом
-			statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
-			const formData = new FormData(elem);
-			const body = {}; 									// создаем обект body
-			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
-				body[val[0]] = val[1];
-			}
-			if (!isError) {
-				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-					alert('Спасибо! Мы скоро с вами свяжемся!');
-					clearInput(elem);
-				}, () => {
-					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-					console.log('error');
-				});
-			} else {
-				alert('Поля заполнены не корректно');
-			}
-		}
-
-		userFormElems.forEach(item => {
-			item.addEventListener('submit', event => {
-				event.preventDefault();								// отключаем стандартную перезакрузку
-				const target = event.target;
-				console.log('target: ', target);
-				checkUserFormElems(target);
-			});
-		});
-
-
-		// //======================================================form1Elem==========================================================
-		// form1Elem.addEventListener('submit', event => { 		// слуаштель для формы
-		// 	event.preventDefault();								// отключаем стандартную перезакрузку
-		// 	form1Elem.appendChild(statusMessage); 				// добовляем на странциу нашь див с текстом
-		// 	statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
-		// 	const formData = new FormData(form1Elem);
-		// 	const body = {}; 									// создаем обект body
-		// 	for (const val of formData.entries()) {				// заполняем обект body нашими элементами
-		// 		body[val[0]] = val[1];
-		// 	}
-		// 	if (!isError) {
-		// 		postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-		// 			statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-		// 			alert('Спасибо! Мы скоро с вами свяжемся!');
-		// 			clearInput(form1Elem);
-		// 		}, () => {
-		// 			statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-		// 			console.log('error');
-		// 		});
-		// 	} else {
-		// 		alert('Поля заполнены не корректно');
-		// 	}
-		// });
-		// //==============================================\\\\\\\form1Elem======================================================
-
-
-		// //======================================================form2Elem==========================================================
-		// form2Elem.addEventListener('submit', event => { 		// слушатель для 2 формы
-		// 	event.preventDefault();								// отключаем стандартную перезакрузку
-		// 	form2Elem.appendChild(statusMessage); 				// добовляем на странциу нашь див с текстом
-		// 	statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
-		// 	const formData = new FormData(form2Elem);
-		// 	const body = {};									// создаем обект body
-		// 	for (const val of formData.entries()) {				// заполняем обект body нашими элементами
-		// 		body[val[0]] = val[1];
-		// 	}
-		// 	if (!isError) {
-		// 		postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-		// 			statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-		// 			alert('Спасибо! Мы скоро с вами свяжемся!');
-		// 			clearInput(form2Elem);
-		// 		}, () => {
-		// 			statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-		// 			console.log('error');
-		// 		});
-		// 	} else {
-		// 		alert('Поля заполнены не корректно');
-		// 	}
-		// });
-		// //==============================================\\\\\\\form2Elem======================================================
-
-
-		// //======================================================form3Elem==========================================================
-		// form3Elem.addEventListener('submit', event => { 		// слушатель для 2 формы
-		// 	event.preventDefault();								// отключаем стандартную перезакрузку
-		// 	form3Elem.append(statusMessage); 				// добовляем на странциу нашь див с текстом
-		// 	statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
-		// 	const formData = new FormData(form3Elem);
-		// 	const body = {};									// создаем обект body
-		// 	for (const val of formData.entries()) {				// заполняем обект body нашими элементами
-		// 		body[val[0]] = val[1];
-		// 	}
-		// 	if (!isError) {
-		// 		postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-		// 			statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-		// 			alert('Спасибо! Мы скоро с вами свяжемся!');
-		// 			clearInput(form3Elem);
-		// 		}, () => {
-		// 			statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-		// 			console.log('error');
-		// 		});
-		// 	} else {
-		// 		alert('Поля заполнены не корректно');
-		// 	}
-		// });
-		// //==============================================\\\\\\\form3Elem======================================================
 
 
 		//======================================================clearInput==========================================================
