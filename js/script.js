@@ -30,7 +30,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				timerHoursElem.textContent = timer.hours;			// выводим hours в html.
 				timerMinutesElem.textContent = timer.minutes;		// выводим minutes в html.
 				timerSecondsElem.textContent = timer.seconds;		// выводим seconds в html.
-				// console.log('if', timer.timeRemaining);				// проверка работы setInterval.
 				if (timer.hours < 10) {
 					timerHoursElem.textContent = '0' +  timer.hours;		// конкантенация строки с числом hours.
 				}
@@ -45,8 +44,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				timerHoursElem.textContent = '00';			// присвоение значение 00 для hours в сулчае окончание акции.
 				timerMinutesElem.textContent = '00';		// присвоение значение 00 для minutes в сулчае окончание акции.
 				timerSecondsElem.textContent = '00';		// присвоение значение 00 для seconds в сулчае окончание акции.
-				// console.log('else', timer.timeRemaining);	// проверка удаление setInterval.
-
 			}
 		}
 		//==============================================\\\\\\\updateClock===========================================================
@@ -330,7 +327,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			const squareValue = +calcSquareElem.value;
 			if (calcCountElem.value > 1) {
 				countValue += (calcCountElem.value - 1) / 10;
-				console.log('countValue: ', countValue);
 			}
 			if (calcDayElem.value && calcDayElem.value < 5) {
 				dayValue *= 2;
@@ -367,7 +363,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	// send ajax FORM
 	const sendForm = () => {
 		let isError = false;														// флаг для отправки формы
-		console.log('isError: ', isError);
 		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';					// выводим на экрам определный текст
@@ -432,7 +427,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					clearInput(elem);
 				}, () => {
 					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-					console.log('error');
 					clearInput(elem);
 				});
 			} else {
@@ -446,11 +440,9 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		function showBoxShadow(checkBolean, elem) {
 			if (checkBolean) {
 				isError = true;
-				console.log(' if isError: showBoxShadow ', isError);
 				return elem.style.boxShadow = '0 0 5px 5px red';
 			} else {
 				isError = false;
-				console.log(' else isError:  showBoxShadow', isError);
 				return elem.style.boxShadow = '0 0 5px 5px green';
 			}
 		}
@@ -465,11 +457,9 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					if (!checkName(target)) {
 						showBoxShadow(!checkName(target), target);
 						target.setAttribute('placeholder', 'example "Иван"');
-						console.log('isError checkName: ', isError);
 					} else {
 						showBoxShadow(!checkName(target), target);
 						target.setAttribute('placeholder', 'Ваше имя');
-						console.log('isError checkName: ', isError);
 					}
 				}
 				if (target.matches('.form-phone')) {
@@ -479,36 +469,30 @@ window.addEventListener('DOMContentLoaded', ()  => {
 						});
 						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'example "+79078425469"');
-						console.log('isError checkPhone: ', isError);
 					} else {
 						formBtnElems.forEach(item => {
 							item.removeAttribute("disabled", "true");
 						});
 						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'Номер телефона');
-						console.log('isError checkPhone: ', isError);
 					}
 				}
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
 						showBoxShadow(!checkEmail(target), target);
 						target.setAttribute('placeholder', 'example "vika@gmail.com"');
-						console.log('isError checkEmail: ', isError);
 					} else {
 						showBoxShadow(!checkEmail(target), target);
 						target.setAttribute('placeholder', 'E-mail');
-						console.log('isError checkEmail: ', isError);
 					}
 				}
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
 						showBoxShadow(!checkMessage(target), target);
 						target.setAttribute('placeholder', 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.');
-						console.log('isError checkMessage: ', isError);
 					} else {
 						showBoxShadow(!checkMessage(target), target);
 						target.setAttribute('placeholder', 'Ваше сообщение');
-						console.log('isError checkMessage: ', isError);
 					}
 				}
 			});
