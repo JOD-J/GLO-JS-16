@@ -399,10 +399,13 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================userFormElems==========================================================
 		userFormElems.forEach(item => { 								// перебераем все формы
+			// item.addEventListener('input', event => {
+			// 	const target = event.target; 							// делегирование
+			// 	checkInputFormElems(target);
+			// });
 			item.addEventListener('submit', event => { 					// каждой форме навешиваем submit
 				event.preventDefault();									// отключаем стандартную перезакрузку
 				const target = event.target; 							// делегирование
-				console.log('target: ', target);
 				checkUserFormElems(target); 							// отправляем target-форму на исполнение
 			});
 		});
@@ -426,6 +429,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				}, () => {
 					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
 					console.log('error');
+					clearInput(elem);
 				});
 			} else {
 				alert('Поля заполнены не корректно');
@@ -433,95 +437,127 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		//==============================================\\\\\\\checkUserFormElems======================================================
 
+		// function checkInputFormElems(elem) {
+		// 	if (!checkName(elem) || !checkPhone(elem) || !checkEmail(elem) || !checkMessage(elem)) {
+		// 		console.log('!checkName(elem): ', !checkName(elem));
+		// 		isError = true;
+		// 		console.log('isError: checkInputFormElems', isError);
+		// 		elem.style.boxShadow = '0 0 5px 5px red';
+
+		// 	} else {
+		// 		console.log('!checkName(elem): ', !checkName(elem));
+		// 		isError = false;
+		// 		console.log('isError: checkInputFormElems', isError);
+
+		// 		elem.style.boxShadow = '0 0 5px 5px green';
+		// 	}
+		// }
+
+		// function checkInputFormElems(elem) {
+		// 	if (!checkName(elem)) {
+		// 		showBoxShadow(!checkName(elem), elem);
+		// 	}  else  {
+		// 		showBoxShadow(!checkName(elem), elem);
+		// 	}
+		// if (!checkPhone(elem)) {
+		// 	showBoxShadow(!checkPhone(elem), elem);
+		// }  else  {
+		// 	showBoxShadow(!checkPhone(elem), elem);
+		// }
+		// if (!checkEmail(elem)) {
+		// 	showBoxShadow(!checkEmail(elem), elem);
+		// }  else  {
+		// 	showBoxShadow(!checkEmail(elem), elem);
+		// }
+		// if (!checkMessage(elem)) {
+		// 	showBoxShadow(!checkMessage(elem), elem);
+		// }  else  {
+		// 	showBoxShadow(!checkMessage(elem), elem);
+		// }
+		// }
+		function showBoxShadow(checkBolean, elem) {
+			if (checkBolean) {
+				isError = true;
+				console.log(' if isError: showBoxShadow ', isError);
+				return elem.style.boxShadow = '0 0 5px 5px red';
+			} else {
+				isError = false;
+				console.log(' else isError:  showBoxShadow', isError);
+				return elem.style.boxShadow = '0 0 5px 5px green';
+			}
+		}
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			item.addEventListener('change', event => {
+			item.addEventListener('input', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
-						target.style.boxShadow = '0 0 5px 5px red';
+						showBoxShadow(!checkName(target), target);
 						target.setAttribute('placeholder', 'example "Иван"');
-						isError = true;
 						console.log('isError checkName: ', isError);
 					} else {
+						showBoxShadow(!checkName(target), target);
 						target.setAttribute('placeholder', 'Ваше имя');
-						isError = false;
 						console.log('isError checkName: ', isError);
-						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.form-phone')) {
 					if (!checkPhone(target)) {
-						target.style.boxShadow = '0 0 5px 5px red';
+						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'example "+79078425469"');
-						isError = true;
 						console.log('isError checkPhone: ', isError);
 					} else {
+						showBoxShadow(!checkPhone(target), target);
 						target.setAttribute('placeholder', 'Номер телефона');
-						isError = false;
 						console.log('isError checkPhone: ', isError);
-						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
-						target.style.boxShadow = '0 0 5px 5px red';
+						showBoxShadow(!checkEmail(target), target);
 						target.setAttribute('placeholder', 'example "vika@gmail.com"');
-						isError = true;
 						console.log('isError checkEmail: ', isError);
 					} else {
+						showBoxShadow(!checkEmail(target), target);
 						target.setAttribute('placeholder', 'E-mail');
-						isError = false;
 						console.log('isError checkEmail: ', isError);
-						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
-						target.style.boxShadow = '0 0 5px 5px red';
+						showBoxShadow(!checkMessage(target), target);
 						target.setAttribute('placeholder', 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.');
-						isError = true;
 						console.log('isError checkMessage: ', isError);
 					} else {
+						showBoxShadow(!checkMessage(target), target);
 						target.setAttribute('placeholder', 'Ваше сообщение');
-						isError = false;
 						console.log('isError checkMessage: ', isError);
-						target.style.boxShadow = '0 0 5px 5px green';
 					}
 				}
 			});
 		});
 		//==============================================\\\\\\\formInputs======================================================
 
-		// function showStyleInput(elem) {
-		// 	if (checkPhone(elem)) {
-		// 		elem.style.boxShadow = '0 0 5px 5px red';
-		// 		elem.setAttribute('placeholder', 'example "Иван"');
-		// 		isError = true;
-		// 	} else {
-		// 		elem.setAttribute('placeholder', 'Ваше имя');
-		// 		isError = false;
-		// 		elem.style.boxShadow = '0 0 5px 5px green';
-		// 	}
-		// }
-
 
 		//======================================================валид==========================================================
 		function checkName(elem) {
+			elem.value = elem.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
 			return /^[а-яА-Я\s]+$/.test(elem.value);
 		}
 		function checkPhone(elem) {
+			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/, '');
 			return /\+?\d{11}/.test(elem.value);
 		}
 		function checkEmail(elem) {
+			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
 			return /\w+@\w+\.\w{2,3}/g.test(elem.value);
 		}
 		function checkMessage(elem) {
+			elem.value = elem.value.replace(/[a-zA-Z0-9?@=_'"/+*)(}{\][|;:\\-]/, '');
 			return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
 		}
 		//==============================================\\\\\\\валид======================================================
-
 
 
 		//======================================================clearInput==========================================================
