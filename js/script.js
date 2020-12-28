@@ -366,6 +366,11 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';					// выводим на экрам определный текст
+		const placeholderName =	'example "Иван"';
+		const placeholderPhone = 'example "+79078425469"';
+		const placeholderEmail = 	'example "vika@gmail.com"';
+		const placeholderMessage = 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.';
+
 		const userFormElems = document.querySelectorAll('[name="user_form"]'); 		// получаем все формы со станицы
 		const statusMessage = document.createElement('div'); 						// создаем див для текста
 		statusMessage.style.color = 'white'; 										// белый цвет для текста
@@ -451,12 +456,35 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
+			console.log('item: ', item);
+			const showDiv = document.createElement('div');
+			item.setAttribute('autocomplete', 'off');
+			item.addEventListener('focus', event => {
+				// const showDiv = document.createElement('div');
+				const target = event.target;
+				console.log('target: ', target);
+				if (target.matches('[name="user_name"]')) {
+					target.insertAdjacentHTML('afterend', ` <div>${placeholderName}</div>`);
+					target.setAttribute('placeholder', placeholderName);
+
+				}
+				if (target.matches('.form-phone')) {
+					target.setAttribute('placeholder', placeholderPhone);
+				}
+				if (target.matches('.form-email')) {
+					target.setAttribute('placeholder', placeholderEmail);
+				}
+				if (target.matches('.mess')) {
+					target.setAttribute('placeholder',  placeholderMessage);
+				}
+			});
 			item.addEventListener('input', event => {
 				const target = event.target;
+				console.log('target: ', target);
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
 						showBoxShadow(!checkName(target), target);
-						target.setAttribute('placeholder', 'example "Иван"');
+						item.setAttribute('placeholder', placeholderName);
 					} else {
 						showBoxShadow(!checkName(target), target);
 						target.setAttribute('placeholder', 'Ваше имя');
@@ -468,7 +496,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 							item.setAttribute("disabled", "true");
 						});
 						showBoxShadow(!checkPhone(target), target);
-						target.setAttribute('placeholder', 'example "+79078425469"');
+						target.setAttribute('placeholder', placeholderPhone);
 					} else {
 						formBtnElems.forEach(item => {
 							item.removeAttribute("disabled", "true");
@@ -480,7 +508,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
 						showBoxShadow(!checkEmail(target), target);
-						target.setAttribute('placeholder', 'example "vika@gmail.com"');
+						target.setAttribute('placeholder', placeholderEmail);
 					} else {
 						showBoxShadow(!checkEmail(target), target);
 						target.setAttribute('placeholder', 'E-mail');
@@ -489,7 +517,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
 						showBoxShadow(!checkMessage(target), target);
-						target.setAttribute('placeholder', 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.');
+						target.setAttribute('placeholder',  placeholderMessage);
 					} else {
 						showBoxShadow(!checkMessage(target), target);
 						target.setAttribute('placeholder', 'Ваше сообщение');
@@ -511,7 +539,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		function checkEmail(elem) {
 			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
-			return /\w+@\w+\.\w{2,3}/g.test(elem.value);
+			return /\w+@\w+\.\w{2,4}$/g.test(elem.value);
 		}
 		function checkMessage(elem) {
 			elem.value = elem.value.replace(/[a-zA-Z0-9?@=_'"/+*)(}{\][|;:\\-]/, '');
