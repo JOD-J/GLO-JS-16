@@ -82,25 +82,40 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 	//==============================================\\\\\\\animationBtn===========================================================
 	const animationBtn = () => {
-		const animationBtn = document.querySelectorAll('a[href*="#"]'),
+		const animationBtn = document.querySelector('main>a'),
 			animationTime = 500,
 			framesCount = 100;
-		animationBtn.forEach(item => {
+		animationBtn.addEventListener('click', event => {
+			event.preventDefault();
+			const coordY = document.querySelector(animationBtn.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset;
+			const scroller = setInterval(() => {
+				const scrollBy = coordY / framesCount;
+				if (scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+					window.scrollBy(0, scrollBy);
+				} else {
+					window.scrollTo(0, coordY);
+					clearInterval(scroller);
+				}
+			}, animationTime / framesCount);
+		});
+		const animationBtnn = document.querySelectorAll('menu>ul>li>a[href]'),
+			animationTimen = 500,
+			framesCountn = 100;
+		animationBtnn.forEach(item => {
 			item.addEventListener('click', event => {
 				event.preventDefault();
 				const coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset;
 				const scroller = setInterval(() => {
-					const scrollBy = coordY / framesCount;
+					const scrollBy = coordY / framesCountn;
 					if (scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
 						window.scrollBy(0, scrollBy);
 					} else {
 						window.scrollTo(0, coordY);
 						clearInterval(scroller);
 					}
-				}, animationTime / framesCount);
+				}, animationTimen / framesCountn);
 			});
 		});
-
 	};
 	//==============================================\\\\\\\animationBtn===========================================================
 	animationBtn();
@@ -318,11 +333,13 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			calcCountElem = document.querySelector('.calc-count'),			// количесвто помещений
 			calcDayElem = document.querySelector('.calc-day'),				// срок исполнения в днях
 			totalValueElem = document.getElementById('total');				// цена
+		let interval;
 		//======================================================countSum===========================================================
 		const countSum = () => {
 			let total = 0,
 				countValue = 1,
-				dayValue = 1;
+				dayValue = 1,
+				step = 0;
 			const typeValue = calcTypeElem.options[calcTypeElem.selectedIndex].value;
 			const squareValue = +calcSquareElem.value;
 			if (calcCountElem.value > 1) {
@@ -336,7 +353,23 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			if (typeValue && squareValue) {
 				total = price * typeValue * squareValue * countValue * dayValue;
 			}
-			totalValueElem.textContent = total;
+			const animateSumm = () => {
+				interval = requestAnimationFrame(animateSumm, 50);
+				if (step < total && total < 5000) {
+					step += 50;
+					totalValueElem.textContent = step;
+				} else if (step < total && total > 5000) {
+					step += 1000;
+					totalValueElem.textContent = step;
+				} else if (step > total) {
+					cancelAnimationFrame(interval);
+					totalValueElem.textContent = Math.floor(total);
+				}
+				calcTypeElem.addEventListener('input', () => {
+					totalValueElem.textContent = 0;
+				});
+			};
+			interval = requestAnimationFrame(animateSumm);
 		};
 		//==============================================\\\\\\\countSum======================================================
 
@@ -363,20 +396,23 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	// send ajax FORM
 	const sendForm = () => {
 		let isError = false;														// флаг для отправки формы
+		console.log('isError: ', isError);
 		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
-			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';					// выводим на экрам определный текст
-		const placeholderName =	'example "Иван"';
-		const placeholderPhone = 'example "+79078425469"';
-		const placeholderEmail = 	'example "vika@gmail.com"';
-		const placeholderMessage = 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.';
+			successMessage = 'Спасибо! Мы скоро с вами свяжемся!',					// выводим на экрам определный текст
 
-		const userFormElems = document.querySelectorAll('[name="user_form"]'); 		// получаем все формы со станицы
-		const statusMessage = document.createElement('div'); 						// создаем див для текста
+			placeholderName =	'example "Иван"',
+			placeholderPhone = 'example "+79078425469"',
+			placeholderEmail = 	'example "vika@gmail.com"',
+			placeholderMessage = 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.',
+
+			userFormElems = document.querySelectorAll('[name="user_form"]'), 		// получаем все формы со станицы
+			statusMessage = document.createElement('div'), 							// создаем див для текста
+			formInputs = document.querySelectorAll('input[id]'),					// получаем инпуты со всех форм
+			popupBtnElems = document.querySelectorAll('.popup-btn'),				// находим все popup кнопки
+			formBtnElems = document.querySelectorAll('.form-btn');					// находим все бтн кнопки форм
 		statusMessage.style.color = 'white'; 										// белый цвет для текста
-		const formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
-		const popupBtnElems = document.querySelectorAll('.popup-btn');				// находим все popup кнопки
-		const formBtnElems = document.querySelectorAll('.form-btn');				// находим все бтн кнопки форм
+
 		formBtnElems.forEach(item => {												// перебераем все кнопки форм formBtn
 			item.setAttribute("disabled", "true");									// блокируем все кнопки formBtn
 		});
@@ -426,6 +462,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				body[val[0]] = val[1];
 			}
 			if (!isError) {
+				console.log(' if isError checkUserFormElems : ', isError);
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
 					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
 					alert('Спасибо! Мы скоро с вами свяжемся!');
@@ -435,6 +472,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					clearInput(elem);
 				});
 			} else {
+				console.log(' else isError checkUserFormElems : ', isError);
 				alert('Поля заполнены не корректно');
 			}
 		}
@@ -445,17 +483,36 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		function showBoxShadow(checkBolean, elem) {
 			if (checkBolean) {
 				isError = true;
-				return elem.style.boxShadow = '0 0 5px 5px red';
+				console.log(' if isError showBoxShadow: ', isError);
+				elem.style.boxShadow = '0 0 5px 5px red';
 			} else {
 				isError = false;
-				return elem.style.boxShadow = '0 0 5px 5px green';
+				console.log(' else isError showBoxShadow: ', isError);
+				elem.style.boxShadow = '0 0 5px 5px green';
 			}
 		}
 		//==============================================\\\\\\\showBoxShadow======================================================
 
 
+		//======================================================formBtnDisabled==========================================================
+		function formBtnDisabled(checkBolean) {
+			if (checkBolean) {
+				formBtnElems.forEach(item => {
+					item.setAttribute("disabled", "true");
+				});
+			} else {
+				formBtnElems.forEach(item => {
+					item.removeAttribute("disabled", "true");
+				});
+			}
+		}
+		//==============================================\\\\\\\formBtnDisabled======================================================
+
+
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
+			// console.log('item: ', item);
+
 			item.setAttribute('autocomplete', 'off');
 			item.addEventListener('focus', event => {
 				const target = event.target;
@@ -476,11 +533,24 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
-						showBoxShadow(!checkName(target), target);
+						isError = true;
+						console.log('isError: checkName ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px red';
 						item.setAttribute('placeholder', placeholderName);
+
+						// formBtnDisabled(!checkName(target));
+						// showBoxShadow(!checkName(target), target);
 					} else {
-						showBoxShadow(!checkName(target), target);
+						isError = false;
+						console.log('isError: checkName ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Ваше имя');
+
+						// showBoxShadow(!checkName(target), target);
+						// formBtnDisabled(!checkName(target));
+
 					}
 				}
 				if (target.matches('.form-phone')) {
@@ -488,32 +558,77 @@ window.addEventListener('DOMContentLoaded', ()  => {
 						formBtnElems.forEach(item => {
 							item.setAttribute("disabled", "true");
 						});
-						showBoxShadow(!checkPhone(target), target);
+						isError = true;
+						console.log('isError: checkPhone ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px red';
 						target.setAttribute('placeholder', placeholderPhone);
+
+
+						// showBoxShadow(!checkPhone(target), target);
+						// formBtnDisabled(!checkPhone(target));
+
 					} else {
 						formBtnElems.forEach(item => {
 							item.removeAttribute("disabled", "true");
 						});
-						showBoxShadow(!checkPhone(target), target);
+						isError = false;
+						console.log('isError: checkPhone ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Номер телефона');
+
+						// showBoxShadow(!checkPhone(target), target);
+						// formBtnDisabled(!checkPhone(target));
+
 					}
 				}
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
-						showBoxShadow(!checkEmail(target), target);
+
+						isError = true;
+						console.log('isError: checkEmail ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px red';
 						target.setAttribute('placeholder', placeholderEmail);
+
+						// showBoxShadow(!checkEmail(target), target);
+						// formBtnDisabled(!checkEmail(target));
+
 					} else {
-						showBoxShadow(!checkEmail(target), target);
+
+						isError = false;
+						console.log('isError: checkEmail ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'E-mail');
+
+						// showBoxShadow(!checkEmail(target), target);
+						// formBtnDisabled(!checkEmail(target));
+
 					}
 				}
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
-						showBoxShadow(!checkMessage(target), target);
+
+						isError = true;
+						console.log('isError: checkMessage ', isError);
+
+						target.style.boxShadow = '0 0 5px 5px red';
 						target.setAttribute('placeholder',  placeholderMessage);
+
+						// showBoxShadow(!checkMessage(target), target);
+						// formBtnDisabled(!checkMessage(target));
+
 					} else {
-						showBoxShadow(!checkMessage(target), target);
+						isError = false;
+						console.log('isError: checkMessage ', isError);
+						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Ваше сообщение');
+
+						// showBoxShadow(!checkMessage(target), target);
+						// formBtnDisabled(!checkMessage(target));
+
 					}
 				}
 			});
@@ -524,11 +639,11 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//======================================================валид==========================================================
 		function checkName(elem) {
 			elem.value = elem.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
-			return /^[а-яА-Я\s]+$/.test(elem.value);
+			return /^[а-яА-Я\s]{3,3}$/.test(elem.value);
 		}
 		function checkPhone(elem) {
 			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/, '');
-			return /\+?\d{11}$/.test(elem.value);
+			return /\+?\d{11,11}$/.test(elem.value);
 		}
 		function checkEmail(elem) {
 			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
