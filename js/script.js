@@ -456,17 +456,11 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			console.log('item: ', item);
-			const showDiv = document.createElement('div');
 			item.setAttribute('autocomplete', 'off');
 			item.addEventListener('focus', event => {
-				// const showDiv = document.createElement('div');
 				const target = event.target;
-				console.log('target: ', target);
 				if (target.matches('[name="user_name"]')) {
-					target.insertAdjacentHTML('afterend', ` <div>${placeholderName}</div>`);
 					target.setAttribute('placeholder', placeholderName);
-
 				}
 				if (target.matches('.form-phone')) {
 					target.setAttribute('placeholder', placeholderPhone);
@@ -480,7 +474,6 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			});
 			item.addEventListener('input', event => {
 				const target = event.target;
-				console.log('target: ', target);
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
 						showBoxShadow(!checkName(target), target);
