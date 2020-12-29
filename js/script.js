@@ -413,21 +413,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 		//======================================================postData==========================================================
-		function postData(body, outputData, errorData) {
-			const request = new XMLHttpRequest();
-			request.addEventListener('readystatechange', () => {
-				if (request.readyState !== 4) {
-					return;
-				}
-				if (request.status === 200) {
-					outputData();
-				} else {
-					errorData(request.status);
-				}
+		function postData(body) {
+			return new Promise((resolve, reject) => {
+				const request = new XMLHttpRequest();
+				request.open('POST', './server.php'); 							// открываем соединение
+				request.addEventListener('readystatechange', () => {
+					if (request.readyState !== 4) {
+						return;
+					}
+					if (request.status === 200) {
+						resolve();
+					} else {
+						reject(request.status);
+					}
+				});
+				request.setRequestHeader('Content-Type', 'application/json');	// создаем заоловок
+				request.send(JSON.stringify(body)); 							// получаем данные из формы отправляем запрос
 			});
-			request.open('POST', './server.php'); 							// открываем соединение
-			request.setRequestHeader('Content-Type', 'application/json');	// создаем заоловок
-			request.send(JSON.stringify(body)); 							// получаем данные из формы отправляем запрос
 		}
 		//==============================================\\\\\\\postData======================================================
 
@@ -446,25 +448,27 @@ window.addEventListener('DOMContentLoaded', () => {
 				statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
 			}
 			const formData = new FormData(elem);
-			const body = {}; 									// создаем обект body
-			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
+			const body = {}; 										// создаем обект body
+			for (const val of formData.entries()) {					// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
 			if (!isError.length) {
-				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-					if (elem.id === 'form1') {
-						statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-					}
-					alert('Спасибо! Мы скоро с вами свяжемся!');
-					clearInput(elem);
-				}, () => {
-					if (elem.id === 'form1') {
-						statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-					} else {
-						alert('Что то пошло не так');
-					}
-					clearInput(elem);
-				});
+				postData(body)
+					.then(() => {
+						if (elem.id === 'form1') {
+							statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+						}
+						alert('Спасибо! Мы скоро с вами свяжемся!');
+						clearInput(elem);
+					})
+					.catch(() => {
+						if (elem.id === 'form1') {
+							statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+						} else {
+							alert('Что то пошло не так');
+						}
+						clearInput(elem);
+					});
 			} else {
 				alert('Поля заполнены не корректно');
 			}
@@ -484,15 +488,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 		//==============================================\\\\\\\showBoxShadow======================================================
 
-		// function getPlaceholderName(elem) {
-		// 	elem.addEventListener('blur', () => {
-		// 		if (elem === '') {
-		// 			console.log('if');
-		// 		} else if (elem) {
-		// 			console.log('else');
-		// 		}
-		// 	});
-
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
@@ -500,12 +495,6 @@ window.addEventListener('DOMContentLoaded', () => {
 			item.addEventListener('focus', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
-					// getPlaceholderName(target);
-					// if (target) {
-					// 	target.setAttribute('placeholder', placeholderName);
-					// } else {
-					// 	target.setAttribute('placeholder', 'Ваше имя');
-					// }
 					target.setAttribute('placeholder', placeholderName);
 				}
 				if (target.matches('.form-phone')) {
@@ -522,7 +511,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
-						item.setAttribute('placeholder', placeholderName);
+						target.setAttribute('placeholder', placeholderName);
 						showBoxShadow(!checkName(target), target);
 					} else {
 						target.setAttribute('placeholder', 'Ваше имя');
@@ -596,5 +585,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	sendForm();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
+
+
 
 
