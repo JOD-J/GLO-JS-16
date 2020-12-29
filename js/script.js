@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 //======================================================DOMContentLoaded======================================================
 // eslint-disable-next-line strict
-window.addEventListener('DOMContentLoaded', ()  => {
+window.addEventListener('DOMContentLoaded', () => {
 	'use sctrict';
 
 
@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			timerSecondsElem = document.querySelector('#timer-seconds');	// элементы со страницы (seconds).
 		//======================================================getTimeRemaining======================================================
 		function getTimeRemaining() {
-			const	dateStop = new Date(deadline).getTime(),	// экземпляр класса date так мы получим конечную дату через метод getTime находим милисекунды.
+			const dateStop = new Date(deadline).getTime(),	// экземпляр класса date так мы получим конечную дату через метод getTime находим милисекунды.
 				dateNow = new Date().getTime(),					// получаем текущю дату через метод getTime находим милисекунды.
 				timeRemaining = (dateStop - dateNow) / 1000,	// разница между двумя датами |1000 получаем секунды.
 				seconds = Math.floor(timeRemaining % 60),		// % 60 остаток от деления.
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		}
 		//===============================================\\\\\\\getTimeRemaining======================================================
 		//======================================================updateClock===========================================================
-		const  deletInterval = setInterval(updateClock, 1000); 	// setInterval
+		const deletInterval = setInterval(updateClock, 1000); 	// setInterval
 		function updateClock() {
 			const timer = getTimeRemaining();
 			if (timer.timeRemaining >= 0) {
@@ -31,13 +31,13 @@ window.addEventListener('DOMContentLoaded', ()  => {
 				timerMinutesElem.textContent = timer.minutes;		// выводим minutes в html.
 				timerSecondsElem.textContent = timer.seconds;		// выводим seconds в html.
 				if (timer.hours < 10) {
-					timerHoursElem.textContent = '0' +  timer.hours;		// конкантенация строки с числом hours.
+					timerHoursElem.textContent = '0' + timer.hours;		// конкантенация строки с числом hours.
 				}
 				if (timer.minutes < 10) {
-					timerMinutesElem.textContent = '0' +   timer.minutes;		// конкантенация строки с числом minutes.
+					timerMinutesElem.textContent = '0' + timer.minutes;		// конкантенация строки с числом minutes.
 				}
 				if (timer.seconds < 10) {
-					timerSecondsElem.textContent = '0' +   timer.seconds;		// конкантенация строки с числом seconds.
+					timerSecondsElem.textContent = '0' + timer.seconds;		// конкантенация строки с числом seconds.
 				}
 			} else {
 				clearInterval(deletInterval);				// удаление deletInterval (удаление setInterval).
@@ -286,13 +286,13 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		});
 		sliderElem.addEventListener('mouseover', event => {
 			if (event.target.matches('.portfolio-btn') ||
-			event.target.matches('.dot')) {
+				event.target.matches('.dot')) {
 				stopSlide();
 			}
 		});
 		sliderElem.addEventListener('mouseout', event => {
 			if (event.target.matches('.portfolio-btn') ||
-			event.target.matches('.dot')) {
+				event.target.matches('.dot')) {
 				startSlide();
 			}
 		});
@@ -385,8 +385,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		calcBlockElem.addEventListener('input', event => {				// слушатель
 			const target = event.target;							// делегирование
 			if (target.matches('.calc-square') ||
-			target.matches('.calc-count') ||
-			target.matches('.calc-day')) {
+				target.matches('.calc-count') ||
+				target.matches('.calc-day')) {
 				target.value = target.value.replace(/\D/, ''); 		// удаление все что не цифры
 			}
 		});
@@ -398,35 +398,22 @@ window.addEventListener('DOMContentLoaded', ()  => {
 	//======================================================sendForm==========================================================
 	// send ajax FORM
 	const sendForm = () => {
-		let isError = false;														// флаг для отправки формы
-		console.log('isError: ', isError);
+		let isError = [];														// флаг для отправки формы
 		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!',					// выводим на экрам определный текст
-
-			placeholderName =	'example "Иван"',
+			placeholderName = 'example "Иван"',
 			placeholderPhone = 'example "+79078425469"',
-			placeholderEmail = 	'example "vika@gmail.com"',
+			placeholderEmail = 'example "vika@gmail.com"',
 			placeholderMessage = 'Разрешенно вводить только кириллицу, пробелы, цифры и знаки препинания.',
-
-			userFormElems = document.querySelectorAll('[name="user_form"]'), 		// получаем все формы со станицы
 			statusMessage = document.createElement('div'), 							// создаем див для текста
-			formInputs = document.querySelectorAll('input[id]'),					// получаем инпуты со всех форм
-			popupBtnElems = document.querySelectorAll('.popup-btn'),				// находим все popup кнопки
-			formBtnElems = document.querySelectorAll('.form-btn');					// находим все бтн кнопки форм
-		statusMessage.style.color = 'white';
-		document.querySelector('#form1').appendChild(statusMessage); 									// белый цвет для текста
-
-		formBtnElems.forEach(item => {												// перебераем все кнопки форм formBtn
-			item.setAttribute("disabled", "true");									// блокируем все кнопки formBtn
-		});
-		popupBtnElems.forEach(item => {												// перебераем все кнопки формpopupBtn
-			item.removeAttribute("disabled", "true");								// разблокируем все кнопки popupBtn
-		});
+			formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
+		statusMessage.style.color = 'white';										// белый цвет для текста
+		document.querySelector('#form1').appendChild(statusMessage); 				// добовляем на странциу нашь див с текстом
 
 
 		//======================================================postData==========================================================
-		function postData(body, outputData, errorData)  {
+		function postData(body, outputData, errorData) {
 			const request = new XMLHttpRequest();
 			request.addEventListener('readystatechange', () => {
 				if (request.readyState !== 4) {
@@ -445,20 +432,16 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//==============================================\\\\\\\postData======================================================
 
 
-		//======================================================userFormElems==========================================================
-		userFormElems.forEach(item => { 								// перебераем все формы
-			item.addEventListener('submit', event => { 					// каждой форме навешиваем submit
-				event.preventDefault();									// отключаем стандартную перезакрузку
-				const target = event.target; 							// делегирование
-				checkUserFormElems(target); 							// отправляем target-форму на исполнение
-			});
+		//======================================================checkUserFormElems==========================================================
+		document.addEventListener('submit', event => {
+			event.preventDefault();									// отключаем стандартную перезакрузку
+			const target = event.target; 							// делегирование
+			checkUserFormElems(target);
 		});
 		//==============================================\\\\\\\userFormElems======================================================
 
-
 		//======================================================checkUserFormElems==========================================================
 		function checkUserFormElems(elem) {
-			// добовляем на странциу нашь див с текстом
 			if (elem.id === 'form1') {
 				statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
 			}
@@ -467,8 +450,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
 				body[val[0]] = val[1];
 			}
-			if (!isError) {
-				console.log(' if isError checkUserFormElems : ', isError);
+			if (!isError.length) {
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
 					if (elem.id === 'form1') {
 						statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
@@ -479,12 +461,11 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					if (elem.id === 'form1') {
 						statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
 					} else {
-						alert('Что то пошло не так')
+						alert('Что то пошло не так');
 					}
 					clearInput(elem);
 				});
 			} else {
-				console.log(' else isError checkUserFormElems : ', isError);
 				alert('Поля заполнены не корректно');
 			}
 		}
@@ -494,37 +475,18 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//======================================================showBoxShadow==========================================================
 		function showBoxShadow(checkBolean, elem) {
 			if (checkBolean) {
-				isError = true;
-				console.log(' if isError showBoxShadow: ', isError);
+				isError.push(elem);
 				elem.style.boxShadow = '0 0 5px 5px red';
 			} else {
-				isError = false;
-				console.log(' else isError showBoxShadow: ', isError);
+				isError = isError.filter(item => item !== elem);
 				elem.style.boxShadow = '0 0 5px 5px green';
 			}
 		}
 		//==============================================\\\\\\\showBoxShadow======================================================
 
 
-		//======================================================formBtnDisabled==========================================================
-		function formBtnDisabled(checkBolean) {
-			if (checkBolean) {
-				formBtnElems.forEach(item => {
-					item.setAttribute("disabled", "true");
-				});
-			} else {
-				formBtnElems.forEach(item => {
-					item.removeAttribute("disabled", "true");
-				});
-			}
-		}
-		//==============================================\\\\\\\formBtnDisabled======================================================
-
-
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			// console.log('item: ', item);
-
 			item.setAttribute('autocomplete', 'off');
 			item.addEventListener('focus', event => {
 				const target = event.target;
@@ -538,109 +500,45 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					target.setAttribute('placeholder', placeholderEmail);
 				}
 				if (target.matches('.mess')) {
-					target.setAttribute('placeholder',  placeholderMessage);
+					target.setAttribute('placeholder', placeholderMessage);
 				}
 			});
-			item.addEventListener('input', event => {
+			item.addEventListener('change', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
 					if (!checkName(target)) {
-						isError = true;
-						console.log('isError: checkName ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px red';
 						item.setAttribute('placeholder', placeholderName);
-
-						// formBtnDisabled(!checkName(target));
-						// showBoxShadow(!checkName(target), target);
+						showBoxShadow(!checkName(target), target);
 					} else {
-						isError = false;
-						console.log('isError: checkName ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Ваше имя');
-
-						// showBoxShadow(!checkName(target), target);
-						// formBtnDisabled(!checkName(target));
-
+						showBoxShadow(!checkName(target), target);
 					}
 				}
 				if (target.matches('.form-phone')) {
 					if (!checkPhone(target)) {
-						formBtnElems.forEach(item => {
-							item.setAttribute("disabled", "true");
-						});
-						isError = true;
-						console.log('isError: checkPhone ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px red';
 						target.setAttribute('placeholder', placeholderPhone);
-
-
-						// showBoxShadow(!checkPhone(target), target);
-						// formBtnDisabled(!checkPhone(target));
-
+						showBoxShadow(!checkPhone(target), target);
 					} else {
-						formBtnElems.forEach(item => {
-							item.removeAttribute("disabled", "true");
-						});
-						isError = false;
-						console.log('isError: checkPhone ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Номер телефона');
-
-						// showBoxShadow(!checkPhone(target), target);
-						// formBtnDisabled(!checkPhone(target));
-
+						showBoxShadow(!checkPhone(target), target);
 					}
 				}
 				if (target.matches('.form-email')) {
 					if (!checkEmail(target)) {
-
-						isError = true;
-						console.log('isError: checkEmail ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px red';
 						target.setAttribute('placeholder', placeholderEmail);
-
-						// showBoxShadow(!checkEmail(target), target);
-						// formBtnDisabled(!checkEmail(target));
-
+						showBoxShadow(!checkEmail(target), target);
 					} else {
-
-						isError = false;
-						console.log('isError: checkEmail ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'E-mail');
-
-						// showBoxShadow(!checkEmail(target), target);
-						// formBtnDisabled(!checkEmail(target));
-
+						showBoxShadow(!checkEmail(target), target);
 					}
 				}
 				if (target.matches('.mess')) {
 					if (!checkMessage(target)) {
-
-						isError = true;
-						console.log('isError: checkMessage ', isError);
-
-						target.style.boxShadow = '0 0 5px 5px red';
-						target.setAttribute('placeholder',  placeholderMessage);
-
-						// showBoxShadow(!checkMessage(target), target);
-						// formBtnDisabled(!checkMessage(target));
-
+						target.setAttribute('placeholder', placeholderMessage);
+						showBoxShadow(!checkMessage(target), target);
 					} else {
-						isError = false;
-						console.log('isError: checkMessage ', isError);
-						target.style.boxShadow = '0 0 5px 5px green';
 						target.setAttribute('placeholder', 'Ваше сообщение');
-
-						// showBoxShadow(!checkMessage(target), target);
-						// formBtnDisabled(!checkMessage(target));
-
+						showBoxShadow(!checkMessage(target), target);
 					}
 				}
 			});
@@ -650,19 +548,18 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================валид==========================================================
 		function checkName(elem) {
-			elem.value = elem.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
+			elem.value = elem.value.replace(/[a-z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/gi, '');
 			return /^[а-яА-Я\s]{3,20}$/.test(elem.value);
 		}
 		function checkPhone(elem) {
-			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/, '');
+			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/gi, '');
 			return /^\+?\d{11}$/.test(elem.value);
 		}
 		function checkEmail(elem) {
-			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
+			elem.value = elem.value.replace(/[а-яА-Я?!,+='"/*)(}{\][|;:\\-]/gi, '');
 			return /\w+@\w+\.\w{2,4}$/g.test(elem.value);
 		}
 		function checkMessage(elem) {
-			// elem.value = elem.value.replace(/[a-zA-Z0-9?@=_'"/+*)(}{\][|;:<>#^&№!%\\$\\-]/, '');
 			elem.value = elem.value.replace(/[^а-яА-Я\s!,\\.\\?\d]+/gi, '');
 			return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
 		}
@@ -671,7 +568,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================clearInput==========================================================
 		function clearInput(form) {
-			const elementsForm = [...form.elements].filter(item => item.tagName.toLowerCase() !== 'button' && item.type !== 'button').forEach(item => {
+			[...form.elements].filter(item => item.tagName.toLowerCase() !== 'button' && item.type !== 'button').forEach(item => {
 				item.value = '';
 				item.style.boxShadow = '';
 			});
