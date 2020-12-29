@@ -438,7 +438,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			const target = event.target; 							// делегирование
 			checkUserFormElems(target);
 		});
-		//==============================================\\\\\\\userFormElems======================================================
+		//==============================================\\\\\\\checkUserFormElems======================================================
 
 		//======================================================checkUserFormElems==========================================================
 		function checkUserFormElems(elem) {
@@ -484,6 +484,15 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 		//==============================================\\\\\\\showBoxShadow======================================================
 
+		// function getPlaceholderName(elem) {
+		// 	elem.addEventListener('blur', () => {
+		// 		if (elem === '') {
+		// 			console.log('if');
+		// 		} else if (elem) {
+		// 			console.log('else');
+		// 		}
+		// 	});
+
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
@@ -491,6 +500,12 @@ window.addEventListener('DOMContentLoaded', () => {
 			item.addEventListener('focus', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
+					// getPlaceholderName(target);
+					// if (target) {
+					// 	target.setAttribute('placeholder', placeholderName);
+					// } else {
+					// 	target.setAttribute('placeholder', 'Ваше имя');
+					// }
 					target.setAttribute('placeholder', placeholderName);
 				}
 				if (target.matches('.form-phone')) {
