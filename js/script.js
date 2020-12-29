@@ -85,6 +85,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		const animationBtn = document.querySelector('main>a'),
 			animationTime = 500,
 			framesCount = 100;
+
+
 		animationBtn.addEventListener('click', event => {
 			event.preventDefault();
 			const coordY = document.querySelector(animationBtn.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset;
@@ -97,6 +99,7 @@ window.addEventListener('DOMContentLoaded', ()  => {
 					clearInterval(scroller);
 				}
 			}, animationTime / framesCount);
+
 		});
 		const animationBtnn = document.querySelectorAll('menu>ul>li>a[href]'),
 			animationTimen = 500,
@@ -411,7 +414,8 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			formInputs = document.querySelectorAll('input[id]'),					// получаем инпуты со всех форм
 			popupBtnElems = document.querySelectorAll('.popup-btn'),				// находим все popup кнопки
 			formBtnElems = document.querySelectorAll('.form-btn');					// находим все бтн кнопки форм
-		statusMessage.style.color = 'white'; 										// белый цвет для текста
+		statusMessage.style.color = 'white';
+		document.querySelector('#form1').appendChild(statusMessage); 									// белый цвет для текста
 
 		formBtnElems.forEach(item => {												// перебераем все кнопки форм formBtn
 			item.setAttribute("disabled", "true");									// блокируем все кнопки formBtn
@@ -454,8 +458,10 @@ window.addEventListener('DOMContentLoaded', ()  => {
 
 		//======================================================checkUserFormElems==========================================================
 		function checkUserFormElems(elem) {
-			elem.appendChild(statusMessage); 					// добовляем на странциу нашь див с текстом
-			statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
+			// добовляем на странциу нашь див с текстом
+			if (elem.id === 'form1') {
+				statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
+			}
 			const formData = new FormData(elem);
 			const body = {}; 									// создаем обект body
 			for (const val of formData.entries()) {				// заполняем обект body нашими элементами
@@ -464,11 +470,17 @@ window.addEventListener('DOMContentLoaded', ()  => {
 			if (!isError) {
 				console.log(' if isError checkUserFormElems : ', isError);
 				postData(body, () => { 								// передаем в функцию postData body и 2 колбек функции
-					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+					if (elem.id === 'form1') {
+						statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+					}
 					alert('Спасибо! Мы скоро с вами свяжемся!');
 					clearInput(elem);
 				}, () => {
-					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+					if (elem.id === 'form1') {
+						statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+					} else {
+						alert('Что то пошло не так')
+					}
 					clearInput(elem);
 				});
 			} else {
@@ -639,18 +651,19 @@ window.addEventListener('DOMContentLoaded', ()  => {
 		//======================================================валид==========================================================
 		function checkName(elem) {
 			elem.value = elem.value.replace(/[a-zA-Z0-9?@!,.=_'"/+*)(}{\][|;:\\-]/, '');
-			return /^[а-яА-Я\s]{3,3}$/.test(elem.value);
+			return /^[а-яА-Я\s]{3,20}$/.test(elem.value);
 		}
 		function checkPhone(elem) {
 			elem.value = elem.value.replace(/[a-zA-Zа-яА-ЯЁё?@!,.=_'"/*}{\][|;:-]/, '');
-			return /\+?\d{11,11}$/.test(elem.value);
+			return /^\+?\d{11}$/.test(elem.value);
 		}
 		function checkEmail(elem) {
 			elem.value = elem.value.replace(/[а-яА-Я0-9?!,+='"/*)(}{\][|;:\\-]/, '');
 			return /\w+@\w+\.\w{2,4}$/g.test(elem.value);
 		}
 		function checkMessage(elem) {
-			elem.value = elem.value.replace(/[a-zA-Z0-9?@=_'"/+*)(}{\][|;:\\-]/, '');
+			// elem.value = elem.value.replace(/[a-zA-Z0-9?@=_'"/+*)(}{\][|;:<>#^&№!%\\$\\-]/, '');
+			elem.value = elem.value.replace(/[^а-яА-Я\s!,\\.\\?\d]+/gi, '');
 			return /^[а-яА-Я\s\d\\.,!\\?-\\:]{1,}$/g.test(elem.value);
 		}
 		//==============================================\\\\\\\валид======================================================
