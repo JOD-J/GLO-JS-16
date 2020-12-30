@@ -483,7 +483,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			// item.setAttribute('autocomplete', 'off');
+			item.setAttribute('autocomplete', 'off');
 			item.addEventListener('focus', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
