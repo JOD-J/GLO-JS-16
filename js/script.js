@@ -402,6 +402,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		const errorMessage = 'Что то пошло не так',									// выводим на экрам определный текст
 			loadMessage = 'Загрузка...',											// выводим на экрам определный текст
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!',					// выводим на экрам определный текст
+			notInput = 'Поля заполнены не корректно',
 			placeholderName = 'example "Иван"',
 			placeholderPhone = 'example "+79078425469"',
 			placeholderEmail = 'example "vika@gmail.com"',
@@ -409,7 +410,6 @@ window.addEventListener('DOMContentLoaded', () => {
 			statusMessage = document.createElement('div'), 							// создаем див для текста
 			formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
 		statusMessage.style.color = 'white';										// белый цвет для текста
-		document.querySelector('#form1').appendChild(statusMessage); 				// добовляем на странциу нашь див с текстом
 
 
 		//======================================================postData==========================================================
@@ -436,9 +436,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		//======================================================checkUserFormElems==========================================================
 		function checkUserFormElems(elem) {
-			if (elem.id === 'form1') {
-				statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
-			}
+			elem.appendChild(statusMessage);
+			statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
 			const formData = new FormData(elem);
 			if (!isError.length) {
 				postData(formData)
@@ -446,23 +445,16 @@ window.addEventListener('DOMContentLoaded', () => {
 						if (response.status !== 200) {
 							throw new Error('status network mot 200');
 						}
-						if (elem.id === 'form1') {
-							statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
-						}
-						alert('Спасибо! Мы скоро с вами свяжемся!');
+						statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
 						clearInput(elem);
 					})
 					.catch(error => {
-						if (elem.id === 'form1') {
-							statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
-						} else {
-							alert('Что то пошло не так');
-						}
+						statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
 						console.log(error);
 						clearInput(elem);
 					});
 			} else {
-				alert('Поля заполнены не корректно');
+				statusMessage.textContent = notInput;		// присваеваем диву текст errorMessage(ошибка)
 			}
 		}
 		//==============================================\\\\\\\checkUserFormElems======================================================
