@@ -413,22 +413,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 		//======================================================postData==========================================================
-		function postData(body) {
-			return new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest();
-				request.open('POST', './server.php'); 							// открываем соединение
-				request.addEventListener('readystatechange', () => {
-					if (request.readyState !== 4) {
-						return;
-					}
-					if (request.status === 200) {
-						resolve();
-					} else {
-						reject(request.status);
-					}
-				});
-				request.setRequestHeader('Content-Type', 'application/json');	// создаем заоловок
-				request.send(JSON.stringify(body)); 							// получаем данные из формы отправляем запрос
+		function postData(formData) {
+			return fetch('./server.php', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: formData,
+				credentials: 'include'
 			});
 		}
 		//==============================================\\\\\\\postData======================================================
@@ -448,25 +440,25 @@ window.addEventListener('DOMContentLoaded', () => {
 				statusMessage.textContent = loadMessage; 			// присваеваем диву текст с loadMessage(загрузка)
 			}
 			const formData = new FormData(elem);
-			const body = {}; 										// создаем обект body
-			for (const val of formData.entries()) {					// заполняем обект body нашими элементами
-				body[val[0]] = val[1];
-			}
 			if (!isError.length) {
-				postData(body)
-					.then(() => {
+				postData(formData)
+					.then(response => {
+						if (response.status !== 200) {
+							throw new Error('status network mot 200');
+						}
 						if (elem.id === 'form1') {
 							statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
 						}
 						alert('Спасибо! Мы скоро с вами свяжемся!');
 						clearInput(elem);
 					})
-					.catch(() => {
+					.catch(error => {
 						if (elem.id === 'form1') {
 							statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
 						} else {
 							alert('Что то пошло не так');
 						}
+						console.log(error);
 						clearInput(elem);
 					});
 			} else {
@@ -491,7 +483,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		//======================================================formInputs==========================================================
 		formInputs.forEach(item => {
-			item.setAttribute('autocomplete', 'off');
+			// item.setAttribute('autocomplete', 'off');
 			item.addEventListener('focus', event => {
 				const target = event.target;
 				if (target.matches('[name="user_name"]')) {
@@ -585,7 +577,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	sendForm();
 });
 //==============================================\\\\\\\DOMContentLoaded======================================================
-
 
 
 
