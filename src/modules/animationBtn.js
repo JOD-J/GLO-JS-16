@@ -23,7 +23,6 @@ const animationBtn = () => {
 		framesCountn = 100;
 	animationBtnn.addEventListener('click', event => {
 		const target = event.target;
-		console.log('target: ', target);
 		event.preventDefault();
 		const coordY = document.querySelector(target.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset;
 		const scroller = setInterval(() => {
