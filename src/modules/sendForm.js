@@ -17,13 +17,13 @@ const sendForm = () => {
 
 
 	//======================================================postData==========================================================
-	function postData(formData) {
+	function postData(body) {
 		return fetch('./server.php', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: formData,
+			body: JSON.stringify(body),
 			credentials: 'include'
 		});
 	}
@@ -45,8 +45,11 @@ const sendForm = () => {
 		skWaveElem.style.display = 'block';
 		statusMessage.appendChild(skWaveElem); 					// присваеваем диву текст с loadMessage(загрузка)
 		const formData = new FormData(elem);
-		if (!isError.length) {
-			postData(formData)
+		const body = {};
+		for (const val of formData.entries()) {
+			body[val[0]] = val[1];
+		}		if (!isError.length) {
+			postData(body)
 				.then(response => {
 					if (response.status !== 200) {
 						throw new Error('status network mot 200');
