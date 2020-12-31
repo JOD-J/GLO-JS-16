@@ -71,11 +71,15 @@ const sendForm = () => {
 	}
 	//==============================================\\\\\\\checkUserFormElems======================================================
 
+
+	//======================================================removeStatusMessage==========================================================
 	function removeStatusMessage() {
 		setTimeout(() => {
 			statusMessage.textContent = '';		// присваеваем диву текст errorMessage(ошибка)
 		}, 5000);
 	}
+	//==============================================\\\\\\\removeStatusMessage======================================================
+
 
 	//======================================================showBoxShadow==========================================================
 	function showBoxShadow(checkBolean, elem) {
@@ -89,7 +93,11 @@ const sendForm = () => {
 	}
 	//==============================================\\\\\\\showBoxShadow======================================================
 
-
+	document.addEventListener('click', event => {
+		const target = event.target;
+		target.setAttribute('autocomplete', 'off');
+		
+	});
 	//======================================================formInputs==========================================================
 	formInputs.forEach(item => {
 		item.setAttribute('autocomplete', 'off');
