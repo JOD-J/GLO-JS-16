@@ -52,19 +52,27 @@ const sendForm = () => {
 						throw new Error('status network mot 200');
 					}
 					statusMessage.textContent = successMessage;		// присваеваем диву текст successMessage(выполнено)
+					removeStatusMessage();
 					clearInput(elem);
 				})
 				.catch(error => {
 					statusMessage.textContent = errorMessage;		// присваеваем диву текст errorMessage(ошибка)
+					removeStatusMessage();
 					console.log(error);
 					clearInput(elem);
 				});
 		} else {
 			statusMessage.textContent = notInput;		// присваеваем диву текст errorMessage(ошибка)
+			removeStatusMessage();
 		}
 	}
 	//==============================================\\\\\\\checkUserFormElems======================================================
 
+	function removeStatusMessage() {
+		setTimeout(() => {
+			statusMessage.textContent = '';		// присваеваем диву текст errorMessage(ошибка)
+		}, 5000);
+	}
 
 	//======================================================showBoxShadow==========================================================
 	function showBoxShadow(checkBolean, elem) {
@@ -81,7 +89,7 @@ const sendForm = () => {
 
 	//======================================================formInputs==========================================================
 	formInputs.forEach(item => {
-		item.setAttribute('autocomplete', 'off');
+		// item.setAttribute('autocomplete', 'off');
 		item.addEventListener('focus', event => {
 			const target = event.target;
 			if (target.matches('[name="user_name"]')) {
