@@ -56,9 +56,8 @@ const sendForm = () => {
 	statusMessage.style.color = 'white';										// белый цвет для текста
 	const skWaveElem = document.querySelector('.sk-wave');
 	formInputs.forEach(item => {
-		// item.setAttribute('autocomplete', 'off');
+		item.setAttribute('autocomplete', 'off');
 	});
-	const userFormelem = document.querySelectorAll('[name="user_form"]');
 	//======================================================postData==========================================================
 	function postData(body) {
 		return fetch('./server.php', {
