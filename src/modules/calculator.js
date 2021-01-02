@@ -28,6 +28,7 @@ const calculator = (price = 100) => {
 		if (typeValue && squareValue) {
 			total = price * typeValue * squareValue * countValue * dayValue;
 		}
+		cancelAnimationFrame(interval);
 		const animateSumm = () => {
 			interval = requestAnimationFrame(animateSumm, 50);
 			if (step < total && total < 5000) {
@@ -42,6 +43,9 @@ const calculator = (price = 100) => {
 			}
 			calcTypeElem.addEventListener('input', () => {
 				totalValueElem.textContent = 0;
+				calcSquareElem.value = '';
+				calcDayElem.value = '';
+				calcCountElem.value = '';
 			});
 		};
 		interval = requestAnimationFrame(animateSumm);

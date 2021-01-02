@@ -13,9 +13,10 @@ const sendForm = () => {
 		statusMessage = document.createElement('div'), 							// создаем див для текста
 		formInputs = document.querySelectorAll('input[id]');					// получаем инпуты со всех форм
 	statusMessage.style.color = 'white';										// белый цвет для текста
+	console.log('formInputs: ', formInputs);
 	const skWaveElem = document.querySelector('.sk-wave');
 	formInputs.forEach(item => {
-		item.setAttribute('autocomplete', 'off');
+		// item.setAttribute('autocomplete', 'off');
 	});
 	const userFormelem = document.querySelectorAll('[name="user_form"]');
 	console.log('userFormelem: ', userFormelem);
@@ -95,24 +96,23 @@ const sendForm = () => {
 		}
 	}
 	//==============================================\\\\\\\showBoxShadow======================================================
-	// userFormelem.addEventListener('focus', event => {
-	// 	const target = event.target;
-	// 	console.log('target: focus', target);
-	// 	if (target.matches('[name="user_name"]')) {
-	// 		target.setAttribute('placeholder', placeholderName);
-	// 	}
-	// 	if (target.matches('.form-phone')) {
-	// 		target.setAttribute('placeholder', placeholderPhone);
-	// 	}
-	// 	if (target.matches('.form-email')) {
-	// 		target.setAttribute('placeholder', placeholderEmail);
-	// 	}
-	// 	if (target.matches('.mess')) {
-	// 		target.setAttribute('placeholder', placeholderMessage);
-	// 	}
-	// });
+	document.addEventListener('focus', event => {
+		const target = event.target;
+		console.log('target: focus', target);
+		if (target.matches('[name="user_name"]')) {
+			target.setAttribute('placeholder', placeholderName);
+		}
+		if (target.matches('.form-phone')) {
+			target.setAttribute('placeholder', placeholderPhone);
+		}
+		if (target.matches('.form-email')) {
+			target.setAttribute('placeholder', placeholderEmail);
+		}
+		if (target.matches('.mess')) {
+			target.setAttribute('placeholder', placeholderMessage);
+		}
+	});
 
-	//  не использовать вилияет на калькулятор
 	document.addEventListener('change', event => {
 		const target = event.target;
 		console.log('target: change', target);
@@ -154,63 +154,63 @@ const sendForm = () => {
 		}
 	});
 	//======================================================formInputs==========================================================
-	// formInputs.forEach(item => {
-	// 	item.setAttribute('autocomplete', 'off');
-	// 	item.addEventListener('focus', event => {
-	// 		const target = event.target;
-	// 		if (target.matches('[name="user_name"]')) {
-	// 			target.setAttribute('placeholder', placeholderName);
-	// 		}
-	// 		if (target.matches('.form-phone')) {
-	// 			target.setAttribute('placeholder', placeholderPhone);
-	// 		}
-	// 		if (target.matches('.form-email')) {
-	// 			target.setAttribute('placeholder', placeholderEmail);
-	// 		}
-	// 		if (target.matches('.mess')) {
-	// 			target.setAttribute('placeholder', placeholderMessage);
-	// 		}
-	// 	});
-	// 	item.addEventListener('change', event => {
-	// 		const target = event.target;
-	// 		if (target.matches('[name="user_name"]')) {
-	// 			if (!checkName(target)) {
-	// 				target.setAttribute('placeholder', placeholderName);
-	// 				showBoxShadow(!checkName(target), target);
-	// 			} else {
-	// 				target.setAttribute('placeholder', 'Ваше имя');
-	// 				showBoxShadow(!checkName(target), target);
-	// 			}
-	// 		}
-	// 		if (target.matches('.form-phone')) {
-	// 			if (!checkPhone(target)) {
-	// 				target.setAttribute('placeholder', placeholderPhone);
-	// 				showBoxShadow(!checkPhone(target), target);
-	// 			} else {
-	// 				target.setAttribute('placeholder', 'Номер телефона');
-	// 				showBoxShadow(!checkPhone(target), target);
-	// 			}
-	// 		}
-	// 		if (target.matches('.form-email')) {
-	// 			if (!checkEmail(target)) {
-	// 				target.setAttribute('placeholder', placeholderEmail);
-	// 				showBoxShadow(!checkEmail(target), target);
-	// 			} else {
-	// 				target.setAttribute('placeholder', 'E-mail');
-	// 				showBoxShadow(!checkEmail(target), target);
-	// 			}
-	// 		}
-	// 		if (target.matches('.mess')) {
-	// 			if (!checkMessage(target)) {
-	// 				target.setAttribute('placeholder', placeholderMessage);
-	// 				showBoxShadow(!checkMessage(target), target);
-	// 			} else {
-	// 				target.setAttribute('placeholder', 'Ваше сообщение');
-	// 				showBoxShadow(!checkMessage(target), target);
-	// 			}
-	// 		}
-	// 	});
-	// });
+	formInputs.forEach(item => {
+		item.setAttribute('autocomplete', 'off');
+		item.addEventListener('focus', event => {
+			const target = event.target;
+			if (target.matches('[name="user_name"]')) {
+				target.setAttribute('placeholder', placeholderName);
+			}
+			if (target.matches('.form-phone')) {
+				target.setAttribute('placeholder', placeholderPhone);
+			}
+			if (target.matches('.form-email')) {
+				target.setAttribute('placeholder', placeholderEmail);
+			}
+			if (target.matches('.mess')) {
+				target.setAttribute('placeholder', placeholderMessage);
+			}
+		});
+		item.addEventListener('change', event => {
+			const target = event.target;
+			if (target.matches('[name="user_name"]')) {
+				if (!checkName(target)) {
+					target.setAttribute('placeholder', placeholderName);
+					showBoxShadow(!checkName(target), target);
+				} else {
+					target.setAttribute('placeholder', 'Ваше имя');
+					showBoxShadow(!checkName(target), target);
+				}
+			}
+			if (target.matches('.form-phone')) {
+				if (!checkPhone(target)) {
+					target.setAttribute('placeholder', placeholderPhone);
+					showBoxShadow(!checkPhone(target), target);
+				} else {
+					target.setAttribute('placeholder', 'Номер телефона');
+					showBoxShadow(!checkPhone(target), target);
+				}
+			}
+			if (target.matches('.form-email')) {
+				if (!checkEmail(target)) {
+					target.setAttribute('placeholder', placeholderEmail);
+					showBoxShadow(!checkEmail(target), target);
+				} else {
+					target.setAttribute('placeholder', 'E-mail');
+					showBoxShadow(!checkEmail(target), target);
+				}
+			}
+			if (target.matches('.mess')) {
+				if (!checkMessage(target)) {
+					target.setAttribute('placeholder', placeholderMessage);
+					showBoxShadow(!checkMessage(target), target);
+				} else {
+					target.setAttribute('placeholder', 'Ваше сообщение');
+					showBoxShadow(!checkMessage(target), target);
+				}
+			}
+		});
+	});
 	//==============================================\\\\\\\formInputs======================================================
 
 
