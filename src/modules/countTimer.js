@@ -4,8 +4,7 @@
 function countTimer(deadline) {
 	const timerHoursElem = document.querySelector('#timer-hours'),		// элементы со страницы (hours).
 		timerMinutesElem = document.querySelector('#timer-minutes'),	// элементы со страницы (minutes).
-		timerSecondsElem = document.querySelector('#timer-seconds'),	// элементы со страницы (seconds).
-		timerElem = document.querySelector('#timer');
+		timerSecondsElem = document.querySelector('#timer-seconds');	// элементы со страницы (seconds).
 		//======================================================getTimeRemaining======================================================
 	function getTimeRemaining() {
 		const dateStop = new Date(deadline).getTime(),	// экземпляр класса date так мы получим конечную дату через метод getTime находим милисекунды.
@@ -36,7 +35,9 @@ function countTimer(deadline) {
 			}
 		} else {
 			clearInterval(deletInterval);				// удаление deletInterval (удаление setInterval).
-			timerElem.textContent = `Акция закончилась: ${deadline}`;
+			timerHoursElem.textContent = '00 :';			// конкантенация строки с числом hours.
+			timerMinutesElem.textContent = '00 :';		// конкантенация строки с числом minutes.
+			timerSecondsElem.textContent = '00';				// конкантенация строки с числом seconds.
 		}
 	}
 	//==============================================\\\\\\\updateClock===========================================================

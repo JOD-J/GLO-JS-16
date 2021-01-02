@@ -54,3 +54,31 @@
 	transform: scaleY(1);
 	}
 }
+.errorValueforForm2:after{
+	content: '';
+    position: absolute;
+    left: 50px;
+    background: #ffffff;
+    bottom: 4px;
+    display: block;
+    width: 16px;
+    border-left: 2px solid red;
+    border-top: 2px solid red;
+    height: 16px;
+    top: -10px;
+    transform: rotate(45deg);
+}
+.errorValueforForm3:after{
+	content: '';
+    position: absolute;
+    left: 50px;
+    background: #ffffff;
+    bottom: 4px;
+    display: block;
+    width: 16px;
+    border-left: 2px solid red;
+    border-top: 2px solid red;
+    height: 16px;
+    top: -10px;
+    transform: rotate(45deg);
+}
