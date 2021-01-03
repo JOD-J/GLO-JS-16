@@ -137,14 +137,21 @@ const sendForm = () => {
 
 
 	//======================================================validateInput==========================================================
-	function validateInput(form, target) {
+	function validateInput(target) {
 		target.parentElement.style.position = 'relative';
 		const errorAtr = document.createElement('span');
-		errorAtr.textContent = notInput;
+		if (target.matches('[name="user_name"]')) {
+			errorAtr.textContent = placeholderName;
+		} else if (target.matches('.form-phone')) {
+			errorAtr.textContent = placeholderPhone;
+		} else if (target.matches('.form-email')) {
+			errorAtr.textContent = placeholderEmail;
+		} else if (target.matches('.mess')) {
+			errorAtr.textContent = placeholderMessage;
+		}
 		const a = target.closest('[name="user_form"]');
 		if (a.matches('[id="form1"]')) {
 			errorAtr.classList.add('errorValueforForm1');
-			console.log(true);
 		} else if (a.matches('[id="form2"]')) {
 			errorAtr.classList.add('errorValueforForm2');
 		} else {
@@ -164,7 +171,7 @@ const sendForm = () => {
 					return;
 				}
 				target.setAttribute('placeholder', placeholderName);
-				validateInput(null, target);
+				validateInput(target);
 			} else {
 				if (target.nextElementSibling) {
 					target.nextElementSibling.remove();
@@ -178,7 +185,7 @@ const sendForm = () => {
 				if (target.nextElementSibling) {
 					return;
 				}
-				validateInput(null, target);
+				validateInput(target);
 				target.setAttribute('placeholder', placeholderPhone);
 			} else {
 				if (target.nextElementSibling) {
@@ -193,7 +200,7 @@ const sendForm = () => {
 				if (target.nextElementSibling) {
 					return;
 				}
-				validateInput(null, target);
+				validateInput(target);
 				target.setAttribute('placeholder', placeholderEmail);
 			} else {
 				if (target.nextElementSibling) {
@@ -208,7 +215,7 @@ const sendForm = () => {
 				if (target.nextElementSibling) {
 					return;
 				}
-				validateInput(null, target);
+				validateInput(target);
 				target.setAttribute('placeholder', placeholderMessage);
 			} else {
 				if (target.nextElementSibling) {
