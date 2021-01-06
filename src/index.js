@@ -9,6 +9,7 @@ import slider from './modules/slider';
 import ourTeam from './modules/ourTeam';
 import calculator from './modules/calculator';
 import sendForm from './modules/sendForm';
+import slidercarousel from './modules/SliderCarousel';
 
 // Timer
 countTimer('11 January 2021 ');
@@ -28,3 +29,5 @@ ourTeam();
 calculator(100);
 // send ajax FORM
 sendForm();
+// слайдер Нам доверяют
+slidercarousel.init();
