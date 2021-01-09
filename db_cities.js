@@ -5,7 +5,7 @@ const data = {
 	"RU": [
 		{
 			"country": "Россия",
-			"count": "144500000",
+			"count": 144500000,
 			"cities": [
 				{
 					"name": "Рязань",
@@ -302,9 +302,15 @@ const selectCities = document.querySelector('#select-cities'),
 	dropdownListsListDefault = document.querySelector('.dropdown-lists__list--default'),
 	dropdownListsListSelect = document.querySelector('.dropdown-lists__list--select'),
 	dropdownListsListAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete'),
-	dropdownLstsTotalLine = document.querySelector('.dropdown-lists__total-line');
+	dropdownLstsTotalLine = document.querySelector('.dropdown-lists__total-line'),
+	closeButton = document.querySelector('.close-button'),
+	button = document.querySelector('.button');
 
 let showSelectFlag = false;
+
+// button.style.disabled  = true;
+// button.setAttribute('disabled', true);
+
 dropdownListsListDefault.style.display = 'none';
 dropdownListsListSelect.style.display = 'none';
 dropdownListsListAutocomplete.style.display = 'none';
@@ -376,60 +382,70 @@ const showSelect = elem => {
 	}
 };
 
-const showAutocomplete = () => {
-	dropdownListsListDefault.style.display = 'none';
-	dropdownListsListSelect.style.display = 'none';
-	dropdownListsListAutocomplete.style.display = 'block';
-	if (selectCities.value) {
-		const selectSplit = selectCities.value.split('');
-		console.log('selectSplit: ', selectSplit);
+// const showAutocomplete = () => {
+// 	dropdownListsListDefault.style.display = 'none';
+// 	dropdownListsListSelect.style.display = 'none';
+// 	dropdownListsListAutocomplete.style.display = 'block';
+// 	if (selectCities.value) {
 
-		data.RU.forEach(item => {
-			item.cities.forEach(item => {
-				const itemNameSplit = item.name.split('');
-				console.log('itemNameSplit: ', itemNameSplit);
-				selectSplit.forEach((itemSel => {
-					itemNameSplit.forEach(itemName => {
-						if (itemSel.toLowerCase() === itemName.toLowerCase()) {
-							console.log(1);
+// 		const selectSplit = selectCities.value.split('');
+// 		// console.log('selectSplit: ', selectSplit);
 
-							const divLists = document.createElement('div');
-							divLists.classList.add('dropdown-lists__line');
-							divLists.innerHTML = `
-                                <div class="dropdown-lists__city ">${item.name}</div>
-                                <div class="dropdown-lists__count">${item.count}</div>
-                            `;
-							dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-						} else {
-							console.log(2);
-						}
-					});
-				}));
-				// for( let i = 0; selectSplit.length > i; i++){
+// 		data.RU.forEach(itemСountry => {
+// 			// console.log('itemСountry: ', itemСountry);
 
-				// }
-				// if (String(selectCities.value.toLowerCase()) !== item.name.toLowerCase()) {
-				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-				// 	divLists.classList.add('dropdown-lists__line');
-				// 	divLists.innerHTML = `
-				//         <div class="dropdown-lists__city ">"Ничего не найдено".</div>
-				//         `;
-				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-				// } else if (String(selectCities.value.toLowerCase()) === item.name.toLowerCase()) {
-				// 	const divLists = document.createElement('div');
-				// 	divLists.classList.add('dropdown-lists__line');
-				// 	divLists.innerHTML = `
-				//         <div class="dropdown-lists__city ">${item.name}</div>
-				//         <div class="dropdown-lists__count">${item.count}</div>
-				//         `;
-				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-				// }
-			});
-		});
-	} else {
-		showDefault();
-	}
-};
+// 			itemСountry.cities.forEach(itemCity => {
+// 				// console.log('itemCity: ', itemCity);
+
+// 				const itemCitySplit = itemCity.name.split('');
+// 				// console.log('itemCitySplit: ', itemCitySplit);
+
+// 				selectSplit.forEach((itemSel => {
+// 					// console.log('itemSel: ', itemSel);
+
+// 					itemCitySplit.forEach(CitySplit => {
+// 						// console.log('CitySplit: ', CitySplit);
+
+// 						if (itemSel.toLowerCase() === CitySplit.toLowerCase()) {
+// 							// console.log(1);
+
+// 							const divLists = document.createElement('div');
+// 							divLists.classList.add('dropdown-lists__line');
+// 							divLists.innerHTML = `
+//                                 <div class="dropdown-lists__city ">${itemCity.name}</div>
+//                                 <div class="dropdown-lists__count">${itemCity.count}</div>
+//                             `;
+// 							dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+// 						} else {
+// 							// console.log(2);
+// 						}
+// 					});
+// 				}));
+// 				// for( let i = 0; selectSplit.length > i; i++){
+
+// 				// }
+// 				// if (String(selectCities.value.toLowerCase()) !== item.name.toLowerCase()) {
+// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+// 				// 	divLists.classList.add('dropdown-lists__line');
+// 				// 	divLists.innerHTML = `
+// 				//         <div class="dropdown-lists__city ">"Ничего не найдено".</div>
+// 				//         `;
+// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+// 				// } else if (String(selectCities.value.toLowerCase()) === item.name.toLowerCase()) {
+// 				// 	const divLists = document.createElement('div');
+// 				// 	divLists.classList.add('dropdown-lists__line');
+// 				// 	divLists.innerHTML = `
+// 				//         <div class="dropdown-lists__city ">${item.name}</div>
+// 				//         <div class="dropdown-lists__count">${item.count}</div>
+// 				//         `;
+// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+// 				// }
+// 			});
+// 		});
+// 	} else {
+// 		showDefault();
+// 	}
+// };
 
 inputCties.addEventListener('click', event => {
 	const target = event.target;
@@ -447,11 +463,31 @@ inputCties.addEventListener('click', event => {
 			showSelect(data.RU[2]);
 		}
 	}
+	if (target.matches('.dropdown-lists__country') || target.matches('.dropdown-lists__city')) {
+		selectCities.value = target.textContent;
+		closeButton.style.display = 'block';
+	}
+	if (target.matches('.close-button')) {
+		selectCities.value = '';
+		closeButton.style.display = 'none';
+	}
+	if (target.matches('.dropdown-lists__city')) {
+		data.RU.forEach((item => {
+
+			// console.log('item: ', item);
+			item.cities.forEach((item => {
+				
+				console.log('item: ', item.link);
+				button.textContent = item.name;
+				button.setAttribute('href', item.link);
+			}));
+		}));
+	}
 });
 
-selectCities.addEventListener('input', () => {
-	showAutocomplete();
-});
+// selectCities.addEventListener('input', () => {
+// 	showAutocomplete();
+// });
 
 
 
