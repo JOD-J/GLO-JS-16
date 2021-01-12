@@ -294,6 +294,14 @@ const data = {
 		}
 	]
 };
+let lang = 'RU';
+
+do {
+	lang = prompt('Введите свой язык для запуска приложения (RU, EN or DE)', 'EN');
+} while (!/^ru$|^en$|^de$/gi.test(lang));
+
+const base = data[lang];
+
 
 const selectCities = document.querySelector('#select-cities'),
 	inputCties = document.querySelector('.input-cities'),
@@ -304,16 +312,14 @@ const selectCities = document.querySelector('#select-cities'),
 	dropdownListsListAutocomplete = document.querySelector('.dropdown-lists__list--autocomplete'),
 	dropdownLstsTotalLine = document.querySelector('.dropdown-lists__total-line'),
 	closeButton = document.querySelector('.close-button'),
-	button = document.querySelector('.button');
+	button = document.querySelector('.button'),
+	label = document.querySelector('.label');
 
-let showSelectFlag = false;
-
-// button.style.disabled  = true;
-// button.setAttribute('disabled', true);
 
 dropdownListsListDefault.style.display = 'none';
 dropdownListsListSelect.style.display = 'none';
 dropdownListsListAutocomplete.style.display = 'none';
+button.style.display = 'none';
 
 const clearListsCol = () => {
 	dropdownListsCol[0].innerHTML = '';
@@ -326,240 +332,137 @@ const showDefault = () => {
 	dropdownListsListDefault.style.display = 'block';
 	dropdownListsListSelect.style.display = 'none';
 	dropdownListsListAutocomplete.style.display = 'none';
-	data.RU.forEach(item => {
+	base.forEach((item, i) => {
 		const divTryBlo = document.createElement('div');
 		divTryBlo.classList.add('dropdown-lists__countryBlock');
 		divTryBlo.innerHTML = `
-        <div class="dropdown-lists__total-line">
+        <div data-index="${i}" class="dropdown-lists__total-line">
             <div class="dropdown-lists__country">${item.country}</div>
             <div class="dropdown-lists__count">${item.count}</div>
         </div>
         `;
 		dropdownListsCol[0].insertAdjacentElement('beforeend', divTryBlo);
-		item.cities.sort((a, b) =>  (+a.count < +b.count ? 1 : -1));
-		item.cities.forEach((item, index) => {
-			const divLists = document.createElement('div');
-			divLists.classList.add('dropdown-lists__line');
-			if (index < 3) {
-				divLists.innerHTML = `
-                <div class="dropdown-lists__city ">${item.name}</div>
-                <div class="dropdown-lists__count">${item.count}</div>
-                `;
-				dropdownListsCol[0].insertAdjacentElement('beforeend', divLists);
-			}
-		});
+		item.cities
+			.sort((a, b) =>  (+a.count < +b.count ? 1 : -1))
+			.forEach((item, index) => {
+				const divLists = document.createElement('div');
+				divLists.classList.add('dropdown-lists__line');
+				if (index < 3) {
+					divLists.innerHTML = `
+						<div class="dropdown-lists__city ">${item.name}</div>
+						<div class="dropdown-lists__count">${item.count}</div>
+					`;
+					dropdownListsCol[0].insertAdjacentElement('beforeend', divLists);
+				}
+			});
 	});
 };
 
 const showSelect = elem => {
-	if (showSelectFlag) {
-		showDefault();
-		showSelectFlag = false;
-	} else {
-		showSelectFlag = true;
-		clearListsCol();
-		dropdownListsListDefault.style.display = 'none';
-		dropdownListsListSelect.style.display = 'block';
-		dropdownListsListAutocomplete.style.display = 'none';
-		const divTryBlo = document.createElement('div');
-		divTryBlo.classList.add('dropdown-lists__countryBlock');
-		divTryBlo.innerHTML = `
-        <div class="dropdown-lists__total-line">
-            <div class="dropdown-lists__country">${elem.country}</div>
-            <div class="dropdown-lists__count">${elem.count}</div>
-        </div>
-        `;
-		dropdownListsCol[1].insertAdjacentElement('beforeend', divTryBlo);
-		elem.cities.forEach(item => {
+	clearListsCol();
+	dropdownListsListDefault.style.display = 'none';
+	dropdownListsListSelect.style.display = 'block';
+	dropdownListsListAutocomplete.style.display = 'none';
+	const divTryBlo = document.createElement('div');
+	divTryBlo.classList.add('dropdown-lists__countryBlock');
+	divTryBlo.innerHTML = `
+	<div class="dropdown-lists__total-line">
+	<div class="dropdown-lists__country">${base[elem].country}</div>
+	<div class="dropdown-lists__count">${base[elem].count}</div>
+	</div>
+	`;
+	dropdownListsCol[1].insertAdjacentElement('beforeend', divTryBlo);
+	base[elem].cities.forEach(item => {
+		const divLists = document.createElement('div');
+		divLists.classList.add('dropdown-lists__line');
+		divLists.innerHTML = `
+			<div class="dropdown-lists__city ">${item.name}</div>
+			<div class="dropdown-lists__count">${item.count}</div>
+		`;
+		dropdownListsCol[1].insertAdjacentElement('beforeend', divLists);
+	});
+};
+
+const showAutocomplete = () => {
+	clearListsCol();
+	dropdownListsListDefault.style.display = 'none';
+	dropdownListsListSelect.style.display = 'none';
+	dropdownListsListAutocomplete.style.display = 'block';
+	if (selectCities.value) {
+		const selectTrim = selectCities.value.trim('');
+		const regExp = new RegExp('^' + selectTrim + '', 'i');
+		let arr = [];
+		base.forEach(item => {
+			item.cities.forEach(item => {
+				if (regExp.test(item.name)) {
+					arr.push(item.name);
+				}
+			});
+		});
+		dropdownListsCol[2].innerHTML = '';
+		if (arr.length) {
+			arr = arr.map(item => item.replace(regExp, match => `<b>${match}</b>`));
+			arr.forEach(item => {
+				const divLists = document.createElement('div');
+				divLists.classList.add('dropdown-lists__line');
+				divLists.innerHTML = `
+					<div class="dropdown-lists__city ">${item}</div>
+				`;
+				dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+			});
+		} else {
 			const divLists = document.createElement('div');
 			divLists.classList.add('dropdown-lists__line');
 			divLists.innerHTML = `
-                <div class="dropdown-lists__city ">${item.name}</div>
-                <div class="dropdown-lists__count">${item.count}</div>
-                `;
-			dropdownListsCol[1].insertAdjacentElement('beforeend', divLists);
-		});
+				<div class="dropdown-lists__city ">Совпадений не найдено</div>
+			`;
+			dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
+		}
+	} else {
+		button.style.display = 'none';
+		showDefault();
 	}
 };
 
-// const showAutocomplete = () => {
-// 	dropdownListsListDefault.style.display = 'none';
-// 	dropdownListsListSelect.style.display = 'none';
-// 	dropdownListsListAutocomplete.style.display = 'block';
-// 	if (selectCities.value) {
 
-// 		const selectSplit = selectCities.value.split('');
-// 		// console.log('selectSplit: ', selectSplit);
-
-// 		data.RU.forEach(itemСountry => {
-// 			// console.log('itemСountry: ', itemСountry);
-
-// 			itemСountry.cities.forEach(itemCity => {
-// 				// console.log('itemCity: ', itemCity);
-
-// 				const itemCitySplit = itemCity.name.split('');
-// 				// console.log('itemCitySplit: ', itemCitySplit);
-
-// 				selectSplit.forEach((itemSel => {
-// 					// console.log('itemSel: ', itemSel);
-
-// 					itemCitySplit.forEach(CitySplit => {
-// 						// console.log('CitySplit: ', CitySplit);
-
-// 						if (itemSel.toLowerCase() === CitySplit.toLowerCase()) {
-// 							// console.log(1);
-
-// 							const divLists = document.createElement('div');
-// 							divLists.classList.add('dropdown-lists__line');
-// 							divLists.innerHTML = `
-//                                 <div class="dropdown-lists__city ">${itemCity.name}</div>
-//                                 <div class="dropdown-lists__count">${itemCity.count}</div>
-//                             `;
-// 							dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-// 						} else {
-// 							// console.log(2);
-// 						}
-// 					});
-// 				}));
-// 				// for( let i = 0; selectSplit.length > i; i++){
-
-// 				// }
-// 				// if (String(selectCities.value.toLowerCase()) !== item.name.toLowerCase()) {
-// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-// 				// 	divLists.classList.add('dropdown-lists__line');
-// 				// 	divLists.innerHTML = `
-// 				//         <div class="dropdown-lists__city ">"Ничего не найдено".</div>
-// 				//         `;
-// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-// 				// } else if (String(selectCities.value.toLowerCase()) === item.name.toLowerCase()) {
-// 				// 	const divLists = document.createElement('div');
-// 				// 	divLists.classList.add('dropdown-lists__line');
-// 				// 	divLists.innerHTML = `
-// 				//         <div class="dropdown-lists__city ">${item.name}</div>
-// 				//         <div class="dropdown-lists__count">${item.count}</div>
-// 				//         `;
-// 				// 	dropdownListsCol[2].insertAdjacentElement('beforeend', divLists);
-// 				// }
-// 			});
-// 		});
-// 	} else {
-// 		showDefault();
-// 	}
-// };
 
 inputCties.addEventListener('click', event => {
 	const target = event.target;
 	if (target.matches('#select-cities')) {
 		showDefault();
 	}
-	if (target.matches('.dropdown-lists__total-line')) {
-		if (target.children[0].textContent === 'Россия') {
-			showSelect(data.RU[0]);
-		}
-		if (target.children[0].textContent === 'Германия') {
-			showSelect(data.RU[1]);
-		}
-		if (target.children[0].textContent === 'Англия') {
-			showSelect(data.RU[2]);
+	if (target.closest('.dropdown-lists__total-line')) {
+		if (target.parentElement.dataset.index) {
+			showSelect(target.parentElement.dataset.index);
+		} else {
+			showDefault();
 		}
 	}
-	if (target.matches('.dropdown-lists__country') || target.matches('.dropdown-lists__city')) {
+	if (target.matches('.dropdown-lists__country')) {
 		selectCities.value = target.textContent;
 		closeButton.style.display = 'block';
 	}
 	if (target.matches('.close-button')) {
 		selectCities.value = '';
 		closeButton.style.display = 'none';
+		button.style.display = 'none';
+		showDefault();
 	}
 	if (target.matches('.dropdown-lists__city')) {
-		data.RU.forEach((item => {
-
-			// console.log('item: ', item);
+		selectCities.value = target.textContent;
+		button.style.display = 'block';
+		closeButton.style.display = 'block';
+		base.forEach((item => {
 			item.cities.forEach((item => {
-				
-				console.log('item: ', item.link);
-				button.textContent = item.name;
-				button.setAttribute('href', item.link);
+				if (item.name === selectCities.value) {
+					button.textContent = item.name + ' Перейти';
+					button.setAttribute('href', item.link);
+				}
 			}));
 		}));
 	}
 });
 
-// selectCities.addEventListener('input', () => {
-// 	showAutocomplete();
-// });
-
-
-
-
-
-
-
-
-
-// const showGer = () => {
-// 	if (showElemFlag) {
-// 		showDefault();
-// 		showElemFlag = false;
-// 	} else {
-// 		showElemFlag = true;
-// 		dropdownListsCol[0].innerHTML = '';
-// 		dropdownListsCol[1].innerHTML = '';
-// 		dropdownListsCol[2].innerHTML = '';
-// 		dropdownListsListDefault.style.display = 'none';
-// 		dropdownListsListSelect.style.display = 'block';
-// 		dropdownListsListAutocomplete.style.display = 'none';
-
-// 		const divTryBlo = document.createElement('div');
-// 		divTryBlo.classList.add('dropdown-lists__countryBlock');
-// 		divTryBlo.innerHTML = `
-//         <div class="dropdown-lists__total-line">
-//             <div class="dropdown-lists__country">${data.RU[1].country}</div>
-//             <div class="dropdown-lists__count">${data.RU[1].count}</div>
-//         </div>
-//         `;
-// 		dropdownListsCol[1].insertAdjacentElement('beforeend', divTryBlo);
-// 		data.RU[1].cities.forEach(item => {
-// 			const divLists = document.createElement('div');
-// 			divLists.classList.add('dropdown-lists__line');
-// 			divLists.innerHTML = `
-//                 <div class="dropdown-lists__city ">${item.name}</div>
-//                 <div class="dropdown-lists__count">${item.count}</div>
-//                 `;
-// 			dropdownListsCol[1].insertAdjacentElement('beforeend', divLists);
-// 		});
-// 	}
-// };
-// const showAng = () => {
-// 	if (showElemFlag) {
-// 		showDefault();
-// 		showElemFlag = false;
-// 	} else {
-// 		showElemFlag = true;
-// 		dropdownListsCol[0].innerHTML = '';
-// 		dropdownListsCol[1].innerHTML = '';
-// 		dropdownListsCol[2].innerHTML = '';
-// 		dropdownListsListDefault.style.display = 'none';
-// 		dropdownListsListSelect.style.display = 'block';
-// 		dropdownListsListAutocomplete.style.display = 'none';
-// 		const divTryBlo = document.createElement('div');
-// 		divTryBlo.classList.add('dropdown-lists__countryBlock');
-// 		divTryBlo.innerHTML = `
-//         <div class="dropdown-lists__total-line">
-//             <div class="dropdown-lists__country">${data.RU[2].country}</div>
-//             <div class="dropdown-lists__count">${data.RU[2].count}</div>
-//         </div>
-//         `;
-// 		dropdownListsCol[1].insertAdjacentElement('beforeend', divTryBlo);
-// 		data.RU[2].cities.forEach(item => {
-// 			const divLists = document.createElement('div');
-// 			divLists.classList.add('dropdown-lists__line');
-// 			divLists.innerHTML = `
-//                 <div class="dropdown-lists__city ">${item.name}</div>
-//                 <div class="dropdown-lists__count">${item.count}</div>
-//                 `;
-// 			dropdownListsCol[1].insertAdjacentElement('beforeend', divLists);
-// 		});
-// 	}
-// };
-
+selectCities.addEventListener('input', () => {
+	showAutocomplete();
+});
